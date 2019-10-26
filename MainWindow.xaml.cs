@@ -25,18 +25,15 @@ namespace BabaIsYou
         public bool IsYou { get; protected set; }
         public bool IsWin { get; protected set; }
         public string imgsrc { get; protected set; }
-        public int[] location { get; protected set; }
-        public Block(int[] location)
+        public Block()
         {
             IsWin = false;
             IsYou = false;
-            this.location = new int[2];
-            Array.Copy(this.location, location, 2);
         }
 
         public class Text : Block
         {
-            public Text(int[] location) : base(location)
+            public Text()
             {
                 IsPush = true;
                 IsStop = true;
@@ -44,63 +41,63 @@ namespace BabaIsYou
 
             public class TextBaba : Text
             {
-                public TextBaba(int[] location) : base(location)
+                public TextBaba()
                 {
                     imgsrc = "";
                 }
             }
             public class TextRock : Text
             {
-                public TextRock(int[] location) : base(location)
+                public TextRock()
                 {
                     imgsrc = "";
                 }
             }
             public class TextFlag : Text
             {
-                public TextFlag(int[] location) : base(location)
+                public TextFlag()
                 {
                     imgsrc = "";
                 }
             }
             public class TextWall : Text
             {
-                public TextWall(int[] location) : base(location)
+                public TextWall()
                 {
                     imgsrc = "";
                 }
             }
             public class TextIs : Text
             {
-                public TextIs(int[] location) : base(location)
+                public TextIs()
                 {
                     imgsrc = "";
                 }
             }
             public class TextYou : Text
             {
-                public TextYou(int[] location) : base(location)
+                public TextYou()
                 {
                     imgsrc = "";
                 }
             }
             public class TextWin : Text
             {
-                public TextWin(int[] location) : base(location)
+                public TextWin()
                 {
                     imgsrc = "";
                 }
             }
             public class TextPush : Text
             {
-                public TextPush(int[] location) : base(location)
+                public TextPush()
                 {
                     imgsrc = "";
                 }
             }
             public class TextStop : Text
             {
-                public TextStop(int[] location) : base(location)
+                public TextStop()
                 {
                     imgsrc = "";
                 }
@@ -109,7 +106,7 @@ namespace BabaIsYou
 
         public class Thing : Block
         {
-            public Thing(int[] location) : base(location)
+            public Thing()
             {
                 IsPush = false;
                 IsStop = false;
@@ -117,28 +114,28 @@ namespace BabaIsYou
 
             public class Baba : Thing
             {
-                public Baba(int[] location) : base(location)
+                public Baba()
                 {
                     imgsrc = "";
                 }
             }
             public class Rock : Thing
             {
-                public Rock(int[] location) : base(location)
+                public Rock()
                 {
                     imgsrc = "";
                 }
             }
             public class Flag : Thing
             {
-                public Flag(int[] location) : base(location)
+                public Flag()
                 {
                     imgsrc = "";
                 }
             }
             public class Wall : Thing
             {
-                public Wall(int[] location) : base(location)
+                public Wall()
                 {
                     imgsrc = "";
                 }
@@ -147,19 +144,33 @@ namespace BabaIsYou
     }
 
 
+    public class Map
+    {
+        Dictionary<(int, int), List<Block>> PointBlockPairs;     //For usage of tuple, refer to https://www.tutorialsteacher.com/csharp/valuetuple
+    }
+
     public class Level
     {
-        List<List<Block>> History = new List<List<Block>>();
-        List<Block> CurrentBlocks = new List<Block>();
         int LevelNumber;
+        int MapHeight = 0;
+        int MapWidth = 0;
+
+        //We store data in History->Map->Block
+        //Map is a Dictionary of Point and Blocks on that point, indicating all current Blocks on the map
+        //History is a List of Map, allow us to go backward in time
+        List<Map> History = new List<Map>();
+        Map CurrentMap = new Map();
+
         public Level(int LevelNumber)
         {
             this.LevelNumber = LevelNumber;
         }
         public void loadGame()
         {
-            //load blocks from data into CurrentBlocks
+            //load blocks from data into CurrentMap
             //... 
+            //MapHeight=
+            //MapWidth=
 
             AddToHistory();
         }
@@ -176,14 +187,14 @@ namespace BabaIsYou
         public void UpdateBlocks() { }
         public void AddToHistory()
         {
-            History.Add(CurrentBlocks);
+            History.Add(CurrentMap);
         }
         public void GoBack()
         {
             if (History.Count > 1)
             {
                 History.RemoveAt(History.Count - 1);
-                CurrentBlocks = History[History.Count - 1];
+                CurrentMap = History[History.Count - 1];
             }
         }
         public void Draw()
@@ -206,8 +217,8 @@ namespace BabaIsYou
             CurrentLevel.loadGame();
             CurrentLevel.Draw();
         }
-        
-        
+
+
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
