@@ -31,63 +31,63 @@ namespace BabaIsYou.Model
             {
                 public TextBaba()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/BABA_TEXT.jpg";
                 }
             }
             public class TextRock : Text
             {
                 public TextRock()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/ROCK_TEXT.jpg";
                 }
             }
             public class TextFlag : Text
             {
                 public TextFlag()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/FLAG_TEXT.jpg";
                 }
             }
             public class TextWall : Text
             {
                 public TextWall()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/WALL_TEXT.jpg";
                 }
             }
             public class TextIs : Text
             {
                 public TextIs()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/IS_TEXT.jpg";
                 }
             }
             public class TextYou : Text
             {
                 public TextYou()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/YOU_TEXT.jpg";
                 }
             }
             public class TextWin : Text
             {
                 public TextWin()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/WIN_TEXT.jpg";
                 }
             }
             public class TextPush : Text
             {
                 public TextPush()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/PUSH_TEXT.jpg";
                 }
             }
             public class TextStop : Text
             {
                 public TextStop()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/STOP_TEXT.jpg";
                 }
             }
         }
@@ -104,28 +104,28 @@ namespace BabaIsYou.Model
             {
                 public Baba()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/BABA_THING.jpg";
                 }
             }
             public class Rock : Thing
             {
                 public Rock()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/ROCK_THING.jpg";
                 }
             }
             public class Flag : Thing
             {
                 public Flag()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/FLAG_THING.jpg";
                 }
             }
             public class Wall : Thing
             {
                 public Wall()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/WALL_THING.jpg";
                 }
             }
         }
