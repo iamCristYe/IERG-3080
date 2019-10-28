@@ -146,7 +146,7 @@ namespace BabaIsYou
 
     public class Map
     {
-        Dictionary<(int, int), List<Block>> PointBlockPairs;     //For usage of tuple, refer to https://www.tutorialsteacher.com/csharp/valuetuple
+        public Dictionary<(int, int), List<Block>> PointBlockPairs;     //For usage of tuple, refer to https://www.tutorialsteacher.com/csharp/valuetuple
     }
 
     public class Level
@@ -165,12 +165,31 @@ namespace BabaIsYou
         {
             this.LevelNumber = LevelNumber;
         }
+
         public void loadGame()
         {
             //load blocks from data into CurrentMap
             //... 
             //MapHeight=
             //MapWidth=
+            MapHeight = 18;
+            MapWidth = 18;
+            this.CurrentMap.PointBlockPairs.Add((5, 6), new List<Block> { new Block.Text.TextBaba() });
+            this.CurrentMap.PointBlockPairs.Add((6, 6), new List<Block> { new Block.Text.TextIs() });
+            this.CurrentMap.PointBlockPairs.Add((7, 6), new List<Block> { new Block.Text.TextYou() });
+            this.CurrentMap.PointBlockPairs.Add((12, 6), new List<Block> { new Block.Text.TextFlag() });
+            this.CurrentMap.PointBlockPairs.Add((13, 6), new List<Block> { new Block.Text.TextIs() });
+            this.CurrentMap.PointBlockPairs.Add((14, 6), new List<Block> { new Block.Text.TextWin() });
+
+            this.CurrentMap.PointBlockPairs.Add((9, 9), new List<Block> { new Block.Thing.Rock() });
+
+
+            this.CurrentMap.PointBlockPairs.Add((6, 10), new List<Block> { new Block.Thing.Baba() });
+
+
+
+
+
 
             AddToHistory();
         }
