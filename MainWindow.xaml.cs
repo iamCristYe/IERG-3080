@@ -26,139 +26,145 @@ namespace BabaIsYou
         public bool IsYou { get; protected set; }
         public bool IsWin { get; protected set; }
         public string imgsrc { get; protected set; }
-        public Block()
+
+        public int Start_X;
+        public int Start_Y;
+        public Block(int start_x, int start_y)
         {
             IsWin = false;
             IsYou = false;
-        }
-
-        public class Text : Block
-        {
-            public Text()
-            {
-                IsPush = true;
-                IsStop = true;
-            }
-
-            public class TextBaba : Text
-            {
-                public TextBaba()
-                {
-                    imgsrc = "/Resources/icons/BABA_TEXT.jpg";
-                }
-            }
-            public class TextRock : Text
-            {
-                public TextRock()
-                {
-                    imgsrc = "/Resources/icons/ROCK_TEXT.jpg";
-                }
-            }
-            public class TextFlag : Text
-            {
-                public TextFlag()
-                {
-                    imgsrc = "/Resources/icons/FLAG_TEXT.jpg";
-                }
-            }
-            public class TextWall : Text
-            {
-                public TextWall()
-                {
-                    imgsrc = "/Resources/icons/WALL_TEXT.jpg";
-                }
-            }
-            public class TextIs : Text
-            {
-                public TextIs()
-                {
-                    imgsrc = "/Resources/icons/IS_TEXT.jpg";
-                }
-            }
-            public class TextYou : Text
-            {
-                public TextYou()
-                {
-                    imgsrc = "/Resources/icons/YOU_TEXT.jpg";
-                }
-            }
-            public class TextWin : Text
-            {
-                public TextWin()
-                {
-                    imgsrc = "/Resources/icons/WIN_TEXT.jpg";
-                }
-            }
-            public class TextPush : Text
-            {
-                public TextPush()
-                {
-                    imgsrc = "/Resources/icons/PUSH_TEXT.jpg";
-                }
-            }
-            public class TextStop : Text
-            {
-                public TextStop()
-                {
-                    imgsrc = "/Resources/icons/STOP_TEXT.jpg";
-                }
-            }
-        }
-
-        public class Thing : Block
-        {
-            public Thing()
-            {
-                IsPush = false;
-                IsStop = false;
-            }
-
-            public class Baba : Thing
-            {
-                public Baba()
-                {
-                    imgsrc = "/Resources/icons/BABA_THING.jpg";
-                }
-            }
-            public class Rock : Thing
-            {
-                public Rock()
-                {
-                    imgsrc = "/Resources/icons/ROCK_THING.jpg";
-                }
-            }
-            public class Flag : Thing
-            {
-                public Flag()
-                {
-                    imgsrc = "/Resources/icons/FLAG_THING.jpg";
-                }
-            }
-            public class Wall : Thing
-            {
-                public Wall()
-                {
-                    imgsrc = "/Resources/icons/WALL_THING.jpg";
-                }
-            }
-
-            public class Grass : Thing
-            {
-                public Grass()
-                {
-                    imgsrc = "/Resources/icons/GRASS_THING.jpg";
-                }
-            }
-
-            public class FakeWall : Thing
-            {
-                public FakeWall()
-                {
-                    imgsrc = "/Resources/icons/FAKEWALL_THING.jpg";
-                }
-            }
+            this.Start_X = start_x;
+            this.Start_Y = start_y;
         }
     }
+
+    public class Text : Block
+    {
+        public Text(int start_x, int start_y) : base(start_x, start_y)
+        {
+            IsPush = true;
+            IsStop = true;
+        }
+    }
+
+    public class TextBaba : Text
+    {
+        public TextBaba(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/BABA_TEXT.jpg";
+        }
+    }
+    public class TextRock : Text
+    {
+        public TextRock(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/ROCK_TEXT.jpg";
+        }
+    }
+    public class TextFlag : Text
+    {
+        public TextFlag(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/FLAG_TEXT.jpg";
+        }
+    }
+    public class TextWall : Text
+    {
+        public TextWall(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/WALL_TEXT.jpg";
+        }
+    }
+    public class TextIs : Text
+    {
+        public TextIs(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/IS_TEXT.jpg";
+        }
+    }
+    public class TextYou : Text
+    {
+        public TextYou(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/YOU_TEXT.jpg";
+        }
+    }
+    public class TextWin : Text
+    {
+        public TextWin(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/WIN_TEXT.jpg";
+        }
+    }
+    public class TextPush : Text
+    {
+        public TextPush(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/PUSH_TEXT.jpg";
+        }
+    }
+    public class TextStop : Text
+    {
+        public TextStop(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/STOP_TEXT.jpg";
+        }
+    }
+
+    public class Thing : Block
+    {
+        public Thing(int start_x, int start_y) : base(start_x, start_y)
+        {
+            IsPush = false;
+            IsStop = false;
+        }
+    }
+
+    public class Baba : Thing
+    {
+        public Baba(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/BABA_THING.jpg";
+        }
+    }
+    public class Rock : Thing
+    {
+        public Rock(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/ROCK_THING.jpg";
+        }
+    }
+    public class Flag : Thing
+    {
+        public Flag(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/FLAG_THING.jpg";
+        }
+    }
+    public class Wall : Thing
+    {
+        public Wall(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/WALL_THING.jpg";
+        }
+    }
+
+    public class Grass : Thing
+    {
+        public Grass(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/GRASS_THING.jpg";
+        }
+    }
+
+    public class FakeWall : Thing
+    {
+        public FakeWall(int start_x, int start_y) : base(start_x, start_y)
+        {
+            imgsrc = "/Resources/icons/FAKEWALL_THING.jpg";
+        }
+    }
+    
 
 
     public class Map
@@ -191,17 +197,17 @@ namespace BabaIsYou
             //MapWidth=
             MapHeight = 18;
             MapWidth = 18;
-            this.CurrentMap.PointBlockPairs.Add((5, 6), new List<Block> { new Block.Text.TextBaba() });
-            this.CurrentMap.PointBlockPairs.Add((6, 6), new List<Block> { new Block.Text.TextIs() });
-            this.CurrentMap.PointBlockPairs.Add((7, 6), new List<Block> { new Block.Text.TextYou() });
-            this.CurrentMap.PointBlockPairs.Add((12, 6), new List<Block> { new Block.Text.TextFlag() });
-            this.CurrentMap.PointBlockPairs.Add((13, 6), new List<Block> { new Block.Text.TextIs() });
-            this.CurrentMap.PointBlockPairs.Add((14, 6), new List<Block> { new Block.Text.TextWin() });
+            //this.CurrentMap.PointBlockPairs.Add((5, 6), new List<Block> { new Block.Text.TextBaba() });
+            //this.CurrentMap.PointBlockPairs.Add((6, 6), new List<Block> { new Block.Text.TextIs() });
+            //this.CurrentMap.PointBlockPairs.Add((7, 6), new List<Block> { new Block.Text.TextYou() });
+            //this.CurrentMap.PointBlockPairs.Add((12, 6), new List<Block> { new Block.Text.TextFlag() });
+            //this.CurrentMap.PointBlockPairs.Add((13, 6), new List<Block> { new Block.Text.TextIs() });
+            //this.CurrentMap.PointBlockPairs.Add((14, 6), new List<Block> { new Block.Text.TextWin() });
 
-            this.CurrentMap.PointBlockPairs.Add((9, 9), new List<Block> { new Block.Thing.Rock() });
+            //this.CurrentMap.PointBlockPairs.Add((9, 9), new List<Block> { new Block.Thing.Rock() });
 
 
-            this.CurrentMap.PointBlockPairs.Add((6, 10), new List<Block> { new Block.Thing.Baba() });
+            //this.CurrentMap.PointBlockPairs.Add((6, 10), new List<Block> { new Block.Thing.Baba() });
 
 
 
@@ -282,6 +288,49 @@ namespace BabaIsYou
             DrawGameArea();
         }
 
+        private List<Block> GetLevelOneObjects()
+        {
+            List<Block> blocks = new List<Block>();
+
+            // horizontal row of grass (top most and bottom most row)
+            for(int i=0; i<400; i+=20)
+            {
+                blocks.Add(new Grass(i, 0));
+                blocks.Add(new Grass(i, 380));
+            }
+
+            // vertical columns of grass (left most and right most column)
+            for(int i=0; i<400; i+=20)
+            {
+                blocks.Add(new Grass(0, i));
+                blocks.Add(new Grass(380, i));
+            }
+
+            return blocks;
+        }
+
+        private Image GetNewImage(string uri)
+        {
+            Image image = new Image();
+            image.Width = SquareSize;
+            image.Height = SquareSize;
+
+            BitmapImage bitmapImage = GetBitmapImage(uri);
+            image.Source = bitmapImage;
+
+            return image;
+        }
+
+        private BitmapImage GetBitmapImage(string uri)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri(@uri, UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
+
+            return bitmapImage;
+        }
+
         private void DrawGameArea()
         {
             bool doneDrawingBackground = false;
@@ -305,14 +354,14 @@ namespace BabaIsYou
                 {
                     Width = SquareSize,
                     Height = SquareSize,
-                    // Fill = nextIsOdd ? Brushes.White : Brushes.Black
+                    // fill = nextisodd ? brushes.white : brushes.black
                     Fill = Brushes.Black
                 };
                 GameArea.Children.Add(rect);
                 Canvas.SetTop(rect, nextY);
                 Canvas.SetLeft(rect, nextX);
 
-                Debug.WriteLine("x: {0}, y: {1}", nextX, nextY);
+                // debug.writeline("x: {0}, y: {1}", nextx, nexty);
 
                 nextIsOdd = !nextIsOdd;
                 nextX += SquareSize;
@@ -331,6 +380,19 @@ namespace BabaIsYou
             GameArea.Children.Add(baba);
             Canvas.SetTop(baba, 40);
             Canvas.SetLeft(baba, 160);
+
+            List<Block> blocks = GetLevelOneObjects();
+            foreach(Block b in blocks)
+            {
+                Image image = GetNewImage(b.imgsrc);
+                GameArea.Children.Add(image);
+                Canvas.SetTop(image, b.Start_X);
+                Canvas.SetLeft(image, b.Start_Y);
+                Debug.WriteLine("x: {0}, y: {1}", b.Start_X, b.Start_Y);
+            }
+
+            // list of objects (blocks?) (instantiate all of them, each needs their own reference)
+            // each will have their own coordinate??
 
         }
 
