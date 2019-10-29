@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace BabaIsYou
 {
@@ -43,63 +44,63 @@ namespace BabaIsYou
             {
                 public TextBaba()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/BABA_TEXT.jpg";
                 }
             }
             public class TextRock : Text
             {
                 public TextRock()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/ROCK_TEXT.jpg";
                 }
             }
             public class TextFlag : Text
             {
                 public TextFlag()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/FLAG_TEXT.jpg";
                 }
             }
             public class TextWall : Text
             {
                 public TextWall()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/WALL_TEXT.jpg";
                 }
             }
             public class TextIs : Text
             {
                 public TextIs()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/IS_TEXT.jpg";
                 }
             }
             public class TextYou : Text
             {
                 public TextYou()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/YOU_TEXT.jpg";
                 }
             }
             public class TextWin : Text
             {
                 public TextWin()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/WIN_TEXT.jpg";
                 }
             }
             public class TextPush : Text
             {
                 public TextPush()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/PUSH_TEXT.jpg";
                 }
             }
             public class TextStop : Text
             {
                 public TextStop()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/STOP_TEXT.jpg";
                 }
             }
         }
@@ -116,28 +117,28 @@ namespace BabaIsYou
             {
                 public Baba()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/BABA_THING.jpg";
                 }
             }
             public class Rock : Thing
             {
                 public Rock()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/ROCK_THING.jpg";
                 }
             }
             public class Flag : Thing
             {
                 public Flag()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/FLAG_THING.jpg";
                 }
             }
             public class Wall : Thing
             {
                 public Wall()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/WALL_THING.jpg";
                 }
             }
         }
@@ -224,40 +225,97 @@ namespace BabaIsYou
 
     }
 
-
-
-
     public partial class MainWindow : Window
     {
         Level CurrentLevel = new Level(1);
-        public MainWindow()
+        const int SquareSize = 20;
+
+        Image baba = new Image();
+        BitmapImage bababitmap = new BitmapImage();
+
+        //public MainWindow()
+        //{
+        //    InitializeComponent();
+        //    CurrentLevel.loadGame();
+        //    CurrentLevel.Draw();
+        //}
+
+
+
+        //private void Window_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    //for up/down/left/right
+        //    CurrentLevel.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
+        //    CurrentLevel.UpdateRules();//Update rules by finding sentences
+        //    CurrentLevel.UpdateBlocks();//Update blocks, like sink/defeat/kill
+        //    CurrentLevel.CheckWin();
+        //    CurrentLevel.AddToHistory();
+        //    CurrentLevel.Draw();
+
+        //    //for z(redo)
+        //    CurrentLevel.GoBack();
+        //    CurrentLevel.Draw();
+
+        //    //for r(restart)
+        //    CurrentLevel.loadGame();
+        //    CurrentLevel.Draw();
+        //}
+
+        private void Window_ContentRendered(object sender, EventArgs e)
         {
-            InitializeComponent();
-            CurrentLevel.loadGame();
-            CurrentLevel.Draw();
+            DrawGameArea();
         }
 
-
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void DrawGameArea()
         {
-            //for up/down/left/right
-            CurrentLevel.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
-            CurrentLevel.UpdateRules();//Update rules by finding sentences
-            CurrentLevel.UpdateBlocks();//Update blocks, like sink/defeat/kill
-            CurrentLevel.CheckWin();
-            CurrentLevel.AddToHistory();
-            CurrentLevel.Draw();
+            bool doneDrawingBackground = false;
+            int nextX = 0, nextY = 0;
+            int rowCounter = 0;
+            bool nextIsOdd = false;
 
-            //for z(redo)
-            CurrentLevel.GoBack();
-            CurrentLevel.Draw();
+            // initialize baba
+            baba.Width = SquareSize;
+            baba.Height = SquareSize;
 
-            //for r(restart)
-            CurrentLevel.loadGame();
-            CurrentLevel.Draw();
+            bababitmap.BeginInit();
+            bababitmap.UriSource = new Uri(@"/Resources/icons/BABA_THING.jpg", UriKind.RelativeOrAbsolute);
+            bababitmap.EndInit();
+
+            baba.Source = bababitmap;
+
+            while (doneDrawingBackground == false)
+            {
+                Rectangle rect = new Rectangle
+                {
+                    Width = SquareSize,
+                    Height = SquareSize,
+                    // Fill = nextIsOdd ? Brushes.White : Brushes.Black
+                    Fill = Brushes.Black
+                };
+                GameArea.Children.Add(rect);
+                Canvas.SetTop(rect, nextY);
+                Canvas.SetLeft(rect, nextX);
+
+                Debug.WriteLine("x: {0}, y: {1}", nextX, nextY);
+
+                nextIsOdd = !nextIsOdd;
+                nextX += SquareSize;
+                if (nextX >= GameArea.ActualWidth)
+                {
+                    nextX = 0;
+                    nextY += SquareSize;
+                    rowCounter++;
+                    nextIsOdd = (rowCounter % 2 != 0);
+                }
+
+                if (nextY >= GameArea.ActualHeight)
+                    doneDrawingBackground = true;
+            }
+
+            GameArea.Children.Add(baba);
+            Canvas.SetTop(baba, 40);
+            Canvas.SetLeft(baba, 160);
         }
-
 
 
     }
