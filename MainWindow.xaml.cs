@@ -141,6 +141,22 @@ namespace BabaIsYou
                     imgsrc = "/Resources/icons/WALL_THING.jpg";
                 }
             }
+
+            public class Grass : Thing
+            {
+                public Grass()
+                {
+                    imgsrc = "/Resources/icons/GRASS_THING.jpg";
+                }
+            }
+
+            public class FakeWall : Thing
+            {
+                public FakeWall()
+                {
+                    imgsrc = "/Resources/icons/FAKEWALL_THING.jpg";
+                }
+            }
         }
     }
 
@@ -315,6 +331,7 @@ namespace BabaIsYou
             GameArea.Children.Add(baba);
             Canvas.SetTop(baba, 40);
             Canvas.SetLeft(baba, 160);
+
         }
 
 
