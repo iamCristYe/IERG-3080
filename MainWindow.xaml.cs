@@ -44,12 +44,12 @@ namespace BabaIsYou
             CurrentLevel.Draw();
 
             //for z(redo)
-            CurrentLevel.GoBack();
-            CurrentLevel.Draw();
+            //CurrentLevel.GoBack();
+            //CurrentLevel.Draw();
 
             //for r(restart)
-            CurrentLevel.loadGame();
-            CurrentLevel.Draw();
+            //CurrentLevel.loadGame();
+            //CurrentLevel.Draw();
         }
 
 

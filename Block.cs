@@ -17,96 +17,117 @@ namespace BabaIsYou.Model
         public bool IsMove { get; protected set; }
         //slip hot melt
         public string imgsrc { get; protected set; }
+        public virtual void ReturnToDefault() { }
         public Block()
         {
-            IsWin = false;
-            IsYou = false;
-            IsSink = false;
-            IsKill = false;
-            IsMove = false; 
+            ReturnToDefault();
         }
 
-        public class Text : Block
+        public class ThingText : Block
         {
-            public Text()
+            public override void ReturnToDefault()
             {
+                IsWin = false;
+                IsYou = false;
+                IsSink = false;
+                IsKill = false;
+                IsMove = false;
                 IsPush = true;
                 IsStop = true;
             }
-
-            public class TextBaba : Text
+            public class TextBaba : ThingText
             {
                 public TextBaba()
                 {
                     imgsrc = "/Resources/icons/BABA_TEXT.jpg";
                 }
             }
-            public class TextRock : Text
+            public class TextRock : ThingText
             {
                 public TextRock()
                 {
                     imgsrc = "/Resources/icons/ROCK_TEXT.jpg";
                 }
             }
-            public class TextFlag : Text
+            public class TextFlag : ThingText
             {
                 public TextFlag()
                 {
                     imgsrc = "/Resources/icons/FLAG_TEXT.jpg";
                 }
             }
-            public class TextWall : Text
+            public class TextWall : ThingText
             {
                 public TextWall()
                 {
                     imgsrc = "/Resources/icons/WALL_TEXT.jpg";
                 }
             }
-            public class TextIs : Text
+        }
+
+        public class SpecialText : Block
+        {
+            public override void ReturnToDefault()
+            {
+                IsWin = false;
+                IsYou = false;
+                IsSink = false;
+                IsKill = false;
+                IsMove = false;
+                IsPush = true;
+                IsStop = true;
+            }
+
+            public class TextIs : SpecialText
             {
                 public TextIs()
                 {
                     imgsrc = "/Resources/icons/IS_TEXT.jpg";
                 }
             }
-            public class TextYou : Text
+            public class TextYou : SpecialText
             {
                 public TextYou()
                 {
                     imgsrc = "/Resources/icons/YOU_TEXT.jpg";
                 }
             }
-            public class TextWin : Text
+            public class TextWin : SpecialText
             {
                 public TextWin()
                 {
                     imgsrc = "/Resources/icons/WIN_TEXT.jpg";
                 }
             }
-            public class TextPush : Text
+            public class TextPush : SpecialText
             {
                 public TextPush()
                 {
                     imgsrc = "/Resources/icons/PUSH_TEXT.jpg";
                 }
             }
-            public class TextStop : Text
+            public class TextStop : SpecialText
             {
                 public TextStop()
                 {
                     imgsrc = "/Resources/icons/STOP_TEXT.jpg";
                 }
             }
+
         }
 
         public class Thing : Block
         {
-            public Thing()
+            public override void ReturnToDefault()
             {
+                IsWin = false;
+                IsYou = false;
+                IsSink = false;
+                IsKill = false;
+                IsMove = false;
                 IsPush = false;
                 IsStop = false;
             }
-
             public class Baba : Thing
             {
                 public Baba()

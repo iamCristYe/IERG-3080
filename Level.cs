@@ -9,8 +9,10 @@ namespace BabaIsYou.Model
     class Level
     {
         private int levelNumber;
-        private int mapHeight = 0;
-        private int mapWidth = 0;
+        public Level(int LevelNumber)
+        {
+            this.levelNumber = LevelNumber;
+        }
 
         //We store data in History->Map->Block
         //Map is a Dictionary of Point and Blocks on that point, indicating all current Blocks on the map
@@ -18,13 +20,6 @@ namespace BabaIsYou.Model
         private List<Map> history = new List<Map>();
         private Map currentMap = new Map();
 
-        public Level(int LevelNumber)
-        {
-            this.levelNumber = LevelNumber;
-        }
-
-        public int MapHeight { get => mapHeight; set => mapHeight = value; }
-        public int MapWidth { get => mapWidth; set => mapWidth = value; }
         public int LevelNumber { get => levelNumber; set => levelNumber = value; }
         internal List<Map> History { get => history; set => history = value; }
         internal Map CurrentMap { get => currentMap; set => currentMap = value; }
