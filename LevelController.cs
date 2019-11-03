@@ -47,6 +47,7 @@ namespace BabaIsYou.Controller
         public void MoveBlocks(string direction)
         {
             //left
+
             //A new map to store data
             Map NewMap = new Map();
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
@@ -69,20 +70,20 @@ namespace BabaIsYou.Controller
             }
 
             //this dict stores ShouldMove
-            //ShouldMove means block at this place should move
+            //ShouldMove means block at this place should move, it's designed for ispush block, not isyou block
             Dictionary<(int, int), bool> ShouldMove = new Dictionary<(int, int), bool>();
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    ShouldMove.Add((Column, Row), false);
+                    ShouldMove.Add((Column, Row), false);//default false
                 }
             }
 
             //modify CanMove
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
-                for (int Column = 0; Column < CurrentLevel.MapWidth - 1; Column++) //don't need to check rightmost column
+                for (int Column = 0; Column < CurrentLevel.MapWidth - 1; Column++) //don't need to check rightmost column, loop from left to right
                 {
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
                     {
@@ -90,6 +91,16 @@ namespace BabaIsYou.Controller
                         if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop && (!CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && !CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush))
                         {
                             CanMove[(Column, Row)] = false;
+                            //other block at this point should not change this result
+                            break;
+                        }
+                        //if some block is push, whether it can move depend on its left point
+                        else if (Column > 0 && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush)
+                        {
+                            if (CanMove[(Column - 1, Row)] == false)
+                            {
+                                CanMove[(Column, Row)] = false;
+                            }
                         }
                     }
 
@@ -99,19 +110,31 @@ namespace BabaIsYou.Controller
             //modify should move and move blocks
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
-                for (int Column = 1; Column < CurrentLevel.MapWidth; Column++) //don't need to check leftmost column
+                for (int Column = CurrentLevel.MapWidth - 1; Column > 0; Column--) //don't need to check leftmost column, loop from right to left
                 {
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
                     {
-                        //if someblock is not you/push and is stop, others cannot move into this place
-                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop && (!CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && !CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush))
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && CanMove[(Column - 1, Row)])
                         {
-                            MessageBox.Show("to be completed");
+                            NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
+                        }
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush && ShouldMove[(Column, Row)])//Do we need to consider canmove?
+                        {
+                            NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
+                        }
+                        else
+                        {
+                            //copy the same element into the new map at same location
+                            NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
                         }
                     }
 
                 }
             }
+
+            CurrentLevel.CurrentMap = NewMap;
 
         }
         public void UpdateRules()//first reset the rules and then find the new rules and apply them
@@ -145,21 +168,24 @@ namespace BabaIsYou.Controller
                             //is found
                             if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i] is Block.SpecialText.TextIs)
                             {
-                                //a for loop needed here
+                                //a for loop needed here  
+                                int j = 0; MessageBox.Show("to be completed");
                                 //left side must be a ThingText
-                                if (CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)][i] is Block.ThingText)
+                                if (CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)][j] is Block.ThingText)
                                 {
-                                    //a for loop needed here
-                                    //both left side and right side are things
-                                    if (CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][i] is Block.ThingText)
+                                    //a for loop needed here  
+                                    int k = 0; MessageBox.Show("to be completed");
+                                    //both left side and right side are ThingText
+                                    if (CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][k] is Block.ThingText)
                                     {
                                         //change onething to another
-                                        MessageBox.Show("to be completed");
+                                        //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
+                                        ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][k].GetType().Name);
                                     }
                                     if (CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][i] is Block.SpecialText)
                                     {
                                         //change properties of certain blocks
-                                        MessageBox.Show("to be completed");
+                                        ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][k].GetType().Name);
                                     }
                                 }
                             }
@@ -171,6 +197,55 @@ namespace BabaIsYou.Controller
             MessageBox.Show("to be completed");
 
         }
+        private void ChangeThingAToThingB(string ThingA, string ThingB)
+        {
+            MessageBox.Show("to be completed");
+            Map NewMap = new Map();
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    NewMap.PointBlockPairs.Add((Column, Row), new List<Block> { });
+                }
+            }
+
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].GetType().Name== ThingA)//wait! one is RockThing,one is RockText,need to figure this out
+                        {
+                            MessageBox.Show("to be completed");
+                            //https://docs.microsoft.com/en-us/dotnet/api/system.activator.createinstance?view=netframework-4.8
+                            //NewMap.PointBlockPairs[(Column, Row)].Add(new ThingB);
+                        }
+                    }
+                }
+            }
+
+
+        }
+        private void ChangeThingProperty(string Thing, string Property)
+        {
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].GetType().Name == Thing)//wait! one is RockThing,one is RockText,need to figure this out
+                        {
+                            MessageBox.Show("to be completed");
+                            //https://docs.microsoft.com/en-us/dotnet/api/system.activator.createinstance?view=netframework-4.8
+                            //CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Property = true;
+                        }
+                    }
+                }
+            }
+        }
+
         public void UpdateBlocks()//like sink/kill
         {
             //sink
@@ -240,7 +315,6 @@ namespace BabaIsYou.Controller
             }
             return false;
         }
-
         public void AddToHistory()
         {
             CurrentLevel.History.Add(CurrentLevel.CurrentMap);
