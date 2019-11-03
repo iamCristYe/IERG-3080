@@ -24,45 +24,102 @@ namespace BabaIsYou.Controller
             //... 
             //MapHeight=
             //MapWidth=
-            CurrentLevel.CurrentMap.MapHeight = 18;
-            CurrentLevel.CurrentMap.MapWidth = 18;
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((4, 5), new List<Block> { new Block.ThingText.TextBaba() });
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((6, 6), new List<Block> { new Block.SpecialText.TextIs() });
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((7, 6), new List<Block> { new Block.SpecialText.TextYou() });
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((12, 6), new List<Block> { new Block.ThingText.TextFlag() });
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((13, 6), new List<Block> { new Block.SpecialText.TextIs() });
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((14, 6), new List<Block> { new Block.SpecialText.TextWin() });
-
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((9, 9), new List<Block> { new Block.Thing.Rock() });
-
-
-            CurrentLevel.CurrentMap.PointBlockPairs.Add((6, 10), new List<Block> { new Block.Thing.Baba() });
+            CurrentLevel.MapHeight = 18;
+            CurrentLevel.MapWidth = 18;
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    CurrentLevel.CurrentMap.PointBlockPairs.Add((Column, Row), new List<Block> { });
+                }
+            }
+            CurrentLevel.CurrentMap.PointBlockPairs[(4, 5)].Add(new Block.ThingText.TextBaba());
+            CurrentLevel.CurrentMap.PointBlockPairs[(6, 6)].Add(new Block.SpecialText.TextIs());
+            CurrentLevel.CurrentMap.PointBlockPairs[(7, 6)].Add(new Block.SpecialText.TextYou());
+            CurrentLevel.CurrentMap.PointBlockPairs[(12, 6)].Add(new Block.ThingText.TextFlag());
+            CurrentLevel.CurrentMap.PointBlockPairs[(13, 6)].Add(new Block.SpecialText.TextIs());
+            CurrentLevel.CurrentMap.PointBlockPairs[(14, 6)].Add(new Block.SpecialText.TextWin());
+            CurrentLevel.CurrentMap.PointBlockPairs[(9, 9)].Add(new Block.Thing.Rock());
+            CurrentLevel.CurrentMap.PointBlockPairs[(6, 10)].Add(new Block.Thing.Baba());
 
             AddToHistory();
         }
         public void MoveBlocks(string direction)
         {
             //left
-            for (int Row = 0; Row < CurrentLevel.CurrentMap.MapHeight; Row++)
+            //A new map to store data
+            Map NewMap = new Map();
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
-                for (int Column = 1; Column < CurrentLevel.CurrentMap.MapWidth; Column++)
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column - 1, Row)))
+                    NewMap.PointBlockPairs.Add((Column, Row), new List<Block> { });
+                }
+            }
+
+            //this dict stores CanMove 
+            //CanMove means other blocks can move into this place
+            Dictionary<(int, int), bool> CanMove = new Dictionary<(int, int), bool>();
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    CanMove.Add((Column, Row), true);//default true
+                }
+            }
+
+            //this dict stores ShouldMove
+            //ShouldMove means block at this place should move
+            Dictionary<(int, int), bool> ShouldMove = new Dictionary<(int, int), bool>();
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    ShouldMove.Add((Column, Row), false);
+                }
+            }
+
+            //modify CanMove
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth - 1; Column++) //don't need to check rightmost column
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
                     {
-                        for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)].Count; i++)
+                        //if someblock is not you/push and is stop, others cannot move into this place
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop && (!CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && !CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush))
+                        {
+                            CanMove[(Column, Row)] = false;
+                        }
+                    }
+
+                }
+            }
+
+            //modify should move and move blocks
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 1; Column < CurrentLevel.MapWidth; Column++) //don't need to check leftmost column
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        //if someblock is not you/push and is stop, others cannot move into this place
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop && (!CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && !CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush))
                         {
                             MessageBox.Show("to be completed");
                         }
                     }
+
                 }
             }
+
         }
         public void UpdateRules()//first reset the rules and then find the new rules and apply them
         {
             //reset rules
-            for (int Column = 0; Column < CurrentLevel.CurrentMap.MapWidth; Column++)
+            for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
             {
-                for (int Row = 0; Row < CurrentLevel.CurrentMap.MapHeight; Row++)
+                for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
                 {
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
                     {
@@ -75,10 +132,10 @@ namespace BabaIsYou.Controller
             }
             //find new rules and apply them
             //find rules in same row
-            for (int Row = 0; Row < CurrentLevel.CurrentMap.MapHeight; Row++)
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 //find is in [1,CurrentLevel.CurrentMap.MapWidth-2]
-                for (int Column = 1; Column < CurrentLevel.CurrentMap.MapWidth - 1; Column++)
+                for (int Column = 1; Column < CurrentLevel.MapWidth - 1; Column++)
                 {
                     //must have three words to form a sentence
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column - 1, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column + 1, Row)))
@@ -117,9 +174,9 @@ namespace BabaIsYou.Controller
         public void UpdateBlocks()//like sink/kill
         {
             //sink
-            for (int Column = 0; Column < CurrentLevel.CurrentMap.MapWidth; Column++)
+            for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
             {
-                for (int Row = 0; Row < CurrentLevel.CurrentMap.MapHeight; Row++)
+                for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
                 {
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
                     {
@@ -136,9 +193,9 @@ namespace BabaIsYou.Controller
                 }
             }
             //killblock removes youblock
-            for (int Column = 0; Column < CurrentLevel.CurrentMap.MapWidth; Column++)
+            for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
             {
-                for (int Row = 0; Row < CurrentLevel.CurrentMap.MapHeight; Row++)
+                for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
                 {
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
                     {
@@ -198,9 +255,9 @@ namespace BabaIsYou.Controller
         }
         public void Draw()
         {
-            for (int Row = 0; Row < CurrentLevel.CurrentMap.MapHeight; Row++)
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
-                for (int Column = 0; Column < CurrentLevel.CurrentMap.MapWidth; Column++)
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)) == false)
                     {
