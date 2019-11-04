@@ -32,7 +32,65 @@ namespace BabaIsYou
             CurrentLevel.Draw();
         }
 
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            Map levelOneMap = GetLevelOneObjects();
+            DrawGameArea(levelOneMap);
+        }
+        private void DrawGameArea(Map map)
+        {
+            Dictionary<Tuple<int, int>, List<Model.Block>> dict = map.PointBlockPairs;
 
+            bool doneDrawingBackground = false;
+            int nextX = 0, nextY = 0;
+            int rowCounter = 0;
+            bool nextIsOdd = false;
+
+            while (doneDrawingBackground == false)
+            {
+                Rectangle rect = new Rectangle
+                {
+                    Width = SquareSize,
+                    Height = SquareSize,
+                    Fill = Brushes.Black
+                };
+                GameArea.Children.Add(rect);
+                Canvas.SetTop(rect, nextY);
+                Canvas.SetLeft(rect, nextX);
+
+                nextIsOdd = !nextIsOdd;
+                nextX += SquareSize;
+                if (nextX >= GameArea.ActualWidth)
+                {
+                    nextX = 0;
+                    nextY += SquareSize;
+                    rowCounter++;
+                    nextIsOdd = (rowCounter % 2 != 0);
+                }
+
+                if (nextY >= GameArea.ActualHeight)
+                    doneDrawingBackground = true;
+            }
+
+            // foreach (Block b in blocks)
+            foreach (KeyValuePair<Tuple<int, int>, List<Model.Block>> pair in dict)
+            {
+                // for each block in the list
+                foreach(Model.Block block in pair.Value)
+                {
+                    Image image = GetNewImage(block.imgsrc);
+                    GameArea.Children.Add(image);
+                    Canvas.SetTop(image, pair.Key.Item1);
+                    Canvas.SetLeft(image, pair.Key.Item2);
+                    // Debug.WriteLine("x: {0}, y: {1}", b.Start_X, b.Start_Y);
+                }
+
+            }
+
+            // list of objects (blocks?) (instantiate all of them, each needs their own reference)
+            // each will have their own cooridnate??
+
+        }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -58,7 +116,7 @@ namespace BabaIsYou
             if (dict.ContainsKey(tuple))
             {
                 List<Model.Block> new_list = dict[tuple];
-                foreach(Model.Block block in dict[tuple])
+                foreach(Model.Block block in list)
                 {
                     new_list.Add(block);
                 }

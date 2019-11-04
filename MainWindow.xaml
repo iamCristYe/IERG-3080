@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="Baba Is You" 
         SizeToContent="WidthAndHeight" 
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown"
+        ContentRendered="Window_ContentRendered"
+        >
     <Canvas Name="GameArea" ClipToBounds="True" Height="400" Width="400">
         
     </Canvas>

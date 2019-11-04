@@ -30,17 +30,18 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    CurrentLevel.CurrentMap.PointBlockPairs.Add((Column, Row), new List<Block> { });
+                    CurrentLevel.CurrentMap.PointBlockPairs.Add(Tuple.Create(Column, Row), new List<Block> { });
                 }
             }
-            CurrentLevel.CurrentMap.PointBlockPairs[(4, 5)].Add(new Block.ThingText.TextBaba());
-            CurrentLevel.CurrentMap.PointBlockPairs[(6, 6)].Add(new Block.SpecialText.TextIs());
-            CurrentLevel.CurrentMap.PointBlockPairs[(7, 6)].Add(new Block.SpecialText.TextYou());
-            CurrentLevel.CurrentMap.PointBlockPairs[(12, 6)].Add(new Block.ThingText.TextFlag());
-            CurrentLevel.CurrentMap.PointBlockPairs[(13, 6)].Add(new Block.SpecialText.TextIs());
-            CurrentLevel.CurrentMap.PointBlockPairs[(14, 6)].Add(new Block.SpecialText.TextWin());
-            CurrentLevel.CurrentMap.PointBlockPairs[(9, 9)].Add(new Block.Thing.Rock());
-            CurrentLevel.CurrentMap.PointBlockPairs[(6, 10)].Add(new Block.Thing.Baba());
+
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(4, 5)].Add(new Block.ThingText.TextBaba());
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(6, 6)].Add(new Block.SpecialText.TextIs());
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(7, 6)].Add(new Block.SpecialText.TextYou());
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(12, 6)].Add(new Block.ThingText.TextFlag());
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(13, 6)].Add(new Block.SpecialText.TextIs());
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(14, 6)].Add(new Block.SpecialText.TextWin());
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(9, 9)].Add(new Block.Thing.Rock());
+            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(6, 10)].Add(new Block.Thing.Baba());
 
             AddToHistory();
         }
@@ -54,7 +55,7 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    NewMap.PointBlockPairs.Add((Column, Row), new List<Block> { });
+                    NewMap.PointBlockPairs.Add(Tuple.Create(Column, Row), new List<Block> { });
                 }
             }
 
@@ -85,17 +86,17 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth - 1; Column++) //don't need to check rightmost column, loop from left to right
                 {
-                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
                         //if someblock is not you/push and is stop, others cannot move into this place
-                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop && (!CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && !CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush))
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsStop && (!CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsYou && !CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush))
                         {
                             CanMove[(Column, Row)] = false;
                             //other block at this point should not change this result
                             break;
                         }
                         //if some block is push, whether it can move depend on its left point
-                        else if (Column > 0 && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush)
+                        else if (Column > 0 && CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
                         {
                             if (CanMove[(Column - 1, Row)] == false)
                             {
@@ -112,22 +113,22 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = CurrentLevel.MapWidth - 1; Column > 0; Column--) //don't need to check leftmost column, loop from right to left
                 {
-                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && CanMove[(Column - 1, Row)])
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsYou && CanMove[(Column - 1, Row)])
                         {
-                            NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            NewMap.PointBlockPairs[Tuple.Create(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i]);
                             ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
                         }
-                        else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush && ShouldMove[(Column, Row)])//Do we need to consider canmove?
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush && ShouldMove[(Column, Row)])//Do we need to consider canmove?
                         {
-                            NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            NewMap.PointBlockPairs[Tuple.Create(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i]);
                             ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
                         }
                         else
                         {
                             //copy the same element into the new map at same location
-                            NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            NewMap.PointBlockPairs[Tuple.Create(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i]);
                         }
                     }
 
@@ -144,11 +145,11 @@ namespace BabaIsYou.Controller
             {
                 for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
                 {
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
+                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)))
                     {
-                        for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                        for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                         {
-                            CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].ReturnToDefault();
+                            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].ReturnToDefault();
                         }
                     }
                 }
@@ -161,31 +162,31 @@ namespace BabaIsYou.Controller
                 for (int Column = 1; Column < CurrentLevel.MapWidth - 1; Column++)
                 {
                     //must have three words to form a sentence
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column - 1, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column + 1, Row)))
+                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column - 1, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column + 1, Row)))
                     {
-                        for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                        for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                         {
                             //is found
-                            if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i] is Block.SpecialText.TextIs)
+                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
                             {
                                 //a for loop needed here  
                                 int j = 0; MessageBox.Show("to be completed");
                                 //left side must be a ThingText
-                                if (CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)][j] is Block.ThingText)
+                                if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j] is Block.ThingText)
                                 {
                                     //a for loop needed here  
                                     int k = 0; MessageBox.Show("to be completed");
                                     //both left side and right side are ThingText
-                                    if (CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][k] is Block.ThingText)
+                                    if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.ThingText)
                                     {
                                         //change onething to another
                                         //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
-                                        ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][k].GetType().Name);
+                                        ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
                                     }
-                                    if (CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][i] is Block.SpecialText)
+                                    if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][i] is Block.SpecialText)
                                     {
                                         //change properties of certain blocks
-                                        ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[(Column + 1, Row)][k].GetType().Name);
+                                        ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
                                     }
                                 }
                             }
@@ -205,7 +206,7 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    NewMap.PointBlockPairs.Add((Column, Row), new List<Block> { });
+                    NewMap.PointBlockPairs.Add(Tuple.Create(Column, Row), new List<Block> { });
                 }
             }
 
@@ -213,9 +214,9 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        if(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].GetType().Name== ThingA)//wait! one is RockThing,one is RockText,need to figure this out
+                        if(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].GetType().Name== ThingA)//wait! one is RockThing,one is RockText,need to figure this out
                         {
                             MessageBox.Show("to be completed");
                             //https://docs.microsoft.com/en-us/dotnet/api/system.activator.createinstance?view=netframework-4.8
@@ -233,9 +234,9 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].GetType().Name == Thing)//wait! one is RockThing,one is RockText,need to figure this out
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].GetType().Name == Thing)//wait! one is RockThing,one is RockText,need to figure this out
                         {
                             MessageBox.Show("to be completed");
                             //https://docs.microsoft.com/en-us/dotnet/api/system.activator.createinstance?view=netframework-4.8
@@ -253,16 +254,16 @@ namespace BabaIsYou.Controller
             {
                 for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
                 {
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
+                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)))
                     {
                         bool ContainsSinkBlock = false;
-                        foreach (var SinkBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                        foreach (var SinkBlock in CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)])
                         {
                             if (SinkBlock.IsSink == true) ContainsSinkBlock = true;
                         }
                         if (ContainsSinkBlock)//remove all blocks
                         {
-                            CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = new List<Block>();
+                            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)] = new List<Block>();
                         }
                     }
                 }
@@ -272,26 +273,26 @@ namespace BabaIsYou.Controller
             {
                 for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
                 {
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
+                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)))
                     {
                         bool ContainsKillBlock = false;
                         bool ContainsYouBlock = false;
-                        foreach (var KillBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                        foreach (var KillBlock in CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)])
                         {
                             if (KillBlock.IsKill == true) ContainsKillBlock = true;
                         }
-                        foreach (var YouBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                        foreach (var YouBlock in CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)])
                         {
                             if (YouBlock.IsYou == true) ContainsYouBlock = true;
                         }
                         if (ContainsKillBlock && ContainsYouBlock)//remove you block
                         {
                             List<Block> NewList = new List<Block>();
-                            foreach (var NotYouBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                            foreach (var NotYouBlock in CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)])
                             {
                                 if (NotYouBlock.IsYou == false) NewList.Add(NotYouBlock);
                             }
-                            CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = NewList;
+                            CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)] = NewList;
                         }
                     }
                 }
@@ -333,13 +334,13 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)) == false)
+                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)) == false)
                     {
                         Trace.Write(";");
                     }
                     else
                     {
-                        foreach (var block in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                        foreach (var block in CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)])
                         {
                             Trace.Write(block.GetType());
                         }
