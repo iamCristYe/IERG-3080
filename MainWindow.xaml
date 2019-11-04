@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BabaIsYou"
         mc:Ignorable="d"
-        Title="Baba Is You" Height="450" Width="800" KeyDown="Window_KeyDown">
-    <Grid>
+        Title="Baba Is You" 
+        SizeToContent="WidthAndHeight" 
+        KeyDown="Window_KeyDown">
+    <Canvas Name="GameArea" ClipToBounds="True" Height="400" Width="400">
         
-    </Grid>
+    </Canvas>
 </Window>

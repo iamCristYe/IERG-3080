@@ -156,6 +156,22 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/WALL_THING.jpg";
                 }
             }
+
+            public class Grass : Thing
+            {
+                public Grass()
+                {
+                    imgsrc = "/Resources/icons/GRASS_THING.jpg";
+                }
+            }
+
+            public class FakeWall : Thing
+            {
+                public FakeWall()
+                {
+                    imgsrc = "/Resources/icons/FAKEWALL_THING.jpg";
+                }
+            }
         }
     }
 }
