@@ -24,22 +24,29 @@ namespace BabaIsYou
     public partial class MainWindow : Window
     {
         const int SquareSize = 20;
-        LevelController CurrentLevel = new LevelController(1);
+        LevelController CurrentLevelController = new LevelController(1);
         public MainWindow()
         {
             InitializeComponent();
-            CurrentLevel.loadGame();
-            CurrentLevel.Draw();
+            //CurrentLevelController.loadGame();
+            //CurrentLevelController.Draw();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            Map levelOneMap = GetLevelOneObjects();
-            DrawGameArea(levelOneMap);
+            CurrentLevelController.CurrentLevel.CurrentMap = GetLevelOneObjects();
+
+
+
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
         }
         private void DrawGameArea(Map map)
         {
+            GameArea.Children.Clear();
+
+
             Dictionary<Tuple<int, int>, List<Model.Block>> dict = map.PointBlockPairs;
+
 
             bool doneDrawingBackground = false;
             int nextX = 0, nextY = 0;
@@ -72,11 +79,12 @@ namespace BabaIsYou
                     doneDrawingBackground = true;
             }
 
+
             // foreach (Block b in blocks)
             foreach (KeyValuePair<Tuple<int, int>, List<Model.Block>> pair in dict)
             {
                 // for each block in the list
-                foreach(Model.Block block in pair.Value)
+                foreach (Model.Block block in pair.Value)
                 {
                     Image image = GetNewImage(block.imgsrc);
                     GameArea.Children.Add(image);
@@ -95,12 +103,15 @@ namespace BabaIsYou
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             //for up/down/left/right
-            CurrentLevel.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
-            CurrentLevel.UpdateRules();//Update rules by finding sentences
-            CurrentLevel.UpdateBlocks();//Update blocks, like sink/defeat/kill
-            CurrentLevel.CheckWin();
-            CurrentLevel.AddToHistory();
-            CurrentLevel.Draw();
+            CurrentLevelController.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
+            //CurrentLevelController.UpdateRules();//Update rules by finding sentences
+            //CurrentLevelController.UpdateBlocks();//Update blocks, like sink/defeat/kill
+            //CurrentLevelController.CheckWin();
+            //CurrentLevelController.AddToHistory();
+            //CurrentLevelController.Draw();
+            
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
 
             //for z(redo)
             //CurrentLevel.GoBack();
@@ -116,11 +127,11 @@ namespace BabaIsYou
             if (dict.ContainsKey(tuple))
             {
                 List<Model.Block> new_list = dict[tuple];
-                foreach(Model.Block block in list)
+                foreach (Model.Block block in list)
                 {
                     new_list.Add(block);
                 }
-            } 
+            }
             else
             {
                 dict[tuple] = list;
@@ -163,10 +174,11 @@ namespace BabaIsYou
             }
 
             // fake wall thing
-            for (int i = 80; i < 300; i += 20) 
+            for (int i = 80; i < 300; i += 20)
             {
                 SafeAddDictionary(dict, Tuple.Create(120, i), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
-                if (i != 120 && i != 260) {
+                if (i != 120 && i != 260)
+                {
                     SafeAddDictionary(dict, Tuple.Create(140, i), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
                 }
                 SafeAddDictionary(dict, Tuple.Create(160, i), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
@@ -179,7 +191,7 @@ namespace BabaIsYou
             SafeAddDictionary(dict, Tuple.Create(140, 260), new List<Model.Block> { new Model.Block.Thing.Flag() });
 
             // rock thing
-            for (int i = 120; i < 180; i += 20) 
+            for (int i = 120; i < 180; i += 20)
             {
                 SafeAddDictionary(dict, Tuple.Create(i, 180), new List<Model.Block> { new Model.Block.Thing.Rock() });
             }

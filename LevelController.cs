@@ -12,7 +12,7 @@ namespace BabaIsYou.Controller
     class LevelController
     {
 
-        Model.Level CurrentLevel;
+        public Model.Level CurrentLevel;
 
         public LevelController(int levelNumber)
         {
@@ -46,7 +46,22 @@ namespace BabaIsYou.Controller
             AddToHistory();
         }
         public void MoveBlocks(string direction)
-        {
+        {//!!!for debug use only!!
+            CurrentLevel.MapHeight = 400;
+            CurrentLevel.MapWidth = 400;
+
+            //Draw();
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)) == false)
+                    {
+                        CurrentLevel.CurrentMap.PointBlockPairs.Add(Tuple.Create(Column, Row), new List<Model.Block> { });
+                    }
+                }
+            }
+
             //left
 
             //A new map to store data
@@ -55,7 +70,7 @@ namespace BabaIsYou.Controller
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    NewMap.PointBlockPairs.Add(Tuple.Create(Column, Row), new List<Block> { });
+                    NewMap.PointBlockPairs.Add(Tuple.Create(Column, Row), new List<Block>());
                 }
             }
 
@@ -134,8 +149,11 @@ namespace BabaIsYou.Controller
 
                 }
             }
-
+            //Draw();
             CurrentLevel.CurrentMap = NewMap;
+            //CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(1, 1)] = new List<Block>();
+            //CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(1, 1)].Add(new Block.SpecialText.TextIs());
+            //Draw();
 
         }
         public void UpdateRules()//first reset the rules and then find the new rules and apply them
@@ -216,7 +234,7 @@ namespace BabaIsYou.Controller
                 {
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        if(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].GetType().Name== ThingA)//wait! one is RockThing,one is RockText,need to figure this out
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].GetType().Name == ThingA)//wait! one is RockThing,one is RockText,need to figure this out
                         {
                             MessageBox.Show("to be completed");
                             //https://docs.microsoft.com/en-us/dotnet/api/system.activator.createinstance?view=netframework-4.8
@@ -330,6 +348,9 @@ namespace BabaIsYou.Controller
         }
         public void Draw()
         {
+            Trace.WriteLine("Begin Debug Draw");
+            Trace.WriteLine(CurrentLevel.MapHeight);
+            Trace.WriteLine(CurrentLevel.MapWidth);
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
@@ -349,6 +370,8 @@ namespace BabaIsYou.Controller
                 }
                 Trace.WriteLine("");
             }
+            Trace.WriteLine("End Debug Draw");
+
         }
 
     }

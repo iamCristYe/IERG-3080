@@ -27,6 +27,6 @@ namespace BabaIsYou.Model
         public int MapWidth { get => mapWidth; set => mapWidth = value; }
         public int LevelNumber { get => levelNumber; set => levelNumber = value; }
         internal List<Map> History { get => history; set => history = value; }
-        internal Map CurrentMap { get => currentMap; set => currentMap = value; }
+        public Map CurrentMap { get => currentMap; set => currentMap = value; }
     }
 }
