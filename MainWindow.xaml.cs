@@ -88,8 +88,8 @@ namespace BabaIsYou
                 {
                     Image image = GetNewImage(block.imgsrc);
                     GameArea.Children.Add(image);
-                    Canvas.SetTop(image, pair.Key.Item1);
-                    Canvas.SetLeft(image, pair.Key.Item2);
+                    Canvas.SetTop(image, pair.Key.Item2);
+                    Canvas.SetLeft(image, pair.Key.Item1);
                     // Debug.WriteLine("x: {0}, y: {1}", b.Start_X, b.Start_Y);
                 }
 
@@ -143,13 +143,6 @@ namespace BabaIsYou
             Map map = new Map();
             Dictionary<Tuple<int, int>, List<Model.Block>> dict = map.PointBlockPairs;
 
-            // horizontal row of grass (top most and bottom most row)
-            for (int i = 0; i < 400; i += 20)
-            {
-                SafeAddDictionary(dict, Tuple.Create(i, 0), new List<Model.Block> { new Model.Block.Thing.Grass() });
-                SafeAddDictionary(dict, Tuple.Create(i, 380), new List<Model.Block> { new Model.Block.Thing.Grass() });
-            }
-
             // vertical columns of grass (left most and right most column)
             for (int i = 0; i < 400; i += 20)
             {
@@ -157,62 +150,69 @@ namespace BabaIsYou
                 SafeAddDictionary(dict, Tuple.Create(380, i), new List<Model.Block> { new Model.Block.Thing.Grass() });
             }
 
+            // horizontal row of grass (top most and bottom most row)
+            for (int i = 0; i < 400; i += 20)
+            {
+                SafeAddDictionary(dict, Tuple.Create(i, 0), new List<Model.Block> { new Model.Block.Thing.Grass() });
+                SafeAddDictionary(dict, Tuple.Create(i, 380), new List<Model.Block> { new Model.Block.Thing.Grass() });
+            }
+
             // wall text
-            SafeAddDictionary(dict, Tuple.Create(60, 80), new List<Model.Block> { new Model.Block.ThingText.TextWall() });
+            SafeAddDictionary(dict, Tuple.Create(80, 60), new List<Model.Block> { new Model.Block.ThingText.TextWall() });
 
             // is text
-            SafeAddDictionary(dict, Tuple.Create(60, 100), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
+            SafeAddDictionary(dict, Tuple.Create(100, 60), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
 
             // stop text
-            SafeAddDictionary(dict, Tuple.Create(60, 120), new List<Model.Block> { new Model.Block.SpecialText.TextStop() });
+            SafeAddDictionary(dict, Tuple.Create(120, 60), new List<Model.Block> { new Model.Block.SpecialText.TextStop() });
 
             // wall thing (a long series of wall)
             for (int i = 80; i < 300; i += 20)
             {
-                SafeAddDictionary(dict, Tuple.Create(100, i), new List<Model.Block> { new Model.Block.Thing.Wall() });
-                SafeAddDictionary(dict, Tuple.Create(180, i), new List<Model.Block> { new Model.Block.Thing.Wall() });
+                SafeAddDictionary(dict, Tuple.Create(i, 100), new List<Model.Block> { new Model.Block.Thing.Wall() });
+                SafeAddDictionary(dict, Tuple.Create(i, 180), new List<Model.Block> { new Model.Block.Thing.Wall() });
             }
 
             // fake wall thing
             for (int i = 80; i < 300; i += 20)
             {
-                SafeAddDictionary(dict, Tuple.Create(120, i), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                SafeAddDictionary(dict, Tuple.Create(i, 120), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
                 if (i != 120 && i != 260)
                 {
-                    SafeAddDictionary(dict, Tuple.Create(140, i), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                    SafeAddDictionary(dict, Tuple.Create(i, 140), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
                 }
-                SafeAddDictionary(dict, Tuple.Create(160, i), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                SafeAddDictionary(dict, Tuple.Create(i, 160), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
             }
 
             // baba thing
-            SafeAddDictionary(dict, Tuple.Create(140, 120), new List<Model.Block> { new Model.Block.Thing.Baba() });
+            SafeAddDictionary(dict, Tuple.Create(120, 140), new List<Model.Block> { new Model.Block.Thing.Baba() });
 
             // flag thing
-            SafeAddDictionary(dict, Tuple.Create(140, 260), new List<Model.Block> { new Model.Block.Thing.Flag() });
+            SafeAddDictionary(dict, Tuple.Create(260, 140), new List<Model.Block> { new Model.Block.Thing.Flag() });
 
             // rock thing
             for (int i = 120; i < 180; i += 20)
             {
-                SafeAddDictionary(dict, Tuple.Create(i, 180), new List<Model.Block> { new Model.Block.Thing.Rock() });
+                SafeAddDictionary(dict, Tuple.Create(180, i), new List<Model.Block> { new Model.Block.Thing.Rock() });
             }
 
             // baba text
-            SafeAddDictionary(dict, Tuple.Create(220, 100), new List<Model.Block> { new Model.Block.ThingText.TextBaba() });
+            SafeAddDictionary(dict, Tuple.Create(100, 220), new List<Model.Block> { new Model.Block.ThingText.TextBaba() });
 
             // is text
-            SafeAddDictionary(dict, Tuple.Create(220, 120), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
+            SafeAddDictionary(dict, Tuple.Create(120, 220), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
 
             // you text
-            SafeAddDictionary(dict, Tuple.Create(220, 140), new List<Model.Block> { new Model.Block.SpecialText.TextYou() });
+            SafeAddDictionary(dict, Tuple.Create(140, 220), new List<Model.Block> { new Model.Block.SpecialText.TextYou() });
 
             // flag text
-            SafeAddDictionary(dict, Tuple.Create(220, 240), new List<Model.Block> { new Model.Block.ThingText.TextFlag() });
+            SafeAddDictionary(dict, Tuple.Create(240, 220), new List<Model.Block> { new Model.Block.ThingText.TextFlag() });
 
             // is text
-            SafeAddDictionary(dict, Tuple.Create(220, 260), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
+            SafeAddDictionary(dict, Tuple.Create(260, 220), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
 
             // win text
-            SafeAddDictionary(dict, Tuple.Create(220, 280), new List<Model.Block> { new Model.Block.SpecialText.TextWin() });
+            SafeAddDictionary(dict, Tuple.Create(280, 220), new List<Model.Block> { new Model.Block.SpecialText.TextWin() });
 
             return map;
         }
