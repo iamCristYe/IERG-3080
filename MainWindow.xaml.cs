@@ -174,14 +174,14 @@ namespace BabaIsYou
             }
 
             // fake wall thing
-            for (int i = 80; i < 300; i += 20)
+            for (int i = 4; i < 15; i += 1)
             {
-                SafeAddDictionary(dict, Tuple.Create(i, 120), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
-                if (i != 120 && i != 260)
+                SafeAddDictionary(dict, Tuple.Create(i, 6), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                if (i != 6 && i != 13)
                 {
-                    SafeAddDictionary(dict, Tuple.Create(i, 140), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                    SafeAddDictionary(dict, Tuple.Create(i, 7), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
                 }
-                SafeAddDictionary(dict, Tuple.Create(i, 160), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                SafeAddDictionary(dict, Tuple.Create(i, 8), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
             }
 
             // baba thing
