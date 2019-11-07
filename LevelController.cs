@@ -24,8 +24,12 @@ namespace BabaIsYou.Controller
             //... 
             //MapHeight=
             //MapWidth=
-            CurrentLevel.MapHeight = 18;
-            CurrentLevel.MapWidth = 18;
+
+            //!!!for debug use only!!
+            CurrentLevel.MapHeight = 20;
+            CurrentLevel.MapWidth = 20;
+
+
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
@@ -47,10 +51,10 @@ namespace BabaIsYou.Controller
         }
         public void MoveBlocks(string direction)
         {//!!!for debug use only!!
-            CurrentLevel.MapHeight = 400;
-            CurrentLevel.MapWidth = 400;
+            CurrentLevel.MapHeight = 20;
+            CurrentLevel.MapWidth = 20;
 
-            //Draw();
+
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
@@ -149,6 +153,18 @@ namespace BabaIsYou.Controller
 
                 }
             }
+
+            //copy left most column into the new map
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(0, Row)].Count; i++)
+                {
+                    //copy the same element into the new map at same location
+                    NewMap.PointBlockPairs[Tuple.Create(0, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(0, Row)][i]);
+                }
+            }
+
+
             //Draw();
             CurrentLevel.CurrentMap = NewMap;
             //CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(1, 1)] = new List<Block>();
@@ -180,7 +196,6 @@ namespace BabaIsYou.Controller
                 for (int Column = 1; Column < CurrentLevel.MapWidth - 1; Column++)
                 {
                     //must have three words to form a sentence
-                    MessageBox.Show("shouldn't be null");
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column - 1, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column + 1, Row)))
                     {
                         for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
@@ -188,24 +203,26 @@ namespace BabaIsYou.Controller
                             //is found
                             if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
                             {
-                                //a for loop needed here  
-                                int j = 0; MessageBox.Show("to be completed");
-                                //left side must be a ThingText
-                                if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j] is Block.ThingText)
+                                for (int j = 0; j < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)].Count; j++)
                                 {
-                                    //a for loop needed here  
-                                    int k = 0; MessageBox.Show("to be completed");
-                                    //both left side and right side are ThingText
-                                    if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.ThingText)
+                                    //left side must be a ThingText
+                                    if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j] is Block.ThingText)
                                     {
-                                        //change onething to another
-                                        //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
-                                        ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
-                                    }
-                                    if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][i] is Block.SpecialText)
-                                    {
-                                        //change properties of certain blocks
-                                        ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
+                                        for (int k = 0; k < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)].Count; k++)
+                                        {
+                                            //both left side and right side are ThingText
+                                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.ThingText)
+                                            {
+                                                //change onething to another
+                                                //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
+                                                ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
+                                            }
+                                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.SpecialText)
+                                            {
+                                                //change properties of certain blocks
+                                                ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -213,10 +230,12 @@ namespace BabaIsYou.Controller
                     }
                 }
             }
+
             //also for rules in a column
-            MessageBox.Show("to be completed");
+            MessageBox.Show("also for rules in a column to be completed");
 
         }
+
         private void ChangeThingAToThingB(string ThingA, string ThingB)
         {
             MessageBox.Show("to be completed");
@@ -256,10 +275,14 @@ namespace BabaIsYou.Controller
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
                         Block block = CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i];
-                        if (block.GetType().Name == ThingText.Replace("Text",""))//wait! one is RockThing,one is RockText,need to figure this out
+                       
+                        if (block.GetType().Name == ThingText.Replace("Text", ""))//change TextRock to Rock
                         {
+                            Trace.WriteLine(Property);
                             //https://stackoverflow.com/questions/619767/set-object-property-using-reflection/619778
-                            block.GetType().GetProperty(Property).SetValue(block, true, null);//why need null?
+
+                            //change TextStop to IsStop  //textis will be isis  need to fix this
+                            block.GetType().GetProperty(Property.Replace("Text", "Is")).SetValue(block, true, null);//why need null?
                         }
                     }
                 }

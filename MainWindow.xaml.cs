@@ -39,6 +39,8 @@ namespace BabaIsYou
 
 
             DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+            CurrentLevelController.UpdateRules();//Update rules at the beginning
+
         }
         private void DrawGameArea(Map map)
         {
@@ -88,8 +90,8 @@ namespace BabaIsYou
                 {
                     Image image = GetNewImage(block.imgsrc);
                     GameArea.Children.Add(image);
-                    Canvas.SetTop(image, pair.Key.Item2*SquareSize);
-                    Canvas.SetLeft(image, pair.Key.Item1*SquareSize);
+                    Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
+                    Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
                     // Debug.WriteLine("x: {0}, y: {1}", b.Start_X, b.Start_Y);
                 }
 
@@ -104,14 +106,13 @@ namespace BabaIsYou
         {
             //for up/down/left/right
             CurrentLevelController.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
-            //CurrentLevelController.UpdateRules();//Update rules by finding sentences
-            //CurrentLevelController.UpdateBlocks();//Update blocks, like sink/defeat/kill
-            //CurrentLevelController.CheckWin();
-            //CurrentLevelController.AddToHistory();
+            CurrentLevelController.UpdateRules();//Update rules by finding sentences
+            CurrentLevelController.UpdateBlocks();//Update blocks, like sink/defeat/kill
+            if (CurrentLevelController.CheckWin()) MessageBox.Show("You Win!");
+            CurrentLevelController.AddToHistory();
             //CurrentLevelController.Draw();
-            
-            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
 
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
 
             //for z(redo)
             //CurrentLevel.GoBack();
@@ -185,10 +186,10 @@ namespace BabaIsYou
             }
 
             // baba thing
-            SafeAddDictionary(dict, Tuple.Create(6, 7), new List<Model.Block> { new Model.Block.Thing.Baba() });
+            SafeAddDictionary(dict, Tuple.Create(13, 7), new List<Model.Block> { new Model.Block.Thing.Baba() });
 
             // flag thing
-            SafeAddDictionary(dict, Tuple.Create(13, 7), new List<Model.Block> { new Model.Block.Thing.Flag() });
+            SafeAddDictionary(dict, Tuple.Create(6, 7), new List<Model.Block> { new Model.Block.Thing.Flag() });
 
             // rock thing
             for (int i = 6; i < 9; i += 1)
