@@ -180,6 +180,7 @@ namespace BabaIsYou.Controller
                 for (int Column = 1; Column < CurrentLevel.MapWidth - 1; Column++)
                 {
                     //must have three words to form a sentence
+                    MessageBox.Show("shouldn't be null");
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column - 1, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column + 1, Row)))
                     {
                         for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
@@ -246,7 +247,7 @@ namespace BabaIsYou.Controller
 
 
         }
-        private void ChangeThingProperty(string Thing, string Property)
+        private void ChangeThingProperty(string ThingText, string Property)
         {
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -254,11 +255,11 @@ namespace BabaIsYou.Controller
                 {
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].GetType().Name == Thing)//wait! one is RockThing,one is RockText,need to figure this out
+                        Block block = CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i];
+                        if (block.GetType().Name == ThingText.Replace("Text",""))//wait! one is RockThing,one is RockText,need to figure this out
                         {
-                            MessageBox.Show("to be completed");
-                            //https://docs.microsoft.com/en-us/dotnet/api/system.activator.createinstance?view=netframework-4.8
-                            //CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Property = true;
+                            //https://stackoverflow.com/questions/619767/set-object-property-using-reflection/619778
+                            block.GetType().GetProperty(Property).SetValue(block, true, null);//why need null?
                         }
                     }
                 }
@@ -346,7 +347,7 @@ namespace BabaIsYou.Controller
                 CurrentLevel.CurrentMap = CurrentLevel.History[CurrentLevel.History.Count - 1];
             }
         }
-        public void Draw()
+        public void DrawInTrace()
         {
             Trace.WriteLine("Begin Debug Draw");
             Trace.WriteLine(CurrentLevel.MapHeight);
