@@ -123,6 +123,10 @@ namespace BabaIsYou
             {
                 CurrentLevelController.Restart();
             }
+            else if (e.Key == Key.Q)
+            {
+                this.Close();
+            }
             DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
         }
 
