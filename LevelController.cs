@@ -232,7 +232,7 @@ namespace BabaIsYou.Controller
             }
 
             //also for rules in a column
-            MessageBox.Show("also for rules in a column to be completed");
+            // MessageBox.Show("also for rules in a column to be completed");
 
         }
 

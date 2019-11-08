@@ -105,7 +105,27 @@ namespace BabaIsYou
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             //for up/down/left/right
-            CurrentLevelController.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
+            // CurrentLevelController.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
+            if (e.Key == Key.Up)
+            {
+                MessageBox.Show("up");
+            } else if (e.Key == Key.Down)
+            {
+                MessageBox.Show("down");
+            } else if (e.Key == Key.Left)
+            {
+                MessageBox.Show("left");
+            } else if (e.Key == Key.Right)
+            {
+                MessageBox.Show("right");
+            } else if (e.Key == Key.Z)
+            {
+                MessageBox.Show("Z");
+            } else if (e.Key == Key.R)
+            {
+                MessageBox.Show("R");
+            }
+
             CurrentLevelController.UpdateRules();//Update rules by finding sentences
             CurrentLevelController.UpdateBlocks();//Update blocks, like sink/defeat/kill
             if (CurrentLevelController.CheckWin()) MessageBox.Show("You Win!");
