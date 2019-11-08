@@ -27,24 +27,18 @@ namespace BabaIsYou
         LevelController CurrentLevelController = new LevelController(1);
         public MainWindow()
         {
-            InitializeComponent();
-            //CurrentLevelController.loadGame();
-            //CurrentLevelController.Draw();
+            //InitializeComponent();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            CurrentLevelController.CurrentLevel.CurrentMap = GetLevelOneObjects();
 
-
-
+            CurrentLevelController.loadGame();
             DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
-            CurrentLevelController.UpdateRules();//Update rules at the beginning
-
         }
         private void DrawGameArea(Map map)
         {
-            GameArea.Children.Clear();
+            //GameArea.Children.Clear();
 
 
             Dictionary<Tuple<int, int>, List<Model.Block>> dict = map.PointBlockPairs;
@@ -104,139 +98,34 @@ namespace BabaIsYou
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            //for up/down/left/right
-            // CurrentLevelController.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
+
             if (e.Key == Key.Up)
             {
-                MessageBox.Show("up");
-            } else if (e.Key == Key.Down)
-            {
-                MessageBox.Show("down");
-            } else if (e.Key == Key.Left)
-            {
-                MessageBox.Show("left");
-            } else if (e.Key == Key.Right)
-            {
-                MessageBox.Show("right");
-            } else if (e.Key == Key.Z)
-            {
-                MessageBox.Show("Z");
-            } else if (e.Key == Key.R)
-            {
-                MessageBox.Show("R");
+                CurrentLevelController.ArrowKeyDown("up");
             }
-
-            CurrentLevelController.UpdateRules();//Update rules by finding sentences
-            CurrentLevelController.UpdateBlocks();//Update blocks, like sink/defeat/kill
-            if (CurrentLevelController.CheckWin()) MessageBox.Show("You Win!");
-            CurrentLevelController.AddToHistory();
-            //CurrentLevelController.Draw();
-
+            else if (e.Key == Key.Down)
+            {
+                CurrentLevelController.ArrowKeyDown("down");
+            }
+            else if (e.Key == Key.Left)
+            {
+                CurrentLevelController.ArrowKeyDown("left");
+            }
+            else if (e.Key == Key.Right)
+            {
+                CurrentLevelController.ArrowKeyDown("right");
+            }
+            else if (e.Key == Key.Z)
+            {
+                CurrentLevelController.GoBack();
+            }
+            else if (e.Key == Key.R)
+            {
+                CurrentLevelController.Restart();
+            }
             DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
-
-            //for z(redo)
-            //CurrentLevel.GoBack();
-            //CurrentLevel.Draw();
-
-            //for r(restart)
-            //CurrentLevel.loadGame();
-            //CurrentLevel.Draw();
         }
 
-        private void SafeAddDictionary(Dictionary<Tuple<int, int>, List<Model.Block>> dict, Tuple<int, int> tuple, List<Model.Block> list)
-        {
-            if (dict.ContainsKey(tuple))
-            {
-                List<Model.Block> new_list = dict[tuple];
-                foreach (Model.Block block in list)
-                {
-                    new_list.Add(block);
-                }
-            }
-            else
-            {
-                dict[tuple] = list;
-            }
-        }
-
-        private Map GetLevelOneObjects()
-        {
-            Map map = new Map();
-            Dictionary<Tuple<int, int>, List<Model.Block>> dict = map.PointBlockPairs;
-
-            // vertical columns of grass (left most and right most column)
-            for (int i = 0; i < 20; i += 1)
-            {
-                SafeAddDictionary(dict, Tuple.Create(0, i), new List<Model.Block> { new Model.Block.Thing.Grass() });
-                SafeAddDictionary(dict, Tuple.Create(19, i), new List<Model.Block> { new Model.Block.Thing.Grass() });
-            }
-
-            // horizontal row of grass (top most and bottom most row)
-            for (int i = 0; i < 20; i += 1)
-            {
-                SafeAddDictionary(dict, Tuple.Create(i, 0), new List<Model.Block> { new Model.Block.Thing.Grass() });
-                SafeAddDictionary(dict, Tuple.Create(i, 19), new List<Model.Block> { new Model.Block.Thing.Grass() });
-            }
-
-            // wall text
-            SafeAddDictionary(dict, Tuple.Create(4, 3), new List<Model.Block> { new Model.Block.ThingText.TextWall() });
-
-            // is text
-            SafeAddDictionary(dict, Tuple.Create(5, 3), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
-
-            // stop text
-            SafeAddDictionary(dict, Tuple.Create(6, 3), new List<Model.Block> { new Model.Block.SpecialText.TextStop() });
-
-            // wall thing (a long series of wall)
-            for (int i = 4; i < 15; i += 1)
-            {
-                SafeAddDictionary(dict, Tuple.Create(i, 5), new List<Model.Block> { new Model.Block.Thing.Wall() });
-                SafeAddDictionary(dict, Tuple.Create(i, 9), new List<Model.Block> { new Model.Block.Thing.Wall() });
-            }
-
-            // fake wall thing
-            for (int i = 4; i < 15; i += 1)
-            {
-                SafeAddDictionary(dict, Tuple.Create(i, 6), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
-                if (i != 6 && i != 13)
-                {
-                    SafeAddDictionary(dict, Tuple.Create(i, 7), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
-                }
-                SafeAddDictionary(dict, Tuple.Create(i, 8), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
-            }
-
-            // baba thing
-            SafeAddDictionary(dict, Tuple.Create(13, 7), new List<Model.Block> { new Model.Block.Thing.Baba() });
-
-            // flag thing
-            SafeAddDictionary(dict, Tuple.Create(6, 7), new List<Model.Block> { new Model.Block.Thing.Flag() });
-
-            // rock thing
-            for (int i = 6; i < 9; i += 1)
-            {
-                SafeAddDictionary(dict, Tuple.Create(9, i), new List<Model.Block> { new Model.Block.Thing.Rock() });
-            }
-
-            // baba text
-            SafeAddDictionary(dict, Tuple.Create(5, 11), new List<Model.Block> { new Model.Block.ThingText.TextBaba() });
-
-            // is text
-            SafeAddDictionary(dict, Tuple.Create(6, 11), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
-
-            // you text
-            SafeAddDictionary(dict, Tuple.Create(7, 11), new List<Model.Block> { new Model.Block.SpecialText.TextYou() });
-
-            // flag text
-            SafeAddDictionary(dict, Tuple.Create(12, 11), new List<Model.Block> { new Model.Block.ThingText.TextFlag() });
-
-            // is text
-            SafeAddDictionary(dict, Tuple.Create(13, 11), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
-
-            // win text
-            SafeAddDictionary(dict, Tuple.Create(14, 11), new List<Model.Block> { new Model.Block.SpecialText.TextWin() });
-
-            return map;
-        }
 
         private Image GetNewImage(string uri)
         {

@@ -99,22 +99,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\levels\level_0.jpg" />
-    <Resource Include="Resources\levels\level_1.jpg" />
-    <Resource Include="Resources\levels\level_10.jpg" />
-    <Resource Include="Resources\levels\level_11.jpg" />
-    <Resource Include="Resources\levels\level_12.jpg" />
-    <Resource Include="Resources\levels\level_13.jpg" />
-    <Resource Include="Resources\levels\level_2.jpg" />
-    <Resource Include="Resources\levels\level_3.jpg" />
-    <Resource Include="Resources\levels\level_4.jpg" />
-    <Resource Include="Resources\levels\level_5.jpg" />
-    <Resource Include="Resources\levels\level_6.jpg" />
-    <Resource Include="Resources\levels\level_7.jpg" />
-    <Resource Include="Resources\levels\level_8.jpg" />
-    <Resource Include="Resources\levels\level_9.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\icons\ANNI_TEXT.png" />
     <Resource Include="Resources\icons\ANNI_THING.png" />
     <Resource Include="Resources\icons\BABA_TEXT.png" />
