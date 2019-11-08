@@ -39,28 +39,28 @@ namespace BabaIsYou.Model
             {
                 public TextBaba()
                 {
-                    imgsrc = "/Resources/icons/BABA_TEXT.jpg";
+                    imgsrc = "/Resources/icons/BABA_TEXT.png";
                 }
             }
             public class TextRock : ThingText
             {
                 public TextRock()
                 {
-                    imgsrc = "/Resources/icons/ROCK_TEXT.jpg";
+                    imgsrc = "/Resources/icons/ROCK_TEXT.png";
                 }
             }
             public class TextFlag : ThingText
             {
                 public TextFlag()
                 {
-                    imgsrc = "/Resources/icons/FLAG_TEXT.jpg";
+                    imgsrc = "/Resources/icons/FLAG_TEXT.png";
                 }
             }
             public class TextWall : ThingText
             {
                 public TextWall()
                 {
-                    imgsrc = "/Resources/icons/WALL_TEXT.jpg";
+                    imgsrc = "/Resources/icons/WALL_TEXT.png";
                 }
             }
         }
@@ -82,35 +82,35 @@ namespace BabaIsYou.Model
             {
                 public TextIs()
                 {
-                    imgsrc = "/Resources/icons/IS_TEXT.jpg";
+                    imgsrc = "/Resources/icons/IS_TEXT.png";
                 }
             }
             public class TextYou : SpecialText
             {
                 public TextYou()
                 {
-                    imgsrc = "/Resources/icons/YOU_TEXT.jpg";
+                    imgsrc = "/Resources/icons/YOU_TEXT.png";
                 }
             }
             public class TextWin : SpecialText
             {
                 public TextWin()
                 {
-                    imgsrc = "/Resources/icons/WIN_TEXT.jpg";
+                    imgsrc = "/Resources/icons/WIN_TEXT.png";
                 }
             }
             public class TextPush : SpecialText
             {
                 public TextPush()
                 {
-                    imgsrc = "/Resources/icons/PUSH_TEXT.jpg";
+                    imgsrc = "/Resources/icons/PUSH_TEXT.png";
                 }
             }
             public class TextStop : SpecialText
             {
                 public TextStop()
                 {
-                    imgsrc = "/Resources/icons/STOP_TEXT.jpg";
+                    imgsrc = "/Resources/icons/STOP_TEXT.png";
                 }
             }
 
@@ -132,28 +132,28 @@ namespace BabaIsYou.Model
             {
                 public Baba()
                 {
-                    imgsrc = "/Resources/icons/BABA_THING.jpg";
+                    imgsrc = "/Resources/icons/BABA_THING.png";
                 }
             }
             public class Rock : Thing
             {
                 public Rock()
                 {
-                    imgsrc = "/Resources/icons/ROCK_THING.jpg";
+                    imgsrc = "/Resources/icons/ROCK_THING.png";
                 }
             }
             public class Flag : Thing
             {
                 public Flag()
                 {
-                    imgsrc = "/Resources/icons/FLAG_THING.jpg";
+                    imgsrc = "/Resources/icons/FLAG_THING.png";
                 }
             }
             public class Wall : Thing
             {
                 public Wall()
                 {
-                    imgsrc = "/Resources/icons/WALL_THING.jpg";
+                    imgsrc = "/Resources/icons/WALL_THING.png";
                 }
             }
 
@@ -161,7 +161,7 @@ namespace BabaIsYou.Model
             {
                 public Grass()
                 {
-                    imgsrc = "/Resources/icons/GRASS_THING.jpg";
+                    imgsrc = "/Resources/icons/GRASS_THING.png";
                 }
             }
 
@@ -169,7 +169,7 @@ namespace BabaIsYou.Model
             {
                 public FakeWall()
                 {
-                    imgsrc = "/Resources/icons/FAKEWALL_THING.jpg";
+                    imgsrc = "/Resources/icons/FAKEWALL_THING.png";
                 }
             }
         }
