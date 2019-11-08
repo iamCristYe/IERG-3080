@@ -38,7 +38,7 @@ namespace BabaIsYou
         }
         private void DrawGameArea(Map map)
         {
-            //GameArea.Children.Clear();
+            GameArea.Children.Clear();
 
 
             Dictionary<Tuple<int, int>, List<Model.Block>> dict = map.PointBlockPairs;

@@ -190,16 +190,19 @@ namespace BabaIsYou.Controller
                             //other block at this point should not change this result
                             break;
                         }
-                        //if some block is push, whether it can move depend on its left neighbor
-                        else if (Column > 0 && CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
+                        //if some block is push, whether it can move depend on its left neighbor or if it's on left most column
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
                         {
-                            if (CanMove[(Column - 1, Row)] == false)
+                            if (Column == 0)
+                            {
+                                CanMove[(Column, Row)] = false;
+                            }
+                            else if (CanMove[(Column - 1, Row)] == false)
                             {
                                 CanMove[(Column, Row)] = false;
                             }
                         }
                     }
-
                 }
             }
 
@@ -275,10 +278,14 @@ namespace BabaIsYou.Controller
                             //other block at this point should not change this result
                             break;
                         }
-                        //if some block is push, whether it can move depend on its right neighbor
-                        else if (Column < CurrentLevel.MapWidth - 1 && CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
+                        //if some block is push, whether it can move depend on its right neighbor or it's at right most column
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
                         {
-                            if (CanMove[(Column + 1, Row)] == false)
+                            if (Column == CurrentLevel.MapWidth - 1)
+                            {
+                                CanMove[(Column, Row)] = false;
+                            }
+                            else if (CanMove[(Column + 1, Row)] == false)
                             {
                                 CanMove[(Column, Row)] = false;
                             }
@@ -360,10 +367,14 @@ namespace BabaIsYou.Controller
                             //other block at this point should not change this result
                             break;
                         }
-                        //if some block is push, whether it can move depend on its up neighbor
-                        else if (Row > 0 && CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
+                        //if some block is push, whether it can move depend on its up neighbor or it's at top row
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
                         {
-                            if (CanMove[(Column, Row - 1)] == false)
+                            if (Row == 0)
+                            {
+                                CanMove[(Column, Row)] = false;
+                            }
+                            else if (CanMove[(Column, Row - 1)] == false)
                             {
                                 CanMove[(Column, Row)] = false;
                             }
@@ -445,10 +456,14 @@ namespace BabaIsYou.Controller
                             //other block at this point should not change this result
                             break;
                         }
-                        //if some block is push, whether it can move depend on its down neighbor
-                        else if (Row < CurrentLevel.MapHeight - 1 && CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
+                        //if some block is push, whether it can move depend on its down neighbor or it's at down most row
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].IsPush)
                         {
-                            if (CanMove[(Column, Row + 1)] == false)
+                            if (Row == CurrentLevel.MapHeight - 1)
+                            {
+                                CanMove[(Column, Row)] = false;
+                            }
+                            else if (CanMove[(Column, Row + 1)] == false)
                             {
                                 CanMove[(Column, Row)] = false;
                             }
