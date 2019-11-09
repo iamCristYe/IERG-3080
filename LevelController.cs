@@ -619,6 +619,10 @@ namespace BabaIsYou.Controller
         private void ChangeThingAToThingB(string ThingA, string ThingB)
         {
             MessageBox.Show("to be completed");
+
+            //remember first change thinga to thing b then apply properties need to fix this in update rules
+
+
             Map NewMap = new Map();
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -661,8 +665,13 @@ namespace BabaIsYou.Controller
                             Trace.WriteLine(Property);
                             //https://stackoverflow.com/questions/619767/set-object-property-using-reflection/619778
 
-                            //change TextStop to IsStop  //textis will be isis  need to fix this
-                            block.GetType().GetProperty(Property.Replace("Text", "Is")).SetValue(block, true, null);//why need null?
+                            //change TextStop to IsStop  
+                            var prop = block.GetType().GetProperty(Property.Replace("Text", "Is"));
+                            //textis will be isis so need to check if prop exists
+                            if (prop != null)
+                            {
+                                prop.SetValue(block, true, null);//why need null?
+                            }
                         }
                     }
                 }
