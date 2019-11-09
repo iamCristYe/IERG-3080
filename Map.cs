@@ -8,6 +8,6 @@ namespace BabaIsYou.Model
 {
     class Map
     {
-        public Dictionary<Tuple<int, int>, List<Block>> PointBlockPairs = new Dictionary<Tuple<int, int>, List<Block>>();     //For usage of tuple, refer to https://www.tutorialsteacher.com/csharp/valuetuple
+        public Dictionary<(int, int), List<Block>> PointBlockPairs = new Dictionary<(int, int), List<Block>>();     //For usage of tuple, refer to https://www.tutorialsteacher.com/csharp/valuetuple
     }
 }

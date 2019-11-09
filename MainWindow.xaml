@@ -8,7 +8,7 @@
         Title="Baba Is You" 
         SizeToContent="WidthAndHeight" 
         KeyDown="Window_KeyDown"
-        ContentRendered="Window_ContentRendered"
+        ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen"
         >
     <Canvas Name="GameArea" ClipToBounds="True" Height="400" Width="400">
         

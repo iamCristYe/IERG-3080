@@ -41,7 +41,7 @@ namespace BabaIsYou
             GameArea.Children.Clear();
 
 
-            Dictionary<Tuple<int, int>, List<Model.Block>> dict = map.PointBlockPairs;
+            Dictionary<(int, int), List<Model.Block>> dict = map.PointBlockPairs;
 
 
             bool doneDrawingBackground = false;
@@ -77,7 +77,7 @@ namespace BabaIsYou
 
 
             // foreach (Block b in blocks)
-            foreach (KeyValuePair<Tuple<int, int>, List<Model.Block>> pair in dict)
+            foreach (KeyValuePair<(int, int), List<Model.Block>> pair in dict)
             {
                 // for each block in the list
                 foreach (Model.Block block in pair.Value)
