@@ -476,7 +476,7 @@ namespace BabaIsYou.Controller
             //modify should move and move blocks
             for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
             {
-                for (int Row = 0; Row < CurrentLevel.MapWidth - 1; Row++) //don't need to check downmost column, loop from up to down
+                for (int Row = 0; Row < CurrentLevel.MapHeight - 1; Row++) //don't need to check downmost column, loop from up to down
                 {
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
