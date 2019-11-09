@@ -33,7 +33,7 @@ namespace BabaIsYou
         private void Window_ContentRendered(object sender, EventArgs e)
         {
 
-            CurrentLevelController.loadGame();
+            CurrentLevelController.LoadGame();
             DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
         }
         private void DrawGameArea(Map map)

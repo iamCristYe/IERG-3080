@@ -19,7 +19,7 @@ namespace BabaIsYou.Controller
             CurrentLevel = new Model.Level(levelNumber);
         }
 
-        public void loadGame()
+        public void LoadGame()
         {
             //load blocks from data into CurrentMap
             //... 
@@ -30,7 +30,7 @@ namespace BabaIsYou.Controller
             CurrentLevel.MapHeight = 20;
             CurrentLevel.MapWidth = 20;
 
-
+            
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
@@ -529,41 +529,30 @@ namespace BabaIsYou.Controller
                     }
                 }
             }
-            //find new rules and apply them
-            //find rules in same row
+            //find Thing A is Thing B in same row
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 //find is in [1,CurrentLevel.CurrentMap.MapWidth-2]
                 for (int Column = 1; Column < CurrentLevel.MapWidth - 1; Column++)
                 {
-                    //must have three words to form a sentence
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column - 1, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column + 1, Row)))
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
+                        //is found
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
                         {
-                            //is found
-                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
+                            for (int j = 0; j < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)].Count; j++)
                             {
-                                for (int j = 0; j < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)].Count; j++)
+                                //left side must be a ThingText
+                                if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j] is Block.ThingText)
                                 {
-                                    //left side must be a ThingText
-                                    if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j] is Block.ThingText)
+                                    for (int k = 0; k < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)].Count; k++)
                                     {
-                                        for (int k = 0; k < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)].Count; k++)
+                                        //both left side and right side are ThingText
+                                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.ThingText)
                                         {
-                                            //both left side and right side are ThingText
-                                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.ThingText)
-                                            {
-                                                //change onething to another
-                                                //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
-                                                ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
-                                            }
-                                            //left is thingtext right in proptext
-                                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.SpecialText)
-                                            {
-                                                //change properties of certain blocks
-                                                ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
-                                            }
+                                            //change onething to another
+                                            //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
+                                            ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
                                         }
                                     }
                                 }
@@ -572,40 +561,30 @@ namespace BabaIsYou.Controller
                     }
                 }
             }
-            //find rules in same column
+            //find Thing A is Thing B in same column
             for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
             {
                 //find is in [1,CurrentLevel.CurrentMap.MapHeight-2]
                 for (int Row = 1; Row < CurrentLevel.MapHeight - 1; Row++)
                 {
-                    //must have three words to form a sentence
-                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row - 1)) && CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey(Tuple.Create(Column, Row + 1)))
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
+                        //is found
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
                         {
-                            //is found
-                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
+                            for (int j = 0; j < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)].Count; j++)
                             {
-                                for (int j = 0; j < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)].Count; j++)
+                                //up side must be a ThingText
+                                if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)][j] is Block.ThingText)
                                 {
-                                    //up side must be a ThingText
-                                    if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)][j] is Block.ThingText)
+                                    for (int k = 0; k < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)].Count; k++)
                                     {
-                                        for (int k = 0; k < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)].Count; k++)
+                                        //both up side and down side are ThingText
+                                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k] is Block.ThingText)
                                         {
-                                            //both up side and down side are ThingText
-                                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k] is Block.ThingText)
-                                            {
-                                                //change onething to another
-                                                //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
-                                                ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k].GetType().Name);
-                                            }
-                                            //up is thingtext down in proptext
-                                            if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k] is Block.SpecialText)
-                                            {
-                                                //change properties of certain blocks
-                                                ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k].GetType().Name);
-                                            }
+                                            //change onething to another
+                                            //will this affect the outside for loop? probably not? as the order of the blocks doesn't change? but ChangeThingAToThingB creates a new Map?
+                                            ChangeThingAToThingB(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k].GetType().Name);
                                         }
                                     }
                                 }
@@ -614,15 +593,72 @@ namespace BabaIsYou.Controller
                     }
                 }
             }
+            //find Thing A is some property in same row
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                //find is in [1,CurrentLevel.CurrentMap.MapWidth-2]
+                for (int Column = 1; Column < CurrentLevel.MapWidth - 1; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
+                    {
+                        //is found
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
+                        {
+                            for (int j = 0; j < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)].Count; j++)
+                            {
+                                //left side must be a ThingText
+                                if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j] is Block.ThingText)
+                                {
+                                    for (int k = 0; k < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)].Count; k++)
+                                    {
+                                        //left is thingtext right in proptext
+                                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k] is Block.SpecialText)
+                                        {
+                                            //change properties of certain blocks
+                                            ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column - 1, Row)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column + 1, Row)][k].GetType().Name);
+                                        }
+                                    }
+                                }
 
+                            }
+                        }
+                    }
+                }
+            }
+            //find Thing A is some property in same column
+            for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+            {
+                //find is in [1,CurrentLevel.CurrentMap.MapHeight-2]
+                for (int Row = 1; Row < CurrentLevel.MapHeight - 1; Row++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
+                    {
+                        //is found
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i] is Block.SpecialText.TextIs)
+                        {
+                            for (int j = 0; j < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)].Count; j++)
+                            {
+                                //up side must be a ThingText
+                                if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)][j] is Block.ThingText)
+                                {
+                                    for (int k = 0; k < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)].Count; k++)
+                                    {
+                                        //up is thingtext down in proptext
+                                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k] is Block.SpecialText)
+                                        {
+                                            //change properties of certain blocks
+                                            ChangeThingProperty(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row - 1)][j].GetType().Name, CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row + 1)][k].GetType().Name);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         private void ChangeThingAToThingB(string ThingA, string ThingB)
         {
-            MessageBox.Show("to be completed");
-
-            //remember first change thinga to thing b then apply properties need to fix this in update rules
-
-
             Map NewMap = new Map();
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -638,17 +674,22 @@ namespace BabaIsYou.Controller
                 {
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)].Count; i++)
                     {
-                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].GetType().Name == ThingA)//wait! one is RockThing,one is RockText,need to figure this out
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i].GetType().Name == ThingA.Replace("Text", ""))
                         {
-                            MessageBox.Show("to be completed");
                             //https://docs.microsoft.com/en-us/dotnet/api/system.activator.createinstance?view=netframework-4.8
-                            //NewMap.PointBlockPairs[(Column, Row)].Add(new ThingB);
+                            //hard-coding is not very nice
+                            //should be fixed in future
+                            Block newblk = (BabaIsYou.Model.Block)System.Reflection.Assembly.GetExecutingAssembly().CreateInstance("BabaIsYou.Model.Block+Thing+" + ThingB.Replace("Text", ""));
+                            NewMap.PointBlockPairs[Tuple.Create(Column, Row)].Add(newblk);
+                        }
+                        else
+                        {
+                            NewMap.PointBlockPairs[Tuple.Create(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[Tuple.Create(Column, Row)][i]);
                         }
                     }
                 }
             }
-
-
+            CurrentLevel.CurrentMap = NewMap;
         }
         private void ChangeThingProperty(string ThingText, string Property)
         {
@@ -662,7 +703,7 @@ namespace BabaIsYou.Controller
 
                         if (block.GetType().Name == ThingText.Replace("Text", ""))//change TextRock to Rock
                         {
-                            Trace.WriteLine(Property);
+                            //Trace.WriteLine(Property);
                             //https://stackoverflow.com/questions/619767/set-object-property-using-reflection/619778
 
                             //change TextStop to IsStop  
