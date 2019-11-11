@@ -163,6 +163,16 @@ namespace BabaIsYou.Model
                 {
                     imgsrc = "/Resources/icons/GRASS_THING.png";
                 }
+                public override void ReturnToDefault()
+                {
+                    IsWin = false;
+                    IsYou = false;
+                    IsSink = false;
+                    IsKill = false;
+                    IsMove = false;
+                    IsPush = false;
+                    IsStop = true;
+                }
             }
 
             public class FakeWall : Thing
