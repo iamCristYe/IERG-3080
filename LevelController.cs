@@ -40,8 +40,8 @@ namespace BabaIsYou.Controller
 
             // GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel);
             // GetLevelDictionary.GetLevelOneDictionary(CurrentLevel);
-            // GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel);
-            GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel);
+            GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel);
+            // GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel);
 
             UpdateRules();//Update rules at the beginning
             AddToHistory();

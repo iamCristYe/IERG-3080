@@ -27,6 +27,7 @@ namespace BabaIsYou
         LevelController CurrentLevelController = new LevelController(1);
         public MainWindow()
         {
+            this.Background = Brushes.Black;
             //InitializeComponent();
         }
 
@@ -40,43 +41,8 @@ namespace BabaIsYou
         {
             GameArea.Children.Clear();
 
-
             Dictionary<(int, int), List<Model.Block>> dict = map.PointBlockPairs;
 
-
-            bool doneDrawingBackground = false;
-            int nextX = 0, nextY = 0;
-            int rowCounter = 0;
-            bool nextIsOdd = false;
-
-            while (doneDrawingBackground == false)
-            {
-                Rectangle rect = new Rectangle
-                {
-                    Width = SquareSize,
-                    Height = SquareSize,
-                    Fill = Brushes.Black
-                };
-                GameArea.Children.Add(rect);
-                Canvas.SetTop(rect, nextY);
-                Canvas.SetLeft(rect, nextX);
-
-                nextIsOdd = !nextIsOdd;
-                nextX += SquareSize;
-                if (nextX >= GameArea.ActualWidth)
-                {
-                    nextX = 0;
-                    nextY += SquareSize;
-                    rowCounter++;
-                    nextIsOdd = (rowCounter % 2 != 0);
-                }
-
-                if (nextY >= GameArea.ActualHeight)
-                    doneDrawingBackground = true;
-            }
-
-
-            // foreach (Block b in blocks)
             foreach (KeyValuePair<(int, int), List<Model.Block>> pair in dict)
             {
                 // for each block in the list
@@ -86,14 +52,9 @@ namespace BabaIsYou
                     GameArea.Children.Add(image);
                     Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
                     Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
-                    // Debug.WriteLine("x: {0}, y: {1}", b.Start_X, b.Start_Y);
                 }
 
             }
-
-            // list of objects (blocks?) (instantiate all of them, each needs their own reference)
-            // each will have their own cooridnate??
-
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
