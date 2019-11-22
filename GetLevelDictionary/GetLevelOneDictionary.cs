@@ -84,5 +84,5 @@ partial class GetLevelDictionary
 
         // stop text
         SafeDictionary.Add(dict, (8, 15), new List<Block> { new Block.SpecialText.TextStop() });
-
+    }
 }

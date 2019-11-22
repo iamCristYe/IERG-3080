@@ -10,26 +10,30 @@ partial class GetLevelDictionary
         GetGrassBorder.AddGrass(dict);
 
         // wall thing
-        for (int i = 8; i < 16; i += 1)
+        for (int i = 11; i < 16; i += 1)
         {
             SafeDictionary.Add(dict, (i, 4), new List<Block> { new Block.Thing.Wall() });
         }
 
         for (int i = 5; i < 8; i += 1)
         {
-            SafeDictionary.Add(dict, (8, i), new List<Block> { new Block.Thing.Wall() });
-        }
-
-        for (int i = 5; i < 12; i += 1)
-        {
+            SafeDictionary.Add(dict, (11, i), new List<Block> { new Block.Thing.Wall() });
             SafeDictionary.Add(dict, (15, i), new List<Block> { new Block.Thing.Wall() });
         }
 
-        for (int i = 4; i < 8; i += 1)
+        for (int i = 5; i < 16; i += 1)
         {
-            SafeDictionary.Add(dict, (i, 7), new List<Block> { new Block.Thing.Wall() });
+            SafeDictionary.Add(dict, (i, 8), new List<Block> { new Block.Thing.Wall() });
+            SafeDictionary.Add(dict, (i, 16), new List<Block> { new Block.Thing.Wall() });
         }
 
+        for (int i = 9; i < 16; i += 1)
+        {
+            SafeDictionary.Add(dict, (5, i), new List<Block> { new Block.Thing.Wall() });
+            SafeDictionary.Add(dict, (15, i), new List<Block> { new Block.Thing.Wall() });
+        }
+
+        /*
         for (int i = 4; i < 15; i += 1)
         {
             SafeDictionary.Add(dict, (i, 11), new List<Block> { new Block.Thing.Wall() });
@@ -84,5 +88,6 @@ partial class GetLevelDictionary
 
         // stop text
         SafeDictionary.Add(dict, (8, 15), new List<Block> { new Block.SpecialText.TextStop() });
-
+        */
+    }
 }
