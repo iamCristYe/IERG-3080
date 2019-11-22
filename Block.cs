@@ -71,6 +71,15 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/BEST_TEXT.png";
                 }
             }
+
+            public class TextGoop : ThingText
+            {
+                public TextGoop()
+                {
+                    imgsrc = "/Resources/icons/GOOP_TEXT.png";
+                }
+            }
+
         }
 
         public class SpecialText : Block
@@ -119,6 +128,14 @@ namespace BabaIsYou.Model
                 public TextStop()
                 {
                     imgsrc = "/Resources/icons/STOP_TEXT.png";
+                }
+            }
+
+            public class TextSink : ThingText
+            {
+                public TextSink()
+                {
+                    imgsrc = "/Resources/icons/SINK_TEXT.png";
                 }
             }
 
@@ -188,6 +205,14 @@ namespace BabaIsYou.Model
                 public FakeWall()
                 {
                     imgsrc = "/Resources/icons/FAKEWALL_THING.png";
+                }
+            }
+
+            public class Goop : Thing
+            {
+                public Goop()
+                {
+                    imgsrc = "/Resources/icons/GOOP_THING.png";
                 }
             }
         }

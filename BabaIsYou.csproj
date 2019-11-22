@@ -67,6 +67,7 @@
     <Compile Include="GetLevelDictionary\GetGrassBorder.cs" />
     <Compile Include="GetLevelDictionary\GetLevelTwoDictionary.cs" />
     <Compile Include="GetLevelDictionary\GetLevelOneDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelThreeDictionary.cs" />
     <Compile Include="GetLevelDictionary\GetLevelZeroDictionary.cs" />
     <Compile Include="GetLevelDictionary\SafeAddDictionary.cs" />
     <Compile Include="Level.cs" />
@@ -140,7 +141,7 @@
     <Resource Include="Resources\icons\STOP_TEXT.png" />
     <Resource Include="Resources\icons\WALL_TEXT.png" />
     <Resource Include="Resources\icons\WALL_THING.png" />
-    <Resource Include="Resources\icons\WATER_THING.png" />
+    <Resource Include="Resources\icons\GOOP_THING.png" />
     <Resource Include="Resources\icons\WIN_TEXT.png" />
     <Resource Include="Resources\icons\YOU_TEXT.png" />
   </ItemGroup>
