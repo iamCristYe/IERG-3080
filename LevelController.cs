@@ -38,7 +38,9 @@ namespace BabaIsYou.Controller
                 }
             }
 
-            GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel);
+            // GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel);
+            // GetLevelDictionary.GetLevelOneDictionary(CurrentLevel);
+            GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel);
 
             UpdateRules();//Update rules at the beginning
             AddToHistory();

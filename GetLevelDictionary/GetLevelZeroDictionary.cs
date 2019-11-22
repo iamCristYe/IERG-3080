@@ -1,7 +1,7 @@
 using BabaIsYou.Model;
 using System.Collections.Generic;
 
-class GetLevelDictionary
+partial class GetLevelDictionary
 {
     public static void GetLevelZeroDictionary(Level currentLevel)
     {
