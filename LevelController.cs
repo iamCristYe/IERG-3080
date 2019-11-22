@@ -40,8 +40,8 @@ namespace BabaIsYou.Controller
 
             // GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel);
             // GetLevelDictionary.GetLevelOneDictionary(CurrentLevel);
-            GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel);
-            // GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel);
+            // GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel);
+            GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel);
 
             UpdateRules();//Update rules at the beginning
             AddToHistory();
@@ -637,7 +637,7 @@ namespace BabaIsYou.Controller
                         {
                             if (SinkBlock.IsSink == true) ContainsSinkBlock = true;
                         }
-                        if (ContainsSinkBlock)//remove all blocks
+                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)//remove all blocks when there's block other than sink block
                         {
                             CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = new List<Block>();
                         }

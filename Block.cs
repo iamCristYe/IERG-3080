@@ -131,7 +131,7 @@ namespace BabaIsYou.Model
                 }
             }
 
-            public class TextSink : ThingText
+            public class TextSink : SpecialText
             {
                 public TextSink()
                 {

@@ -81,7 +81,7 @@ partial class GetLevelDictionary
         // fake wall thing
         for (int i = 4; i < 9; i += 1)
         {
-            for (int j = 7; j < 13; i += 1)
+            for (int j = 7; j < 13; j += 1)
             {
                 if (i == 5)
                 {
@@ -103,8 +103,8 @@ partial class GetLevelDictionary
                 }
             }
         }
-        
-        /*
+
+
         // rock text
         SafeDictionary.Add(dict, (9, 5), new List<Block> { new Block.ThingText.TextRock() });
 
@@ -132,7 +132,7 @@ partial class GetLevelDictionary
         // goop thing (bottom left)
         for (int i = 13; i < 16; i += 1)
         {
-            for (int j = 4; j < 7; i += 1)
+            for (int j = 4; j < 7; j += 1)
             {
                 if (i != 15 || j != 4)
                 {
@@ -152,6 +152,6 @@ partial class GetLevelDictionary
 
         // win text
         SafeDictionary.Add(dict, (14, 14), new List<Block> { new Block.SpecialText.TextWin() });
-        */
+
     }
 }
