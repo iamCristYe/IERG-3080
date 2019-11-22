@@ -55,92 +55,97 @@ namespace BabaIsYou.Controller
                 }
             }
 
-            Dictionary<(int, int), List<Model.Block>> dict = CurrentLevel.CurrentMap.PointBlockPairs;
+            void GetLevelZeroDictionary(Model.Level currentLevel) {
+                Dictionary<(int, int), List<Model.Block>> dict = currentLevel.CurrentMap.PointBlockPairs;
 
-            // vertical columns of grass (left most and right most column)
-            for (int i = 0; i < 20; i += 1)
-            {
-                SafeAddDictionary(dict, (0, i), new List<Model.Block> { new Model.Block.Thing.Grass() });
-                SafeAddDictionary(dict, (19, i), new List<Model.Block> { new Model.Block.Thing.Grass() });
-            }
-
-            // horizontal row of grass (top most and bottom most row)
-            for (int i = 0; i < 20; i += 1)
-            {
-                SafeAddDictionary(dict, (i, 0), new List<Model.Block> { new Model.Block.Thing.Grass() });
-                SafeAddDictionary(dict, (i, 19), new List<Model.Block> { new Model.Block.Thing.Grass() });
-            }
-
-            // wall text
-            SafeAddDictionary(dict, (5, 3), new List<Model.Block> { new Model.Block.ThingText.TextWall() });
-
-            // is text
-            SafeAddDictionary(dict, (6, 3), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
-
-            // stop text
-            SafeAddDictionary(dict, (7, 3), new List<Model.Block> { new Model.Block.SpecialText.TextStop() });
-
-            // rock text
-            SafeAddDictionary(dict, (12, 3), new List<Model.Block> { new Model.Block.ThingText.TextRock() });
-
-            // is text
-            SafeAddDictionary(dict, (13, 3), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
-
-            // push text
-            SafeAddDictionary(dict, (14, 3), new List<Model.Block> { new Model.Block.SpecialText.TextPush() });
-
-            // wall thing (a long series of wall)
-            for (int i = 4; i < 15; i += 1)
-            {
-                SafeAddDictionary(dict, (i, 5), new List<Model.Block> { new Model.Block.Thing.Wall() });
-                SafeAddDictionary(dict, (i, 9), new List<Model.Block> { new Model.Block.Thing.Wall() });
-            }
-
-            // fake wall thing
-            for (int i = 4; i < 15; i += 1)
-            {
-                SafeAddDictionary(dict, (i, 6), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
-                if (i != 6 && i != 13)
+                // vertical columns of grass (left most and right most column)
+                for (int i = 0; i < 20; i += 1)
                 {
-                    SafeAddDictionary(dict, (i, 7), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                    SafeAddDictionary(dict, (0, i), new List<Model.Block> { new Model.Block.Thing.Grass() });
+                    SafeAddDictionary(dict, (19, i), new List<Model.Block> { new Model.Block.Thing.Grass() });
                 }
-                SafeAddDictionary(dict, (i, 8), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+
+                // horizontal row of grass (top most and bottom most row)
+                for (int i = 0; i < 20; i += 1)
+                {
+                    SafeAddDictionary(dict, (i, 0), new List<Model.Block> { new Model.Block.Thing.Grass() });
+                    SafeAddDictionary(dict, (i, 19), new List<Model.Block> { new Model.Block.Thing.Grass() });
+                }
+
+                // wall text
+                SafeAddDictionary(dict, (5, 3), new List<Model.Block> { new Model.Block.ThingText.TextWall() });
+
+                // is text
+                SafeAddDictionary(dict, (6, 3), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
+
+                // stop text
+                SafeAddDictionary(dict, (7, 3), new List<Model.Block> { new Model.Block.SpecialText.TextStop() });
+
+                // rock text
+                SafeAddDictionary(dict, (12, 3), new List<Model.Block> { new Model.Block.ThingText.TextRock() });
+
+                // is text
+                SafeAddDictionary(dict, (13, 3), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
+
+                // push text
+                SafeAddDictionary(dict, (14, 3), new List<Model.Block> { new Model.Block.SpecialText.TextPush() });
+
+                // wall thing (a long series of wall)
+                for (int i = 4; i < 15; i += 1)
+                {
+                    SafeAddDictionary(dict, (i, 5), new List<Model.Block> { new Model.Block.Thing.Wall() });
+                    SafeAddDictionary(dict, (i, 9), new List<Model.Block> { new Model.Block.Thing.Wall() });
+                }
+
+                // fake wall thing
+                for (int i = 4; i < 15; i += 1)
+                {
+                    SafeAddDictionary(dict, (i, 6), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                    if (i != 6 && i != 13)
+                    {
+                        SafeAddDictionary(dict, (i, 7), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                    }
+                    SafeAddDictionary(dict, (i, 8), new List<Model.Block> { new Model.Block.Thing.FakeWall() });
+                }
+
+                // baba thing
+                SafeAddDictionary(dict, (6, 7), new List<Model.Block> { new Model.Block.Thing.Baba() });
+
+                // flag thing
+                SafeAddDictionary(dict, (13, 7), new List<Model.Block> { new Model.Block.Thing.Flag() });
+
+                // rock thing
+                for (int i = 6; i < 9; i += 1)
+                {
+                    SafeAddDictionary(dict, (9, i), new List<Model.Block> { new Model.Block.Thing.Rock() });
+                }
+
+                // baba text
+                SafeAddDictionary(dict, (5, 11), new List<Model.Block> { new Model.Block.ThingText.TextBaba() });
+
+                // is text
+                SafeAddDictionary(dict, (6, 11), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
+
+                // you text
+                SafeAddDictionary(dict, (7, 11), new List<Model.Block> { new Model.Block.SpecialText.TextYou() });
+
+                // flag text
+                SafeAddDictionary(dict, (12, 11), new List<Model.Block> { new Model.Block.ThingText.TextFlag() });
+
+                // is text
+                SafeAddDictionary(dict, (13, 11), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
+
+                // win text
+                SafeAddDictionary(dict, (14, 11), new List<Model.Block> { new Model.Block.SpecialText.TextWin() });
+            
+                return dict;
             }
 
-            // baba thing
-            SafeAddDictionary(dict, (6, 7), new List<Model.Block> { new Model.Block.Thing.Baba() });
-
-            // flag thing
-            SafeAddDictionary(dict, (13, 7), new List<Model.Block> { new Model.Block.Thing.Flag() });
-
-            // rock thing
-            for (int i = 6; i < 9; i += 1)
-            {
-                SafeAddDictionary(dict, (9, i), new List<Model.Block> { new Model.Block.Thing.Rock() });
-            }
-
-            // baba text
-            SafeAddDictionary(dict, (5, 11), new List<Model.Block> { new Model.Block.ThingText.TextBaba() });
-
-            // is text
-            SafeAddDictionary(dict, (6, 11), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
-
-            // you text
-            SafeAddDictionary(dict, (7, 11), new List<Model.Block> { new Model.Block.SpecialText.TextYou() });
-
-            // flag text
-            SafeAddDictionary(dict, (12, 11), new List<Model.Block> { new Model.Block.ThingText.TextFlag() });
-
-            // is text
-            SafeAddDictionary(dict, (13, 11), new List<Model.Block> { new Model.Block.SpecialText.TextIs() });
-
-            // win text
-            SafeAddDictionary(dict, (14, 11), new List<Model.Block> { new Model.Block.SpecialText.TextWin() });
+            GetLevelZeroDictionary(CurrentLevel);
 
             UpdateRules();//Update rules at the beginning
             AddToHistory();
         }
-
         public void ArrowKeyDown(string direction)
         {
             switch (direction)//Move blocks accroding to keydown
