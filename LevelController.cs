@@ -138,7 +138,6 @@ namespace BabaIsYou.Controller
                 // win text
                 SafeAddDictionary(dict, (14, 11), new List<Model.Block> { new Model.Block.SpecialText.TextWin() });
             
-                return dict;
             }
 
             GetLevelZeroDictionary(CurrentLevel);
