@@ -45,6 +45,19 @@ partial class GetLevelDictionary
             }
         }
 
+        // best text
+        SafeDictionary.Add(dict, (3, 3), new List<Block> { new Block.ThingText.TextBest() });
+
+        // flag text
+        SafeDictionary.Add(dict, (12, 3), new List<Block> { new Block.ThingText.TextFlag() });
+
+        // is text
+        SafeDictionary.Add(dict, (13, 3), new List<Block> { new Block.SpecialText.TextIs() });
+
+        // win text
+        SafeDictionary.Add(dict, (14, 3), new List<Block> { new Block.SpecialText.TextWin() });
+
+
         // flag thing
         SafeDictionary.Add(dict, (13, 6), new List<Block> { new Block.Thing.Flag() });
 
@@ -69,17 +82,5 @@ partial class GetLevelDictionary
         // you text
         SafeDictionary.Add(dict, (8, 17), new List<Block> { new Block.SpecialText.TextYou() });
 
-        /*
-
-        // flag text
-        SafeDictionary.Add(dict, (6, 9), new List<Block> { new Block.ThingText.TextFlag() });
-
-        // is text
-        SafeDictionary.Add(dict, (10, 6), new List<Block> { new Block.SpecialText.TextIs() });
-
-        // win text
-        SafeDictionary.Add(dict, (13, 7), new List<Block> { new Block.SpecialText.TextWin() });
-
-        */
     }
 }
