@@ -33,28 +33,43 @@ partial class GetLevelDictionary
             SafeDictionary.Add(dict, (15, i), new List<Block> { new Block.Thing.Wall() });
         }
 
-        /*
-        for (int i = 4; i < 15; i += 1)
-        {
-            SafeDictionary.Add(dict, (i, 11), new List<Block> { new Block.Thing.Wall() });
-        }
-
-        for (int i = 8; i < 11; i += 1)
-        {
-            SafeDictionary.Add(dict, (4, i), new List<Block> { new Block.Thing.Wall() });
-        }
-
         // fake wall thing
-        for (int i = 8; i < 11; i += 1)
+        for (int i = 5; i < 8; i += 1)
         {
-            for (int j = 5; j < 9; j += 1)
+            for (int j = 12; j < 15; j += 1)
             {
-                if (i != 9 || j != 6)
+                if (i != 6 || j != 13)
                 {
                     SafeDictionary.Add(dict, (j, i), new List<Block> { new Block.Thing.FakeWall() });
                 }
             }
         }
+
+        // flag thing
+        SafeDictionary.Add(dict, (13, 6), new List<Block> { new Block.Thing.Flag() });
+
+        // wall text
+        SafeDictionary.Add(dict, (7, 10), new List<Block> { new Block.ThingText.TextWall() });
+
+        // is text
+        SafeDictionary.Add(dict, (8, 10), new List<Block> { new Block.SpecialText.TextIs() });
+
+        // stop text
+        SafeDictionary.Add(dict, (9, 10), new List<Block> { new Block.SpecialText.TextStop() });
+
+        // baba thing
+        SafeDictionary.Add(dict, (7, 13), new List<Block> { new Block.Thing.Baba() });
+
+        // baba text
+        SafeDictionary.Add(dict, (6, 17), new List<Block> { new Block.ThingText.TextBaba() });
+
+        // is text
+        SafeDictionary.Add(dict, (7, 17), new List<Block> { new Block.SpecialText.TextIs() });
+
+        // you text
+        SafeDictionary.Add(dict, (8, 17), new List<Block> { new Block.SpecialText.TextYou() });
+
+        /*
 
         // flag text
         SafeDictionary.Add(dict, (6, 9), new List<Block> { new Block.ThingText.TextFlag() });
@@ -65,29 +80,6 @@ partial class GetLevelDictionary
         // win text
         SafeDictionary.Add(dict, (13, 7), new List<Block> { new Block.SpecialText.TextWin() });
 
-        // flag thing
-        SafeDictionary.Add(dict, (10, 9), new List<Block> { new Block.Thing.Flag() });
-
-        // baba thing
-        SafeDictionary.Add(dict, (13, 9), new List<Block> { new Block.Thing.Baba() });
-
-        // baba text
-        SafeDictionary.Add(dict, (5, 13), new List<Block> { new Block.ThingText.TextBaba() });
-
-        // is text
-        SafeDictionary.Add(dict, (5, 14), new List<Block> { new Block.SpecialText.TextIs() });
-
-        // you text
-        SafeDictionary.Add(dict, (5, 15), new List<Block> { new Block.SpecialText.TextYou() });
-
-        // wall text
-        SafeDictionary.Add(dict, (8, 13), new List<Block> { new Block.ThingText.TextWall() });
-
-        // is text
-        SafeDictionary.Add(dict, (8, 14), new List<Block> { new Block.SpecialText.TextIs() });
-
-        // stop text
-        SafeDictionary.Add(dict, (8, 15), new List<Block> { new Block.SpecialText.TextStop() });
         */
     }
 }
