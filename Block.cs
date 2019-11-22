@@ -63,6 +63,14 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/WALL_TEXT.png";
                 }
             }
+
+            public class TextBest : ThingText
+            {
+                public TextBest()
+                {
+                    imgsrc = "/Resources/icons/BEST_TEXT.png";
+                }
+            }
         }
 
         public class SpecialText : Block
