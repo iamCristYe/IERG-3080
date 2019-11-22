@@ -7,6 +7,8 @@ class GetLevelDictionary
     {
         Dictionary<(int, int), List<Block>> dict = currentLevel.CurrentMap.PointBlockPairs;
 
+        GetGrassBorder.AddGrass(dict);
+
         // vertical columns of grass (left most and right most column)
         for (int i = 0; i < 20; i += 1)
         {
