@@ -64,6 +64,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Block.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelZeroDictionary.cs" />
+    <Compile Include="GetLevelDictionary\SafeAddDictionary.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelController.cs" />
     <Compile Include="MainWindow.xaml.cs">
