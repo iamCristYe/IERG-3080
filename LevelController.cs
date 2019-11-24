@@ -681,8 +681,8 @@ namespace BabaIsYou.Controller
                         {
                             if (SinkBlock.IsSink == true) ContainsSinkBlock = true;
                         }
-                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)//remove all blocks when there's block other than sink block
-                        {
+                        //remove all blocks when there's block other than sink block
+                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)  {
                             CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = new List<Block>();
                         }
                     }
@@ -711,6 +711,35 @@ namespace BabaIsYou.Controller
                             foreach (var NotYouBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
                             {
                                 if (NotYouBlock.IsYou == false) NewList.Add(NotYouBlock);
+                            }
+                            CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = NewList;
+                        }
+                    }
+                }
+            }
+            //hotblocks removes meltblocks
+            for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+            {
+                for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+                {
+                    if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
+                    {
+                        bool ContainsHotBlock = false;
+                        bool ContainsMeltBlock = false;
+                        foreach (var HotBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                        {
+                            if (HotBlock.IsHot == true) ContainsHotBlock = true;
+                        }
+                        foreach (var MeltBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                        {
+                            if (MeltBlock.IsMelt == true) ContainsMeltBlock = true;
+                        }
+                        if (ContainsHotBlock && ContainsMeltBlock)//remove melt block
+                        {
+                            List<Block> NewList = new List<Block>();
+                            foreach (var NotMeltBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
+                            {
+                                if (NotMeltBlock.IsMelt == false) NewList.Add(NotMeltBlock);
                             }
                             CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = NewList;
                         }
