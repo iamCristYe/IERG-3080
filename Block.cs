@@ -85,7 +85,56 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/GOOP_TEXT.png";
                 }
             }
+            public class TextLava : ThingText
+            {
+                public TextLava()
+                {
+                    imgsrc = "/Resources/icons/LAVA_TEXT.png";
+                }
+            }
+            public class TextBone : ThingText
+            {
+                public TextBone()
+                {
+                    imgsrc = "/Resources/icons/BONE_TEXT.png";
+                }
+            }
+            public class TextGrass : ThingText
+            {
+                public TextGrass()
+                {
+                    imgsrc = "/Resources/icons/GRASS_TEXT.png";
+                }
+            }
+            public class TextKeke : ThingText
+            {
+                public TextKeke()
+                {
+                    imgsrc = "/Resources/icons/KEKE_TEXT.png";
+                }
+            }
 
+            public class TextIce : ThingText
+            {
+                public TextIce()
+                {
+                    imgsrc = "/Resources/icons/ICE_TEXT.png";
+                }
+            }
+            public class TextLove : ThingText
+            {
+                public TextLove()
+                {
+                    imgsrc = "/Resources/icons/LOVE_TEXT.png";
+                }
+            }
+            public class TextEmpty : ThingText
+            {
+                public TextEmpty()
+                {
+                    imgsrc = "/Resources/icons/EMPTY_TEXT.png";
+                }
+            }
         }
 
         public class SpecialText : Block
@@ -148,6 +197,41 @@ namespace BabaIsYou.Model
                 }
             }
 
+            public class TextSlip : SpecialText
+            {
+                public TextSlip()
+                {
+                    imgsrc = "/Resources/icons/SLIP_TEXT.png";
+                }
+            }
+            public class TextHot : SpecialText
+            {
+                public TextHot()
+                {
+                    imgsrc = "/Resources/icons/HOT_TEXT.png";
+                }
+            }
+            public class TextMove : SpecialText
+            {
+                public TextMove()
+                {
+                    imgsrc = "/Resources/icons/MOVE_TEXT.png";
+                }
+            }
+            public class TextMelt : SpecialText
+            {
+                public TextMelt()
+                {
+                    imgsrc = "/Resources/icons/MELT_TEXT.png";
+                }
+            }
+            public class TextKill : SpecialText
+            {
+                public TextKill()
+                {
+                    imgsrc = "/Resources/icons/KILL_TEXT.png";
+                }
+            }
         }
 
         public class Thing : Block
@@ -172,6 +256,13 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/BABA_THING.png";
                 }
             }
+            public class Keke : Thing
+            {
+                public Keke()
+                {
+                    imgsrc = "/Resources/icons/KEKE_THING.png";
+                }
+            }
             public class Rock : Thing
             {
                 public Rock()
@@ -194,11 +285,11 @@ namespace BabaIsYou.Model
                 }
             }
 
-            public class Grass : Thing
+            public class Border : Thing
             {
-                public Grass()
+                public Border()
                 {
-                    imgsrc = "/Resources/icons/GRASS_THING.png";
+                    imgsrc = "/Resources/icons/BORDER_THING.png";
                 }
                 public override void ReturnToDefault()
                 {
@@ -222,12 +313,53 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/FAKEWALL_THING.png";
                 }
             }
-
+            public class Grass : Thing
+            {
+                public Grass()
+                {
+                    imgsrc = "/Resources/icons/GRASS_THING.png";
+                }
+            }
             public class Goop : Thing
             {
                 public Goop()
                 {
                     imgsrc = "/Resources/icons/GOOP_THING.png";
+                }
+            }
+            public class Lava : Thing
+            {
+                public Lava()
+                {
+                    imgsrc = "/Resources/icons/LAVA_THING.png";
+                }
+            }
+            public class Ice : Thing
+            {
+                public Ice()
+                {
+                    imgsrc = "/Resources/icons/ICE_THING.png";
+                }
+            }
+            public class Love : Thing
+            {
+                public Love()
+                {
+                    imgsrc = "/Resources/icons/LOVE_THING.png";
+                }
+            }
+            public class Bone : Thing
+            {
+                public Bone()
+                {
+                    imgsrc = "/Resources/icons/BONE_THING.png";
+                }
+            }
+            public class Empty : Thing
+            {
+                public Empty()
+                {
+                    imgsrc = "";
                 }
             }
         }

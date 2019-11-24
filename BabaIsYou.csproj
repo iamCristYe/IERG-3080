@@ -113,11 +113,11 @@
     <Resource Include="Resources\icons\BONE_TEXT.png" />
     <Resource Include="Resources\icons\BONE_THING.png" />
     <Resource Include="Resources\icons\EMPTY_TEXT.png" />
-    <Resource Include="Resources\icons\FAKEGRASS_THING.png" />
     <Resource Include="Resources\icons\FAKEWALL_THING.png" />
     <Resource Include="Resources\icons\FLAG_TEXT.png" />
     <Resource Include="Resources\icons\FLAG_THING.png" />
     <Resource Include="Resources\icons\GOOP_TEXT.png" />
+    <Resource Include="Resources\icons\GOOP_THING.png" />
     <Resource Include="Resources\icons\GRASS_TEXT.png" />
     <Resource Include="Resources\icons\GRASS_THING.png" />
     <Resource Include="Resources\icons\HOT_TEXT.png" />
@@ -141,9 +141,11 @@
     <Resource Include="Resources\icons\STOP_TEXT.png" />
     <Resource Include="Resources\icons\WALL_TEXT.png" />
     <Resource Include="Resources\icons\WALL_THING.png" />
-    <Resource Include="Resources\icons\GOOP_THING.png" />
     <Resource Include="Resources\icons\WIN_TEXT.png" />
     <Resource Include="Resources\icons\YOU_TEXT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons\BORDER_THING.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
