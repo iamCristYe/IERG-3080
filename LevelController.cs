@@ -13,35 +13,34 @@ namespace BabaIsYou.Controller
 
         public Model.Level CurrentLevel;
 
-        public LevelController(int levelNumber)
+        public LevelController(int startlevel)
         {
-            CurrentLevel = new Model.Level(levelNumber);
+            CurrentLevel = new Model.Level(startlevel);
         }
-
-        public void LoadGame()
+        private void ClearMap()
         {
-            //load blocks from data into CurrentMap
-            //... 
-            //MapHeight=
-            //MapWidth=
-
-            //!!!for debug use only!!
-            CurrentLevel.MapHeight = 20;
-            CurrentLevel.MapWidth = 20;
-
-
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
                 for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
                 {
-                    CurrentLevel.CurrentMap.PointBlockPairs.Add((Column, Row), new List<Block> { });
+                    CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = new List<Block>();
                 }
             }
+        }
 
-            // GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel);
-            // GetLevelDictionary.GetLevelOneDictionary(CurrentLevel);
-            // GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel);
-            GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel);
+        public void LoadGame()
+        {
+            ClearMap();
+            CurrentLevel.History = new List<Map>();
+            //load blocks from data into CurrentMap
+            switch (CurrentLevel.LevelNumber)
+            {
+                case 0: GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel); break;
+                case 1: GetLevelDictionary.GetLevelOneDictionary(CurrentLevel); break;
+                case 2: GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel); break;
+                case 3: GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel); break;
+                default: MessageBox.Show("You've passed all levels!"); break;
+            }
 
             UpdateRules();//Update rules at the beginning
             AddToHistory();
@@ -50,18 +49,26 @@ namespace BabaIsYou.Controller
         {
             switch (direction)//Move blocks accroding to keydown
             {
-                case "left": MoveLeft(); break;
-                case "right": MoveRight(); break;
-                case "up": MoveUp(); break;
-                case "down": MoveDown(); break;
+                case "left": MoveLeft(); Move(); break;
+                case "right": MoveRight(); Move(); break;
+                case "up": MoveUp(); Move(); break;
+                case "down": MoveDown(); Move(); break;
 
             }
             UpdateRules();//Update rules by finding sentences
             UpdateBlocks();//Update blocks, like sink/defeat/kill
             AddToHistory();
-            if (CheckWin()) MessageBox.Show("You Win!");
+            CheckWin();
         }
+        public void SpaceKeyDown()
+        {
+            Move();
+        }
+        //Move for IsMove blocks
+        private void Move()
+        {
 
+        }
         private void MoveLeft()
         {
             //A new map to store data
@@ -674,7 +681,7 @@ namespace BabaIsYou.Controller
                 }
             }
         }
-        private bool CheckWin()
+        private void CheckWin()
         {
             foreach (var PointBlockPair in CurrentLevel.CurrentMap.PointBlockPairs)
             {
@@ -688,9 +695,13 @@ namespace BabaIsYou.Controller
                 {
                     if (YouBlock.IsYou == true) ContainsYouBlock = true;
                 }
-                if (ContainsWinBlock && ContainsYouBlock) return true;
+                if (ContainsWinBlock && ContainsYouBlock)
+                {
+                    CurrentLevel.LevelNumber++;
+                    LoadGame();
+                    return;
+                }
             }
-            return false;
         }
         private void AddToHistory()
         {

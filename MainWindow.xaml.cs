@@ -24,7 +24,7 @@ namespace BabaIsYou
     public partial class MainWindow : Window
     {
         const int SquareSize = 20;
-        LevelController CurrentLevelController = new LevelController(1);
+        LevelController CurrentLevelController = new LevelController(0);
         public MainWindow()
         {
             this.Background = Brushes.Black;
@@ -76,6 +76,10 @@ namespace BabaIsYou
             {
                 CurrentLevelController.ArrowKeyDown("right");
             }
+            else if (e.Key == Key.Space)
+            {
+                CurrentLevelController.SpaceKeyDown();
+            }
             else if (e.Key == Key.Z)
             {
                 CurrentLevelController.GoBack();
@@ -84,7 +88,7 @@ namespace BabaIsYou
             {
                 CurrentLevelController.Restart();
             }
-            else if (e.Key == Key.Q)
+            else if (e.Key == Key.Escape)
             {
                 this.Close();
             }

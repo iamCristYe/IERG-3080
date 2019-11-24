@@ -15,7 +15,10 @@ namespace BabaIsYou.Model
         public bool IsSink { get; protected set; }
         public bool IsKill { get; protected set; }
         public bool IsMove { get; protected set; }
-        //slip hot melt
+        public bool IsHot { get; protected set; }
+        public bool IsMelt { get; protected set; }
+        public bool IsSlip { get; protected set; }
+
         public string imgsrc { get; protected set; }
         public virtual void ReturnToDefault() { }
         public Block()
@@ -34,6 +37,9 @@ namespace BabaIsYou.Model
                 IsMove = false;
                 IsPush = true;
                 IsStop = true;
+                IsHot = false;
+                IsMelt = false;
+                IsSlip = false;
             }
             public class TextBaba : ThingText
             {
@@ -93,6 +99,9 @@ namespace BabaIsYou.Model
                 IsMove = false;
                 IsPush = true;
                 IsStop = true;
+                IsHot = false;
+                IsMelt = false;
+                IsSlip = false;
             }
 
             public class TextIs : SpecialText
@@ -152,6 +161,9 @@ namespace BabaIsYou.Model
                 IsMove = false;
                 IsPush = false;
                 IsStop = false;
+                IsHot = false;
+                IsMelt = false;
+                IsSlip = false;
             }
             public class Baba : Thing
             {
@@ -197,6 +209,9 @@ namespace BabaIsYou.Model
                     IsMove = false;
                     IsPush = false;
                     IsStop = true;
+                    IsHot = false;
+                    IsMelt = false;
+                    IsSlip = false;
                 }
             }
 

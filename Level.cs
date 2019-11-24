@@ -9,8 +9,9 @@ namespace BabaIsYou.Model
     class Level
     {
         private int levelNumber;
-        private int mapHeight = 0;
-        private int mapWidth = 0;
+        //Height and Width same for all levels
+        private int mapHeight = 20;
+        private int mapWidth = 20;
 
         //We store data in History->Map->Block
         //Map is a Dictionary of Point and Blocks on that point, indicating all current Blocks on the map
