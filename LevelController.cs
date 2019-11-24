@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BabaIsYou.Model;
+using System.Windows.Input;
 using System.Diagnostics;
 namespace BabaIsYou.Controller
 {
@@ -45,24 +46,60 @@ namespace BabaIsYou.Controller
             UpdateRules();//Update rules at the beginning
             AddToHistory();
         }
-        public void ArrowKeyDown(string direction)
+        public void KeyDown(Key InputKey)
         {
-            switch (direction)//Move blocks accroding to keydown
+            if (InputKey == Key.Z)
             {
-                case "left": MoveLeft(); Move(); break;
-                case "right": MoveRight(); Move(); break;
-                case "up": MoveUp(); Move(); break;
-                case "down": MoveDown(); Move(); break;
-
+                GoBack();
             }
-            UpdateRules();//Update rules by finding sentences
-            UpdateBlocks();//Update blocks, like sink/defeat/kill
-            AddToHistory();
-            CheckWin();
-        }
-        public void SpaceKeyDown()
-        {
-            Move();
+            if (InputKey == Key.R)
+            {
+                Restart();
+            }
+            if (InputKey == Key.Up)
+            {
+                MoveUp();
+                Move();
+                UpdateRules();//Update rules by finding sentences
+                UpdateBlocks();//Update blocks, like sink/defeat/kill
+                AddToHistory();
+                CheckWin();
+            }
+            if (InputKey == Key.Down)
+            {
+                MoveDown();
+                Move();
+                UpdateRules();//Update rules by finding sentences
+                UpdateBlocks();//Update blocks, like sink/defeat/kill
+                AddToHistory();
+                CheckWin();
+            }
+            if (InputKey == Key.Left)
+            {
+                MoveLeft();
+                Move();
+                UpdateRules();//Update rules by finding sentences
+                UpdateBlocks();//Update blocks, like sink/defeat/kill
+                AddToHistory();
+                CheckWin();
+            }
+            if (InputKey == Key.Right)
+            {
+                MoveRight();
+                Move();
+                UpdateRules();//Update rules by finding sentences
+                UpdateBlocks();//Update blocks, like sink/defeat/kill
+                AddToHistory();
+                CheckWin();
+            }
+            if (InputKey == Key.Space)
+            {
+                Move();
+                UpdateRules();//Update rules by finding sentences
+                UpdateBlocks();//Update blocks, like sink/defeat/kill
+                AddToHistory();
+                CheckWin();
+            }
         }
         //Move for IsMove blocks
         private void Move()
@@ -707,7 +744,7 @@ namespace BabaIsYou.Controller
         {
             CurrentLevel.History.Add(CurrentLevel.CurrentMap);
         }
-        public void GoBack()
+        private void GoBack()
         {
             if (CurrentLevel.History.Count > 1)
             {
@@ -716,7 +753,7 @@ namespace BabaIsYou.Controller
                 UpdateRules();
             }
         }
-        public void Restart()
+        private void Restart()
         {
             CurrentLevel.CurrentMap = CurrentLevel.History[0];
             AddToHistory();

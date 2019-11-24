@@ -59,39 +59,11 @@ namespace BabaIsYou
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-
-            if (e.Key == Key.Up)
-            {
-                CurrentLevelController.ArrowKeyDown("up");
-            }
-            else if (e.Key == Key.Down)
-            {
-                CurrentLevelController.ArrowKeyDown("down");
-            }
-            else if (e.Key == Key.Left)
-            {
-                CurrentLevelController.ArrowKeyDown("left");
-            }
-            else if (e.Key == Key.Right)
-            {
-                CurrentLevelController.ArrowKeyDown("right");
-            }
-            else if (e.Key == Key.Space)
-            {
-                CurrentLevelController.SpaceKeyDown();
-            }
-            else if (e.Key == Key.Z)
-            {
-                CurrentLevelController.GoBack();
-            }
-            else if (e.Key == Key.R)
-            {
-                CurrentLevelController.Restart();
-            }
-            else if (e.Key == Key.Escape)
+            if (e.Key == Key.Escape || e.Key == Key.Q)
             {
                 this.Close();
             }
+            CurrentLevelController.KeyDown(e.Key);
             DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
         }
 
