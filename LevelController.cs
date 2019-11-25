@@ -37,11 +37,21 @@ namespace BabaIsYou.Controller
             switch (CurrentLevel.LevelNumber)
             {
                 // TODO: debugging only. uncomment cases after finished testing.
-                case 0: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                case 0: GetLevelDictionary.GetLevelFiveDictionary(CurrentLevel); break;
                 // case 0: GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel); break;
                 // case 1: GetLevelDictionary.GetLevelOneDictionary(CurrentLevel); break;
                 // case 2: GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel); break;
                 // case 3: GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel); break;
+                // case 4: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 5: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 6: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 7: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 8: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 9: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 10: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 11: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 12: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 13: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
                 default: MessageBox.Show("You've passed all levels!"); break;
             }
 
