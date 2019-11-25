@@ -135,6 +135,14 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/EMPTY_TEXT.png";
                 }
             }
+
+            public class TextAnni : ThingText
+            {
+                public TextAnni()
+                {
+                    imgsrc = "/Resources/icons/ANNI_TEXT.png";
+                }
+            }
         }
 
         public class SpecialText : Block
@@ -355,11 +363,12 @@ namespace BabaIsYou.Model
                     imgsrc = "/Resources/icons/BONE_THING.png";
                 }
             }
-            public class Empty : Thing
+
+            public class Anni : Thing
             {
-                public Empty()
+                public Anni()
                 {
-                    imgsrc = "";
+                    imgsrc = "/Resources/icons/ANNI_THING.png";
                 }
             }
         }
