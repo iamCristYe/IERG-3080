@@ -67,6 +67,7 @@
     <Compile Include="GetLevelDictionary\GetGrassBorder.cs" />
     <Compile Include="GetLevelDictionary\GetLevelFiveDictionary.cs" />
     <Compile Include="GetLevelDictionary\GetLevelFourDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelSixDictionary.cs" />
     <Compile Include="GetLevelDictionary\GetLevelTwoDictionary.cs" />
     <Compile Include="GetLevelDictionary\GetLevelOneDictionary.cs" />
     <Compile Include="GetLevelDictionary\GetLevelThreeDictionary.cs" />
