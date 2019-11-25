@@ -7,7 +7,7 @@ partial class GetLevelDictionary
     {
         Dictionary<(int, int), List<Block>> dict = currentLevel.CurrentMap.PointBlockPairs;
 
-        GetGrassBorder.AddGrass(dict);
+        Tools.AddBorder(dict);
 
         // rock thing (all rocks)
         SafeDictionary.Add(dict, (4, 3), new List<Block> { new Block.Thing.Rock() });

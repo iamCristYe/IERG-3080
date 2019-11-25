@@ -7,7 +7,7 @@ partial class GetLevelDictionary
     {
         Dictionary<(int, int), List<Block>> dict = currentLevel.CurrentMap.PointBlockPairs;
 
-        GetGrassBorder.AddGrass(dict);
+        Tools.AddBorder(dict);
 
         // baba text
         SafeDictionary.Add(dict, (1, 1), new List<Block> { new Block.ThingText.TextBaba() });

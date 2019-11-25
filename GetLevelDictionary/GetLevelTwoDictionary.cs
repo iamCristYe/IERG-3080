@@ -7,7 +7,7 @@ partial class GetLevelDictionary
     {
         Dictionary<(int, int), List<Block>> dict = currentLevel.CurrentMap.PointBlockPairs;
 
-        GetGrassBorder.AddGrass(dict);
+        Tools.AddBorder(dict);
 
         // wall thing
         for (int i = 11; i < 16; i += 1)
