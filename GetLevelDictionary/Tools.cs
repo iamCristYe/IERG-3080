@@ -41,4 +41,15 @@ class Tools
             SafeDictionary.Add(dict, (midCol, midRow), new List<Block> { new Block.Thing.Wall() });
         }
     }
+
+    public static void AddBlockOfWall(Dictionary<(int, int), List<Block>> dict, (int, int) startPos, int size)
+    {
+        for (int i = startPos.Item1; i < startPos.Item1 + size; i += 1)
+        {
+            for (int j = startPos.Item2; j < startPos.Item2 + size; j += 1)
+            {
+                SafeDictionary.Add(dict, (j, i), new List<Block> { new Block.Thing.Wall() });
+            }
+        }
+    }
 }
