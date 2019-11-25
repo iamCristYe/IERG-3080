@@ -36,10 +36,12 @@ namespace BabaIsYou.Controller
             //load blocks from data into CurrentMap
             switch (CurrentLevel.LevelNumber)
             {
-                case 0: GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel); break;
-                case 1: GetLevelDictionary.GetLevelOneDictionary(CurrentLevel); break;
-                case 2: GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel); break;
-                case 3: GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel); break;
+                // TODO: debugging only. uncomment cases after finished testing.
+                case 0: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                // case 0: GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel); break;
+                // case 1: GetLevelDictionary.GetLevelOneDictionary(CurrentLevel); break;
+                // case 2: GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel); break;
+                // case 3: GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel); break;
                 default: MessageBox.Show("You've passed all levels!"); break;
             }
 
