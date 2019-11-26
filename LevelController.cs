@@ -37,7 +37,7 @@ namespace BabaIsYou.Controller
             switch (CurrentLevel.LevelNumber)
             {
                 // TODO: debugging only. uncomment cases after finished testing.
-                case 0: GetLevelDictionary.GetLevelTwelveDictionary(CurrentLevel); break;
+                case 0: GetLevelDictionary.GetLevelThirteenDictionary(CurrentLevel); break;
                 // case 0: GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel); break;
                 // case 1: GetLevelDictionary.GetLevelOneDictionary(CurrentLevel); break;
                 // case 2: GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel); break;
