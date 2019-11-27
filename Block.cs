@@ -19,12 +19,13 @@ namespace BabaIsYou.Model
         public bool IsMelt { get; protected set; }
         public bool IsSlip { get; protected set; }
         public string Facing { get; set; }
+        public bool Slipped { get; set; }   //to tell whether a block has slipped for a certain keydown
 
         public string imgsrc { get; protected set; }
         public virtual void ReturnToDefault() { }
         public Block()
         {
-            Facing = "right";
+            Facing = "right";            
             ReturnToDefault();
         }
 
@@ -42,6 +43,7 @@ namespace BabaIsYou.Model
                 IsHot = false;
                 IsMelt = false;
                 IsSlip = false;
+                Slipped = false;
             }
             public class TextBaba : ThingText
             {
@@ -161,6 +163,7 @@ namespace BabaIsYou.Model
                 IsHot = false;
                 IsMelt = false;
                 IsSlip = false;
+                Slipped = false;
             }
 
             public class TextIs : SpecialText
@@ -258,6 +261,7 @@ namespace BabaIsYou.Model
                 IsHot = false;
                 IsMelt = false;
                 IsSlip = false;
+                Slipped = false;
             }
             public class Baba : Thing
             {
@@ -313,6 +317,7 @@ namespace BabaIsYou.Model
                     IsHot = false;
                     IsMelt = false;
                     IsSlip = false;
+                    Slipped = false;
                 }
             }
 
