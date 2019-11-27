@@ -18,11 +18,13 @@ namespace BabaIsYou.Model
         public bool IsHot { get; protected set; }
         public bool IsMelt { get; protected set; }
         public bool IsSlip { get; protected set; }
+        public string Facing { get; set; }
 
         public string imgsrc { get; protected set; }
         public virtual void ReturnToDefault() { }
         public Block()
         {
+            Facing = "right";
             ReturnToDefault();
         }
 

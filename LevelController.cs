@@ -50,7 +50,6 @@ namespace BabaIsYou.Controller
                 case 11: GetLevelDictionary.GetLevelElevenDictionary(CurrentLevel); break;
                 case 12: GetLevelDictionary.GetLevelTwelveDictionary(CurrentLevel); break;
                 case 13: GetLevelDictionary.GetLevelThirteenDictionary(CurrentLevel); break;
-                default: MessageBox.Show("You've passed all levels!"); break;
             }
 
             UpdateRules();//Update rules at the beginning
@@ -62,61 +61,34 @@ namespace BabaIsYou.Controller
             {
                 GoBack();
             }
-            if (InputKey == Key.R)
+            else if (InputKey == Key.R)
             {
                 Restart();
             }
-            if (InputKey == Key.Up)
+            else if (InputKey == Key.Up || InputKey == Key.Down || InputKey == Key.Left || InputKey == Key.Right || InputKey == Key.Space)
             {
-                MoveUp();
-                Move();
-                UpdateRules();//Update rules by finding sentences
-                UpdateBlocks();//Update blocks, like sink/defeat/kill
-                AddToHistory();
-                CheckWin();
-            }
-            if (InputKey == Key.Down)
-            {
-                MoveDown();
-                Move();
-                UpdateRules();//Update rules by finding sentences
-                UpdateBlocks();//Update blocks, like sink/defeat/kill
-                AddToHistory();
-                CheckWin();
-            }
-            if (InputKey == Key.Left)
-            {
-                MoveLeft();
-                Move();
-                UpdateRules();//Update rules by finding sentences
-                UpdateBlocks();//Update blocks, like sink/defeat/kill
-                AddToHistory();
-                CheckWin();
-            }
-            if (InputKey == Key.Right)
-            {
-                MoveRight();
-                Move();
-                UpdateRules();//Update rules by finding sentences
-                UpdateBlocks();//Update blocks, like sink/defeat/kill
-                AddToHistory();
-                CheckWin();
-            }
-            if (InputKey == Key.Space)
-            {
-                Move();
+                //move isyou block, ismove block
+                MoveUp(InputKey);
+                MoveDown(InputKey);
+                MoveLeft(InputKey);
+                MoveRight(InputKey);
                 UpdateRules();//Update rules by finding sentences
                 UpdateBlocks();//Update blocks, like sink/defeat/kill
                 AddToHistory();
                 CheckWin();
             }
         }
-        //Move for IsMove blocks
-        private void Move()
-        {
 
+        //when on slip, check if facing next place contains stop
+        private bool OnSlipFacingContainStop(string Facing, int Column, int Row, Dictionary<(int, int), bool> ContainStop)
+        {
+            if (Facing == "up") return ContainStop[(Column, Row - 1)];
+            else if (Facing == "down") return ContainStop[(Column, Row + 1)];
+            else if (Facing == "left") return ContainStop[(Column - 1, Row)];
+            else /*(Facing == "right")*/ return ContainStop[(Column + 1, Row)];
         }
-        private void MoveLeft()
+
+        private void MoveLeft(Key InputKey)
         {
             //A new map to store data
             Map NewMap = new Map();
@@ -124,6 +96,10 @@ namespace BabaIsYou.Controller
             Dictionary<(int, int), bool> CanMove = new Dictionary<(int, int), bool>();
             //ShouldMove means block at this place should move, it's designed for ispush block, not isyou block
             Dictionary<(int, int), bool> ShouldMove = new Dictionary<(int, int), bool>();
+            //ContainSlip means there's slip block at this place
+            Dictionary<(int, int), bool> ContainSlip = new Dictionary<(int, int), bool>();
+            //ContainStop means there's stop block at this place, this can stop isslip continuing
+            Dictionary<(int, int), bool> ContainStop = new Dictionary<(int, int), bool>();
 
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -132,6 +108,8 @@ namespace BabaIsYou.Controller
                     NewMap.PointBlockPairs.Add((Column, Row), new List<Block>());
                     CanMove.Add((Column, Row), true);//default true
                     ShouldMove.Add((Column, Row), false);//default false
+                    ContainSlip.Add((Column, Row), false);//default false
+                    ContainStop.Add((Column, Row), false);//default false
                 }
             }
 
@@ -165,6 +143,38 @@ namespace BabaIsYou.Controller
                 }
             }
 
+            //modify ContainSlip
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsSlip)
+                        {
+                            ContainSlip[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //modify ContainStop
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop)
+                        {
+                            ContainStop[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             //modify should move and move blocks
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -174,8 +184,48 @@ namespace BabaIsYou.Controller
                     {
                         if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && CanMove[(Column - 1, Row)])
                         {
-                            NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
-                            ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
+                            if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) && InputKey == Key.Left)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "left";
+                                NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "left")
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "left";
+                                NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] == false && InputKey == Key.Left)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "left";
+                                NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)                               
+                            }
+                            //!!I forgot this else at first. Sigh
+                            else
+                            {
+                                //copy the same element into the new map at same location
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                        }
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsMove)
+                        {
+                            if (CanMove[(Column - 1, Row)] && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "left")
+                            {
+                                NewMap.PointBlockPairs[(Column - 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column - 1, Row)] = true;//left block should be pushed(if any)
+                            }
+                            else if (CanMove[(Column - 1, Row)] == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "left")//cannot move change facing
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "right";
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                            //!!I forgot this else case at first. Sad
+                            else //wrong facing ignore
+                            {
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
                         }
                         else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush && ShouldMove[(Column, Row)])//Do we need to consider canmove?
                         {
@@ -188,7 +238,6 @@ namespace BabaIsYou.Controller
                             NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
                         }
                     }
-
                 }
             }
 
@@ -204,7 +253,7 @@ namespace BabaIsYou.Controller
 
             CurrentLevel.CurrentMap = NewMap;
         }
-        private void MoveRight()
+        private void MoveRight(Key InputKey)
         {
             //A new map to store data
             Map NewMap = new Map();
@@ -212,6 +261,11 @@ namespace BabaIsYou.Controller
             Dictionary<(int, int), bool> CanMove = new Dictionary<(int, int), bool>();
             //ShouldMove means block at this place should move, it's designed for ispush block, not isyou block
             Dictionary<(int, int), bool> ShouldMove = new Dictionary<(int, int), bool>();
+            //ContainSlip means there's slip block at this place
+            Dictionary<(int, int), bool> ContainSlip = new Dictionary<(int, int), bool>();
+            //ContainStop means there's stop block at this place, this can stop isslip continuing
+            Dictionary<(int, int), bool> ContainStop = new Dictionary<(int, int), bool>();
+
 
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -220,6 +274,8 @@ namespace BabaIsYou.Controller
                     NewMap.PointBlockPairs.Add((Column, Row), new List<Block>());
                     CanMove.Add((Column, Row), true);//default true
                     ShouldMove.Add((Column, Row), false);//default false
+                    ContainSlip.Add((Column, Row), false);//default false
+                    ContainStop.Add((Column, Row), false);//default false
                 }
             }
 
@@ -254,6 +310,38 @@ namespace BabaIsYou.Controller
                 }
             }
 
+            //modify ContainSlip
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsSlip)
+                        {
+                            ContainSlip[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //modify ContainStop
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop)
+                        {
+                            ContainStop[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             //modify should move and move blocks
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -263,8 +351,46 @@ namespace BabaIsYou.Controller
                     {
                         if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && CanMove[(Column + 1, Row)])
                         {
-                            NewMap.PointBlockPairs[(Column + 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
-                            ShouldMove[(Column + 1, Row)] = true;//right block should be pushed(if any)
+                            if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) && InputKey == Key.Right)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "right";
+                                NewMap.PointBlockPairs[(Column + 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column + 1, Row)] = true;//right block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "right")
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "right";
+                                NewMap.PointBlockPairs[(Column + 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column + 1, Row)] = true;//right block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] == false && InputKey == Key.Right)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "right";
+                                NewMap.PointBlockPairs[(Column + 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column + 1, Row)] = true;//right block should be pushed(if any)
+                            }
+                            else
+                            {
+                                //copy the same element into the new map at same location
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                        }
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsMove)
+                        {
+                            if (CanMove[(Column + 1, Row)] && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "right")
+                            {
+                                NewMap.PointBlockPairs[(Column + 1, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column + 1, Row)] = true;//right block should be pushed(if any)
+                            }
+                            else if (CanMove[(Column + 1, Row)] == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "right")//cannot move change facing
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "left";
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                            else //wrong facing ignore
+                            {
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
                         }
                         else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush && ShouldMove[(Column, Row)])//Do we need to consider canmove?
                         {
@@ -277,7 +403,6 @@ namespace BabaIsYou.Controller
                             NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
                         }
                     }
-
                 }
             }
 
@@ -293,7 +418,7 @@ namespace BabaIsYou.Controller
 
             CurrentLevel.CurrentMap = NewMap;
         }
-        private void MoveUp()
+        private void MoveUp(Key InputKey)
         {
             //A new map to store data
             Map NewMap = new Map();
@@ -301,6 +426,10 @@ namespace BabaIsYou.Controller
             Dictionary<(int, int), bool> CanMove = new Dictionary<(int, int), bool>();
             //ShouldMove means block at this place should move, it's designed for ispush block, not isyou block
             Dictionary<(int, int), bool> ShouldMove = new Dictionary<(int, int), bool>();
+            //ContainSlip means there's slip block at this place
+            Dictionary<(int, int), bool> ContainSlip = new Dictionary<(int, int), bool>();
+            //ContainStop means there's stop block at this place, this can stop isslip continuing
+            Dictionary<(int, int), bool> ContainStop = new Dictionary<(int, int), bool>();
 
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -309,6 +438,8 @@ namespace BabaIsYou.Controller
                     NewMap.PointBlockPairs.Add((Column, Row), new List<Block>());
                     CanMove.Add((Column, Row), true);//default true
                     ShouldMove.Add((Column, Row), false);//default false
+                    ContainSlip.Add((Column, Row), false);//default false
+                    ContainStop.Add((Column, Row), false);//default false
                 }
             }
 
@@ -343,6 +474,38 @@ namespace BabaIsYou.Controller
                 }
             }
 
+            //modify ContainSlip
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsSlip)
+                        {
+                            ContainSlip[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //modify ContainStop
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop)
+                        {
+                            ContainStop[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             //modify should move and move blocks
             for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
             {
@@ -350,11 +513,52 @@ namespace BabaIsYou.Controller
                 {
                     for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
                     {
+
                         if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && CanMove[(Column, Row - 1)])
                         {
-                            NewMap.PointBlockPairs[(Column, Row - 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
-                            ShouldMove[(Column, Row - 1)] = true;//up block should be pushed(if any)
+                            if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) && InputKey == Key.Up)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "up";
+                                NewMap.PointBlockPairs[(Column, Row - 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row - 1)] = true;//up block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "up")
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "up";
+                                NewMap.PointBlockPairs[(Column, Row - 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row - 1)] = true;//up block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] == false && InputKey == Key.Up)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "up";
+                                NewMap.PointBlockPairs[(Column, Row - 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row - 1)] = true;//up block should be pushed(if any)
+                            }
+                            else
+                            {
+                                //copy the same element into the new map at same location
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
                         }
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsMove)
+                        {
+                            if (CanMove[(Column, Row - 1)] && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "up")
+                            {
+
+                                NewMap.PointBlockPairs[(Column, Row - 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row - 1)] = true;//up block should be pushed(if any)
+                            }
+                            else if (CanMove[(Column, Row - 1)] == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "up")//cannot move change facing
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "down";
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                            else //wrong facing ignore
+                            {
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                        }
+
                         else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush && ShouldMove[(Column, Row)])//Do we need to consider canmove?
                         {
                             NewMap.PointBlockPairs[(Column, Row - 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
@@ -382,7 +586,7 @@ namespace BabaIsYou.Controller
 
             CurrentLevel.CurrentMap = NewMap;
         }
-        private void MoveDown()
+        private void MoveDown(Key InputKey)
         {
             //A new map to store data
             Map NewMap = new Map();
@@ -390,6 +594,10 @@ namespace BabaIsYou.Controller
             Dictionary<(int, int), bool> CanMove = new Dictionary<(int, int), bool>();
             //ShouldMove means block at this place should move, it's designed for ispush block, not isyou block
             Dictionary<(int, int), bool> ShouldMove = new Dictionary<(int, int), bool>();
+            //ContainSlip means there's slip block at this place
+            Dictionary<(int, int), bool> ContainSlip = new Dictionary<(int, int), bool>();
+            //ContainStop means there's stop block at this place, this can stop isslip continuing
+            Dictionary<(int, int), bool> ContainStop = new Dictionary<(int, int), bool>();
 
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
             {
@@ -398,6 +606,8 @@ namespace BabaIsYou.Controller
                     NewMap.PointBlockPairs.Add((Column, Row), new List<Block>());
                     CanMove.Add((Column, Row), true);//default true
                     ShouldMove.Add((Column, Row), false);//default false
+                    ContainSlip.Add((Column, Row), false);//default false
+                    ContainStop.Add((Column, Row), false);//default false
                 }
             }
 
@@ -431,6 +641,38 @@ namespace BabaIsYou.Controller
 
                 }
             }
+            //modify ContainSlip
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsSlip)
+                        {
+                            ContainSlip[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //modify ContainStop
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsStop)
+                        {
+                            ContainStop[(Column, Row)] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
 
             //modify should move and move blocks
             for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
@@ -441,8 +683,46 @@ namespace BabaIsYou.Controller
                     {
                         if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsYou && CanMove[(Column, Row + 1)])
                         {
-                            NewMap.PointBlockPairs[(Column, Row + 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
-                            ShouldMove[(Column, Row + 1)] = true;//down block should be pushed(if any)
+                            if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) && InputKey == Key.Down)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "down";
+                                NewMap.PointBlockPairs[(Column, Row + 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row + 1)] = true;//down block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] && OnSlipFacingContainStop(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing, Column, Row, ContainStop) == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "down")
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "down";
+                                NewMap.PointBlockPairs[(Column, Row + 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row + 1)] = true;//down block should be pushed(if any)
+                            }
+                            else if (ContainSlip[(Column, Row)] == false && InputKey == Key.Down)
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "down";
+                                NewMap.PointBlockPairs[(Column, Row + 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row + 1)] = true;//down block should be pushed(if any)
+                            }
+                            else
+                            {
+                                //copy the same element into the new map at same location
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                        }
+                        else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsMove)
+                        {
+                            if (CanMove[(Column, Row + 1)] && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "down")
+                            {
+                                NewMap.PointBlockPairs[(Column, Row + 1)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                                ShouldMove[(Column, Row + 1)] = true;//down block should be pushed(if any)
+                            }
+                            else if (CanMove[(Column, Row + 1)] == false && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing == "down")//cannot move change facing
+                            {
+                                CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].Facing = "up";
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
+                            else //wrong facing ignore
+                            {
+                                NewMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                            }
                         }
                         else if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].IsPush && ShouldMove[(Column, Row)])//Do we need to consider canmove?
                         {
@@ -692,7 +972,8 @@ namespace BabaIsYou.Controller
                             if (SinkBlock.IsSink == true) ContainsSinkBlock = true;
                         }
                         //remove all blocks when there's block other than sink block
-                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)  {
+                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)
+                        {
                             CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = new List<Block>();
                         }
                     }
