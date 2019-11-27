@@ -75,6 +75,8 @@ namespace BabaIsYou.Controller
                 MoveRight(InputKey);
                 UpdateRules();//Update rules by finding sentences
                 UpdateBlocks();//Update blocks, like sink/defeat/kill
+                UpdateEmpty();
+                UpdateRules();//Apply rules to empty
                 AddToHistory();
                 CheckWin();
             }
@@ -1040,6 +1042,84 @@ namespace BabaIsYou.Controller
                 }
             }
         }
+
+        private void UpdateEmpty()
+        {
+            // A new map to remove Empty first
+            Map EmptyRemovedMap = new Map();
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    EmptyRemovedMap.PointBlockPairs.Add((Column, Row), new List<Block>());
+
+                }
+            }
+
+            for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+            {
+                for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+                {
+                    for (int i = 0; i < CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i].GetType().Name != "Empty")
+                        {
+                            //copy non empty elements
+                            EmptyRemovedMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                        }
+                    }
+                }
+            }
+
+            // A new map to add Empty
+            Map EmptyAddedMap = new Map();
+            for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            {
+                for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+                {
+                    EmptyAddedMap.PointBlockPairs.Add((Column, Row), new List<Block>());
+
+                }
+            }
+
+            for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+            {
+                for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+                {
+                    bool CanAddEmpty = true;
+                    for (int i = 0; i < EmptyRemovedMap.PointBlockPairs[(Column, Row)].Count; i++)
+                    {
+                        if (EmptyRemovedMap.PointBlockPairs[(Column, Row)][i].GetType().Name == "Grass")
+                        {
+                            CanAddEmpty = false;
+                        }
+                        if (EmptyRemovedMap.PointBlockPairs[(Column, Row)][i].GetType().Name == "Border")
+                        {
+                            CanAddEmpty = false;
+                        }
+                        if (EmptyRemovedMap.PointBlockPairs[(Column, Row)][i].GetType().Name == "Keke")
+                        {
+                            CanAddEmpty = false;
+                        }
+                        if (EmptyRemovedMap.PointBlockPairs[(Column, Row)][i].GetType().Name.Contains("Text"))
+                        {
+                            CanAddEmpty = false;
+                        }
+                        //copy non empty elements
+                        EmptyAddedMap.PointBlockPairs[(Column, Row)].Add(CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][i]);
+                    }
+                    //add empty elements
+                    if (CanAddEmpty)
+                    {
+                        Block newblk = (BabaIsYou.Model.Block)System.Reflection.Assembly.GetExecutingAssembly().CreateInstance("BabaIsYou.Model.Block+Thing+Empty");
+                        EmptyAddedMap.PointBlockPairs[(Column, Row)].Add(newblk);
+                    }
+                }
+            }
+
+            CurrentLevel.CurrentMap = EmptyAddedMap;
+        }
+
         private void CheckWin()
         {
             foreach (var PointBlockPair in CurrentLevel.CurrentMap.PointBlockPairs)

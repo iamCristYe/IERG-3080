@@ -25,7 +25,7 @@ namespace BabaIsYou.Model
         public virtual void ReturnToDefault() { }
         public Block()
         {
-            Facing = "right";            
+            Facing = "right";
             ReturnToDefault();
         }
 
@@ -376,6 +376,13 @@ namespace BabaIsYou.Model
                 public Anni()
                 {
                     imgsrc = "/Resources/icons/ANNI_THING.png";
+                }
+            }
+            public class Empty : Thing
+            {
+                public Empty()
+                {
+                    imgsrc = "";
                 }
             }
         }
