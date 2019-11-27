@@ -36,16 +36,21 @@ partial class GetLevelDictionary
         // win text
         SafeDictionary.Add(dict, (11, 8), new List<Block> { new Block.SpecialText.TextWin() });
 
-        // list of keke tuples 
-        List<(int, int)> kekeCoords = new List<(int, int)>()
-        {
-            (6, 2), (3, 4), (15, 6), (13, 12), (3, 14), (10, 15), (17, 17)
-        };
-
-        foreach((int, int) coord in kekeCoords)
-        {
-            SafeDictionary.Add(dict, coord, new List<Block> { new Block.Thing.Keke() });
-        }
+        Block keke = new Block.Thing.Keke();
+        keke.Facing = "left";
+        SafeDictionary.Add(dict, (6, 2), new List<Block> { keke });
+        SafeDictionary.Add(dict, (15, 6), new List<Block> { keke });
+        SafeDictionary.Add(dict, (13, 12), new List<Block> { keke });
+        keke = new Block.Thing.Keke();
+        keke.Facing = "right";
+        SafeDictionary.Add(dict, (3, 4), new List<Block> { keke });
+        SafeDictionary.Add(dict, (17, 17), new List<Block> { keke });
+        keke = new Block.Thing.Keke();
+        keke.Facing = "up";
+        SafeDictionary.Add(dict, (10, 15), new List<Block> { keke });
+        keke = new Block.Thing.Keke();
+        keke.Facing = "down";
+        SafeDictionary.Add(dict, (3, 14), new List<Block> { keke });
 
         // baba thing
         SafeDictionary.Add(dict, (6, 12), new List<Block> { new Block.Thing.Baba() });

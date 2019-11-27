@@ -18,7 +18,7 @@ partial class GetLevelDictionary
         // kill text
         SafeDictionary.Add(dict, (12, 1), new List<Block> { new Block.SpecialText.TextKill() });
 
-        
+
         // 3x3 walls
 
         // top left
@@ -40,9 +40,9 @@ partial class GetLevelDictionary
         // best in center
         Tools.Add3x3FakeWallBorder(dict, (2, 13), false);
         SafeDictionary.Add(dict, (14, 3), new List<Block> { new Block.ThingText.TextBest() });
-        
+
         // bottom left
-        Tools.Add3x3FakeWallBorder(dict, (15, 1), true); 
+        Tools.Add3x3FakeWallBorder(dict, (15, 1), true);
 
         // baba text
         SafeDictionary.Add(dict, (4, 12), new List<Block> { new Block.ThingText.TextBaba() });
@@ -81,7 +81,7 @@ partial class GetLevelDictionary
         {
             for (int j = 13; j < 19; j += 1)
             {
-                if (!((i == 12 && j == 15) || (i == 14 && j == 16))) 
+                if (!((i == 12 && j == 15) || (i == 14 && j == 16)))
                 {
                     SafeDictionary.Add(dict, (j, i), new List<Block> { new Block.Thing.Grass() });
                 }
@@ -95,7 +95,9 @@ partial class GetLevelDictionary
         SafeDictionary.Add(dict, (15, 12), new List<Block> { new Block.Thing.Wall() });
 
         // keke thing
-        SafeDictionary.Add(dict, (16, 14), new List<Block> { new Block.Thing.Keke() });
+        Block keke = new Block.Thing.Keke();
+        keke.Facing = "left";
+        SafeDictionary.Add(dict, (16, 14), new List<Block> { keke });
 
         // wall text
         SafeDictionary.Add(dict, (18, 2), new List<Block> { new Block.ThingText.TextWall() });
