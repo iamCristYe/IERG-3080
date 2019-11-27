@@ -36,22 +36,20 @@ namespace BabaIsYou.Controller
             //load blocks from data into CurrentMap
             switch (CurrentLevel.LevelNumber)
             {
-                // TODO: debugging only. uncomment cases after finished testing.
-                case 0: GetLevelDictionary.GetLevelThirteenDictionary(CurrentLevel); break;
-                // case 0: GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel); break;
-                // case 1: GetLevelDictionary.GetLevelOneDictionary(CurrentLevel); break;
-                // case 2: GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel); break;
-                // case 3: GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel); break;
-                // case 4: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
-                // case 5: GetLevelDictionary.GetLevelFiveDictionary(CurrentLevel); break;
-                // case 6: GetLevelDictionary.GetLevelSixDictionary(CurrentLevel); break;
-                // case 7: GetLevelDictionary.GetLevelSevenDictionary(CurrentLevel); break;
-                // case 8: GetLevelDictionary.GetLevelEightDictionary(CurrentLevel); break;
-                // case 9: GetLevelDictionary.GetLevelNineDictionary(CurrentLevel); break;
-                // case 10: GetLevelDictionary.GetLevelTenDictionary(CurrentLevel); break;
-                // case 11: GetLevelDictionary.GetLevelElevenDictionary(CurrentLevel); break;
-                // case 12: GetLevelDictionary.GetLevelTwelveDictionary(CurrentLevel); break;
-                // case 13: GetLevelDictionary.GetLevelThirteenDictionary(CurrentLevel); break;
+                case 0: GetLevelDictionary.GetLevelZeroDictionary(CurrentLevel); break;
+                case 1: GetLevelDictionary.GetLevelOneDictionary(CurrentLevel); break;
+                case 2: GetLevelDictionary.GetLevelTwoDictionary(CurrentLevel); break;
+                case 3: GetLevelDictionary.GetLevelThreeDictionary(CurrentLevel); break;
+                case 4: GetLevelDictionary.GetLevelFourDictionary(CurrentLevel); break;
+                case 5: GetLevelDictionary.GetLevelFiveDictionary(CurrentLevel); break;
+                case 6: GetLevelDictionary.GetLevelSixDictionary(CurrentLevel); break;
+                case 7: GetLevelDictionary.GetLevelSevenDictionary(CurrentLevel); break;
+                case 8: GetLevelDictionary.GetLevelEightDictionary(CurrentLevel); break;
+                case 9: GetLevelDictionary.GetLevelNineDictionary(CurrentLevel); break;
+                case 10: GetLevelDictionary.GetLevelTenDictionary(CurrentLevel); break;
+                case 11: GetLevelDictionary.GetLevelElevenDictionary(CurrentLevel); break;
+                case 12: GetLevelDictionary.GetLevelTwelveDictionary(CurrentLevel); break;
+                case 13: GetLevelDictionary.GetLevelThirteenDictionary(CurrentLevel); break;
                 default: MessageBox.Show("You've passed all levels!"); break;
             }
 
