@@ -23,16 +23,29 @@ namespace BabaIsYou
 
     public partial class MainWindow : Window
     {
-        const int SquareSize = 20;
+        private const int SquareSize = 20;
+        private bool IsNormalMode = true;
         LevelController CurrentLevelController = new LevelController(0);
         public MainWindow()
         {
-            this.Background = Brushes.Black;
+            // this.Background = Brushes.Black;
             //InitializeComponent();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
+            // TODO: choose the levels first
+            MessageBoxResult option = MessageBox.Show("Game Mode", "Normal Mode? (No for Text Mode)", MessageBoxButton.YesNo);
+            if (option == MessageBoxResult.Yes)
+            {
+                this.Background = Brushes.Black;
+            }
+            else
+            {
+                this.Background = Brushes.White;
+                IsNormalMode = false;
+                GameArea.Height = 500;
+            }
 
             CurrentLevelController.LoadGame();
             DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
@@ -48,23 +61,95 @@ namespace BabaIsYou
                 // for each block in the list
                 foreach (Model.Block block in pair.Value)
                 {
-                    Image image = GetNewImage(block.imgsrc);
-                    GameArea.Children.Add(image);
-                    Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
-                    Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
+                    // TODO: change this part depending if the chosen mode is normal or text mode
+                    if (IsNormalMode == true)
+                    {
+                        Image image = GetNewImage(block.imgsrc);
+                        GameArea.Children.Add(image);
+                        Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
+                        Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
+                    }
+                    else
+                    {
+                        TextBox textBox = GetTextBox(block.text);
+                        GameArea.Children.Add(textBox);
+                        Canvas.SetTop(textBox, pair.Key.Item2 * SquareSize);
+                        Canvas.SetLeft(textBox, pair.Key.Item1 * SquareSize);
+                    }
                 }
 
             }
+
+            if (IsNormalMode == false)
+            {
+                AddControlsToScreen();
+            }
         }
 
+        private Button GetNewButton(string content, Thickness margins)
+        {
+            Button button = new Button
+            {
+                Content = content,
+                Background = Brushes.Gray,
+                Margin = margins,
+                Height = 20,
+                Width = 40,
+                FontSize = 10
+            };
+
+            return button;
+        }
+
+        // add event handlers, up down left right, back
+        private void AddControlsToScreen()
+        {
+            Button leftButton = GetNewButton("<", new Thickness(40, 420, 0, 0));
+            leftButton.Click += LeftButton_Click;
+            GameArea.Children.Add(leftButton);
+
+            Button rightButton = GetNewButton(">", new Thickness(90, 420, 0, 0));
+            rightButton.Click += RightButton_Click;
+            GameArea.Children.Add(rightButton);
+
+            Button upButton = GetNewButton("^", new Thickness(140, 420, 0, 0));
+            upButton.Click += UpButton_Click;
+            GameArea.Children.Add(upButton);
+
+            Button downButton = GetNewButton("v", new Thickness(190, 420, 0, 0));
+            downButton.Click += DownButton_Click;
+            GameArea.Children.Add(downButton);
+
+            Button undoButton = GetNewButton("Undo", new Thickness(240, 420, 0, 0));
+            undoButton.Click += UndoButton_Click;
+            GameArea.Children.Add(undoButton);
+        }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape || e.Key == Key.Q)
+            if (IsNormalMode)
             {
-                this.Close();
+                if (e.Key == Key.Escape || e.Key == Key.Q)
+                {
+                    this.Close();
+                }
+                CurrentLevelController.KeyDown(e.Key);
+                DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
             }
-            CurrentLevelController.KeyDown(e.Key);
-            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+        }
+
+        private TextBox GetTextBox(string text)
+        {
+            TextBox textBox = new TextBox();
+            textBox.Width = SquareSize;
+            textBox.Height = SquareSize;
+            textBox.IsEnabled = false;
+            textBox.FontSize = 6;
+            textBox.TextWrapping = TextWrapping.WrapWithOverflow;
+            textBox.Text = text;
+            textBox.Foreground = Brushes.Black;
+            textBox.BorderThickness = new Thickness(0, 0, 0, 0);
+
+            return textBox;
         }
 
 
@@ -90,6 +175,44 @@ namespace BabaIsYou
             return bitmapImage;
         }
 
+        private void LeftButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Left);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
 
+            // CurrentLevelController.HandleDirectionButtonClicked("LEFT");
+        }
+
+        private void RightButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Right);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("RIGHT");
+        }
+
+        private void UpButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Up);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("UP");
+        }
+
+        private void DownButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Down);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("DOWN");
+        }
+
+        private void UndoButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Z);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("UNDO");
+        }
     }
 }

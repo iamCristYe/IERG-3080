@@ -73,13 +73,18 @@ namespace BabaIsYou.Controller
                 MoveDown(InputKey);
                 MoveLeft(InputKey);
                 MoveRight(InputKey);
-                UpdateRules();//Update rules by finding sentences
-                UpdateBlocks();//Update blocks, like sink/defeat/kill
-                UpdateEmpty();
-                UpdateRules();//Apply rules to empty
-                AddToHistory();
-                CheckWin();
+                UpdateAddHistoryAndCheckWin();
             }
+        }
+
+        private void UpdateAddHistoryAndCheckWin()
+        {
+            UpdateRules();//Update rules by finding sentences
+            UpdateBlocks();//Update blocks, like sink/defeat/kill
+            UpdateEmpty();
+            UpdateRules();//Apply rules to empty
+            AddToHistory();
+            CheckWin();
         }
 
         //when on slip, check if facing next place contains stop
