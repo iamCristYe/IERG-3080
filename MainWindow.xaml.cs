@@ -35,8 +35,8 @@ namespace BabaIsYou
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             // TODO: choose the levels first
-            MessageBoxResult option = MessageBox.Show("Game Mode", "Normal Mode? (No for Text Mode)", MessageBoxButton.YesNo);
-            if (option == MessageBoxResult.Yes)
+            MessageBoxResult option = MessageBox.Show("Do you want to enable the Textbox mode?", "Game Mode Selection", MessageBoxButton.YesNo);
+            if (option == MessageBoxResult.No)
             {
                 this.Background = Brushes.Black;
             }
