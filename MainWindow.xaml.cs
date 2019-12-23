@@ -54,7 +54,7 @@ namespace BabaIsYou
         {
             GameArea.Children.Clear();
 
-            if (IsNormalMode == true)
+            if (IsNormalMode)
             {
                 Dictionary<(int, int), List<Model.Block>> dict = map.PointBlockPairs;
                 foreach (KeyValuePair<(int, int), List<Model.Block>> pair in dict)
@@ -63,16 +63,14 @@ namespace BabaIsYou
                     for (int i = pair.Value.Count() - 1; i >= 0; i--)
                     //foreach (Model.Block block in pair.Value)
                     {
-
                         Image image = GetNewImage(pair.Value[i].imgsrc);
                         GameArea.Children.Add(image);
                         Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
                         Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
-
                     }
                 }
             }
-            if (IsNormalMode == false)
+            else //if (IsNormalMode == false)
             {
                 string TextBoxString = "";
                 for (int Row = 0; Row < CurrentLevelController.CurrentLevel.MapHeight; Row++)
@@ -110,9 +108,7 @@ namespace BabaIsYou
                 Canvas.SetTop(textBox, 0);
                 Canvas.SetLeft(textBox, 0);
 
-
                 AddControlsToScreen();
-
             }
         }
 

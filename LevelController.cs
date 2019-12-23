@@ -81,7 +81,10 @@ namespace BabaIsYou.Controller
         {
             UpdateRules();//Update rules by finding sentences
             UpdateBlocks();//Update blocks, like sink/defeat/kill
-            UpdateEmpty();
+            if (CurrentLevel.LevelContainsEmpty)
+            {
+                UpdateEmpty();
+            }
             UpdateRules();//Apply rules to empty
             AddToHistory();
             CheckWin();
@@ -976,12 +979,14 @@ namespace BabaIsYou.Controller
                     if (CurrentLevel.CurrentMap.PointBlockPairs.ContainsKey((Column, Row)))
                     {
                         bool ContainsSinkBlock = false;
+                        int BlockCount = 0;
                         foreach (var SinkBlock in CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)])
                         {
                             if (SinkBlock.IsSink == true) ContainsSinkBlock = true;
+                            if (SinkBlock.GetType().Name != "Empty") BlockCount++;
                         }
                         //remove all blocks when there's block other than sink block
-                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 2)//sink block and empty block
+                        if (ContainsSinkBlock && BlockCount > 1)
                         {
                             CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = new List<Block>();
                         }

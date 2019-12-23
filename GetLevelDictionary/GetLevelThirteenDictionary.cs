@@ -5,6 +5,7 @@ partial class GetLevelDictionary
 {
     public static void GetLevelThirteenDictionary(Level currentLevel)
     {
+        currentLevel.LevelContainsEmpty = true;
         Dictionary<(int, int), List<Block>> dict = currentLevel.CurrentMap.PointBlockPairs;
 
         Tools.AddBorder(dict);

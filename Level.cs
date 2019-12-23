@@ -8,26 +8,21 @@ namespace BabaIsYou.Model
 {
     class Level
     {
-        private int levelNumber;
+        public int LevelNumber { get; set; }
         //Height and Width same for all levels
-        private int mapHeight = 20;
-        private int mapWidth = 20;
+        public int MapHeight { get; set; } = 20;
+        public int MapWidth { get; set; } = 20;
+        public bool LevelContainsEmpty { get; set; } = false;
 
         //We store data in History->Map->Block
         //Map is a Dictionary of Point and Blocks on that point, indicating all current Blocks on the map
+        public Map CurrentMap { get; set; } = new Map();
         //History is a List of Map, allow us to go backward in time
-        private List<Map> history = new List<Map>();
-        private Map currentMap = new Map();
+        internal List<Map> History { get; set; } = new List<Map>();
 
         public Level(int LevelNumber)
         {
-            this.levelNumber = LevelNumber;
+            this.LevelNumber = LevelNumber;
         }
-
-        public int MapHeight { get => mapHeight; set => mapHeight = value; }
-        public int MapWidth { get => mapWidth; set => mapWidth = value; }
-        public int LevelNumber { get => levelNumber; set => levelNumber = value; }
-        internal List<Map> History { get => history; set => history = value; }
-        public Map CurrentMap { get => currentMap; set => currentMap = value; }
     }
 }
