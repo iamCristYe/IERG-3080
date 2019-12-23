@@ -28,6 +28,12 @@ partial class GetLevelDictionary
         // push text
         SafeDictionary.Add(dict, (14, 5), new List<Block> { new Block.SpecialText.TextPush() });
 
+        // rock thing
+        for (int i = 8; i < 11; i += 1)
+        {
+            SafeDictionary.Add(dict, (9, i), new List<Block> { new Block.Thing.Rock() });
+        }
+
         // wall thing (a long series of wall)
         for (int i = 4; i < 15; i += 1)
         {
@@ -51,12 +57,6 @@ partial class GetLevelDictionary
 
         // flag thing
         SafeDictionary.Add(dict, (13, 9), new List<Block> { new Block.Thing.Flag() });
-
-        // rock thing
-        for (int i = 8; i < 11; i += 1)
-        {
-            SafeDictionary.Add(dict, (9, i), new List<Block> { new Block.Thing.Rock() });
-        }
 
         // baba text
         SafeDictionary.Add(dict, (5, 13), new List<Block> { new Block.ThingText.TextBaba() });
