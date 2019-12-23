@@ -63,12 +63,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Block.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelElevenDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelThirteenDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelTwelveDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelTenDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelNineDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelEightDictionary.cs" />
+    <Compile Include="GetLevelDictionary\Tools.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelFiveDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelFourDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelSevenDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelSixDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelTwoDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelOneDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelThreeDictionary.cs" />
+    <Compile Include="GetLevelDictionary\GetLevelZeroDictionary.cs" />
+    <Compile Include="GetLevelDictionary\SafeAddDictionary.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="LevelController.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Map.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +113,49 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons\ANNI_TEXT.png" />
+    <Resource Include="Resources\icons\ANNI_THING.png" />
+    <Resource Include="Resources\icons\BABA_TEXT.png" />
+    <Resource Include="Resources\icons\BABA_THING.png" />
+    <Resource Include="Resources\icons\BEST_TEXT.png" />
+    <Resource Include="Resources\icons\BONE_TEXT.png" />
+    <Resource Include="Resources\icons\BONE_THING.png" />
+    <Resource Include="Resources\icons\EMPTY_TEXT.png" />
+    <Resource Include="Resources\icons\FAKEWALL_THING.png" />
+    <Resource Include="Resources\icons\FLAG_TEXT.png" />
+    <Resource Include="Resources\icons\FLAG_THING.png" />
+    <Resource Include="Resources\icons\GOOP_TEXT.png" />
+    <Resource Include="Resources\icons\GOOP_THING.png" />
+    <Resource Include="Resources\icons\GRASS_TEXT.png" />
+    <Resource Include="Resources\icons\GRASS_THING.png" />
+    <Resource Include="Resources\icons\HOT_TEXT.png" />
+    <Resource Include="Resources\icons\ICE_TEXT.png" />
+    <Resource Include="Resources\icons\ICE_THING.png" />
+    <Resource Include="Resources\icons\IS_TEXT.png" />
+    <Resource Include="Resources\icons\KEKE_TEXT.png" />
+    <Resource Include="Resources\icons\KEKE_THING.png" />
+    <Resource Include="Resources\icons\KILL_TEXT.png" />
+    <Resource Include="Resources\icons\LAVA_TEXT.png" />
+    <Resource Include="Resources\icons\LAVA_THING.png" />
+    <Resource Include="Resources\icons\LOVE_TEXT.png" />
+    <Resource Include="Resources\icons\LOVE_THING.png" />
+    <Resource Include="Resources\icons\MELT_TEXT.png" />
+    <Resource Include="Resources\icons\MOVE_TEXT.png" />
+    <Resource Include="Resources\icons\PUSH_TEXT.png" />
+    <Resource Include="Resources\icons\ROCK_TEXT.png" />
+    <Resource Include="Resources\icons\ROCK_THING.png" />
+    <Resource Include="Resources\icons\SINK_TEXT.png" />
+    <Resource Include="Resources\icons\SLIP_TEXT.png" />
+    <Resource Include="Resources\icons\STOP_TEXT.png" />
+    <Resource Include="Resources\icons\WALL_TEXT.png" />
+    <Resource Include="Resources\icons\WALL_THING.png" />
+    <Resource Include="Resources\icons\WIN_TEXT.png" />
+    <Resource Include="Resources\icons\YOU_TEXT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons\BORDER_THING.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

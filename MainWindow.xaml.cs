@@ -12,253 +12,251 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BabaIsYou.Model;
+using BabaIsYou.Controller;
 
 namespace BabaIsYou
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public class Block
-    {
-        public bool IsPush { get; protected set; }
-        public bool IsStop { get; protected set; }
-        public bool IsYou { get; protected set; }
-        public bool IsWin { get; protected set; }
-        public string imgsrc { get; protected set; }
-        public Block()
-        {
-            IsWin = false;
-            IsYou = false;
-        }
-
-        public class Text : Block
-        {
-            public Text()
-            {
-                IsPush = true;
-                IsStop = true;
-            }
-
-            public class TextBaba : Text
-            {
-                public TextBaba()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextRock : Text
-            {
-                public TextRock()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextFlag : Text
-            {
-                public TextFlag()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextWall : Text
-            {
-                public TextWall()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextIs : Text
-            {
-                public TextIs()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextYou : Text
-            {
-                public TextYou()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextWin : Text
-            {
-                public TextWin()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextPush : Text
-            {
-                public TextPush()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class TextStop : Text
-            {
-                public TextStop()
-                {
-                    imgsrc = "";
-                }
-            }
-        }
-
-        public class Thing : Block
-        {
-            public Thing()
-            {
-                IsPush = false;
-                IsStop = false;
-            }
-
-            public class Baba : Thing
-            {
-                public Baba()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class Rock : Thing
-            {
-                public Rock()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class Flag : Thing
-            {
-                public Flag()
-                {
-                    imgsrc = "";
-                }
-            }
-            public class Wall : Thing
-            {
-                public Wall()
-                {
-                    imgsrc = "";
-                }
-            }
-        }
-    }
-
-
-    public class Map
-    {
-        public Dictionary<(int, int), List<Block>> PointBlockPairs;     //For usage of tuple, refer to https://www.tutorialsteacher.com/csharp/valuetuple
-    }
-
-    public class Level
-    {
-        int LevelNumber;
-        int MapHeight = 0;
-        int MapWidth = 0;
-
-        //We store data in History->Map->Block
-        //Map is a Dictionary of Point and Blocks on that point, indicating all current Blocks on the map
-        //History is a List of Map, allow us to go backward in time
-        List<Map> History = new List<Map>();
-        Map CurrentMap = new Map();
-
-        public Level(int LevelNumber)
-        {
-            this.LevelNumber = LevelNumber;
-        }
-
-        public void loadGame()
-        {
-            //load blocks from data into CurrentMap
-            //... 
-            //MapHeight=
-            //MapWidth=
-            MapHeight = 18;
-            MapWidth = 18;
-            this.CurrentMap.PointBlockPairs.Add((5, 6), new List<Block> { new Block.Text.TextBaba() });
-            this.CurrentMap.PointBlockPairs.Add((6, 6), new List<Block> { new Block.Text.TextIs() });
-            this.CurrentMap.PointBlockPairs.Add((7, 6), new List<Block> { new Block.Text.TextYou() });
-            this.CurrentMap.PointBlockPairs.Add((12, 6), new List<Block> { new Block.Text.TextFlag() });
-            this.CurrentMap.PointBlockPairs.Add((13, 6), new List<Block> { new Block.Text.TextIs() });
-            this.CurrentMap.PointBlockPairs.Add((14, 6), new List<Block> { new Block.Text.TextWin() });
-
-            this.CurrentMap.PointBlockPairs.Add((9, 9), new List<Block> { new Block.Thing.Rock() });
-
-
-            this.CurrentMap.PointBlockPairs.Add((6, 10), new List<Block> { new Block.Thing.Baba() });
-
-
-
-
-
-
-            AddToHistory();
-        }
-        public bool CheckWin()
-        {
-            //...   
-            return false;
-        }
-        public void MoveBlocks(string direction) { }
-        public void UpdateRules()
-        {
-            //first reset the rules and then find the new rules and apply them
-        }
-        public void UpdateBlocks() { }
-        public void AddToHistory()
-        {
-            History.Add(CurrentMap);
-        }
-        public void GoBack()
-        {
-            if (History.Count > 1)
-            {
-                History.RemoveAt(History.Count - 1);
-                CurrentMap = History[History.Count - 1];
-            }
-        }
-        public void Draw()
-        {
-            MessageBox.Show("Test");
-        }
-
-
-    }
-
-
-
 
     public partial class MainWindow : Window
     {
-        Level CurrentLevel = new Level(1);
+        private const int SquareSize = 20;
+        private bool IsNormalMode = true;
+        LevelController CurrentLevelController = new LevelController(0);
         public MainWindow()
         {
-            InitializeComponent();
-            CurrentLevel.loadGame();
-            CurrentLevel.Draw();
+            // this.Background = Brushes.Black;
+            //InitializeComponent();
         }
 
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            // TODO: choose the levels first
+            MessageBoxResult option = MessageBox.Show("Do you want to enable the Textbox mode?", "Game Mode Selection", MessageBoxButton.YesNo);
+            if (option == MessageBoxResult.No)
+            {
+                this.Background = Brushes.Black;
+            }
+            else
+            {
+                this.Background = Brushes.White;
+                IsNormalMode = false;
+                GameArea.Height = 500;
+            }
+
+            CurrentLevelController.LoadGame();
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+        }
+        private void DrawGameArea(Map map)
+        {
+            GameArea.Children.Clear();
+
+            if (IsNormalMode == true)
+            {
+                Dictionary<(int, int), List<Model.Block>> dict = map.PointBlockPairs;
+                foreach (KeyValuePair<(int, int), List<Model.Block>> pair in dict)
+                {
+                    // for each block in the list
+                    for (int i = pair.Value.Count() - 1; i >= 0; i--)
+                    //foreach (Model.Block block in pair.Value)
+                    {
+
+                        Image image = GetNewImage(pair.Value[i].imgsrc);
+                        GameArea.Children.Add(image);
+                        Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
+                        Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
+
+                    }
+                }
+            }
+            if (IsNormalMode == false)
+            {
+                string TextBoxString = "";
+                for (int Row = 0; Row < CurrentLevelController.CurrentLevel.MapHeight; Row++)
+                {
+                    for (int Column = 0; Column < CurrentLevelController.CurrentLevel.MapWidth; Column++)
+                    {
+                        if (CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 0)
+                        {
+                            TextBoxString += CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][0].text;
+                        }
+                        else
+                        {
+                            TextBoxString += "    ";
+                        }
+                        TextBoxString += "|";
+                    }
+                    TextBoxString += "\n";
+                    for (int Column = 0; Column < CurrentLevelController.CurrentLevel.MapWidth; Column++)
+                    {
+                        if (CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)
+                        {
+                            TextBoxString += CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][1].text;
+                        }
+                        else
+                        {
+                            TextBoxString += "    ";
+                        }
+                        TextBoxString += "|";
+                    }
+                    TextBoxString += "\n";
+                    TextBoxString += "----------------------------------------------------------------------------------------------------\n";
+                }
+                TextBox textBox = GetLargeTextBox(TextBoxString);
+                GameArea.Children.Add(textBox);
+                Canvas.SetTop(textBox, 0);
+                Canvas.SetLeft(textBox, 0);
 
 
+                AddControlsToScreen();
+
+            }
+        }
+
+        private Button GetNewButton(string content, Thickness margins)
+        {
+            Button button = new Button
+            {
+                Content = content,
+                Background = Brushes.Gray,
+                Margin = margins,
+                Height = 20,
+                Width = 40,
+                FontSize = 10
+            };
+
+            return button;
+        }
+
+        // add event handlers, up down left right, back
+        private void AddControlsToScreen()
+        {
+            Button leftButton = GetNewButton("<", new Thickness(40, 420, 0, 0));
+            leftButton.Click += LeftButton_Click;
+            GameArea.Children.Add(leftButton);
+
+            Button rightButton = GetNewButton(">", new Thickness(90, 420, 0, 0));
+            rightButton.Click += RightButton_Click;
+            GameArea.Children.Add(rightButton);
+
+            Button upButton = GetNewButton("^", new Thickness(140, 420, 0, 0));
+            upButton.Click += UpButton_Click;
+            GameArea.Children.Add(upButton);
+
+            Button downButton = GetNewButton("v", new Thickness(190, 420, 0, 0));
+            downButton.Click += DownButton_Click;
+            GameArea.Children.Add(downButton);
+
+            Button undoButton = GetNewButton("Undo", new Thickness(240, 420, 0, 0));
+            undoButton.Click += UndoButton_Click;
+            GameArea.Children.Add(undoButton);
+        }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            //for up/down/left/right
-            CurrentLevel.MoveBlocks("up/down/left/right");//Move blocks accroding to keydown
-            CurrentLevel.UpdateRules();//Update rules by finding sentences
-            CurrentLevel.UpdateBlocks();//Update blocks, like sink/defeat/kill
-            CurrentLevel.CheckWin();
-            CurrentLevel.AddToHistory();
-            CurrentLevel.Draw();
+            if (e.Key == Key.Escape || e.Key == Key.Q)
+            {
+                this.Close();
+            }
+            if (IsNormalMode)
+            {
+                CurrentLevelController.KeyDown(e.Key);
+                DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+            }
+        }
 
-            //for z(redo)
-            CurrentLevel.GoBack();
-            CurrentLevel.Draw();
+        private TextBox GetTextBox(string text)
+        {
+            TextBox textBox = new TextBox();
+            textBox.Width = SquareSize;
+            textBox.Height = SquareSize;
+            textBox.IsEnabled = false;
+            textBox.FontSize = 6;
+            textBox.TextWrapping = TextWrapping.WrapWithOverflow;
+            textBox.Text = text;
+            textBox.Foreground = Brushes.Black;
+            textBox.BorderThickness = new Thickness(0, 0, 0, 0);
 
-            //for r(restart)
-            CurrentLevel.loadGame();
-            CurrentLevel.Draw();
+            return textBox;
+        }
+
+        private TextBox GetLargeTextBox(string text)
+        {
+            TextBox textBox = new TextBox
+            {
+                FontSize = 6,
+                FontFamily = new FontFamily("Consolas"),
+                Text = text,
+                Foreground = Brushes.Black,
+                BorderThickness = new Thickness(0, 0, 0, 0)
+            };
+
+            return textBox;
         }
 
 
+        private Image GetNewImage(string uri)
+        {
+            Image image = new Image();
+            image.Width = SquareSize;
+            image.Height = SquareSize;
 
+            BitmapImage bitmapImage = GetBitmapImage(uri);
+            image.Source = bitmapImage;
+
+            return image;
+        }
+
+        private BitmapImage GetBitmapImage(string uri)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri(@uri, UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
+
+            return bitmapImage;
+        }
+
+        private void LeftButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Left);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("LEFT");
+        }
+
+        private void RightButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Right);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("RIGHT");
+        }
+
+        private void UpButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Up);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("UP");
+        }
+
+        private void DownButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Down);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("DOWN");
+        }
+
+        private void UndoButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentLevelController.KeyDown(Key.Z);
+            DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
+
+            // CurrentLevelController.HandleDirectionButtonClicked("UNDO");
+        }
     }
 }
