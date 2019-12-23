@@ -134,7 +134,7 @@ namespace BabaIsYou.Model
                 public TextIce()
                 {
                     imgsrc = "/Resources/icons/ICE_TEXT.png";
-                    text = "ICE.";
+                    text = "ICE ";
                 }
             }
             public class TextLove : ThingText
@@ -186,7 +186,7 @@ namespace BabaIsYou.Model
                 public TextIs()
                 {
                     imgsrc = "/Resources/icons/IS_TEXT.png";
-                    text = "I.S.";
+                    text = " IS ";
                 }
             }
             public class TextYou : SpecialText
@@ -194,7 +194,7 @@ namespace BabaIsYou.Model
                 public TextYou()
                 {
                     imgsrc = "/Resources/icons/YOU_TEXT.png";
-                    text = "YOU.";
+                    text = "YOU ";
                 }
             }
             public class TextWin : SpecialText
@@ -202,7 +202,7 @@ namespace BabaIsYou.Model
                 public TextWin()
                 {
                     imgsrc = "/Resources/icons/WIN_TEXT.png";
-                    text = "WIN.";
+                    text = "WIN ";
                 }
             }
             public class TextPush : SpecialText
@@ -244,7 +244,7 @@ namespace BabaIsYou.Model
                 public TextHot()
                 {
                     imgsrc = "/Resources/icons/HOT_TEXT.png";
-                    text = "HOT.";
+                    text = "HOT ";
                 }
             }
             public class TextMove : SpecialText
@@ -326,7 +326,7 @@ namespace BabaIsYou.Model
                 public Wall()
                 {
                     imgsrc = "/Resources/icons/WALL_THING.png";
-                    text = "OOOO";
+                    text = "wall";
                 }
             }
 
@@ -335,7 +335,7 @@ namespace BabaIsYou.Model
                 public Border()
                 {
                     imgsrc = "/Resources/icons/BORDER_THING.png";
-                    text = "bord";
+                    text = "bodr";
                 }
                 public override void ReturnToDefault()
                 {
@@ -358,7 +358,7 @@ namespace BabaIsYou.Model
                 public FakeWall()
                 {
                     imgsrc = "/Resources/icons/FAKEWALL_THING.png";
-                    text = "oooo";
+                    text = "fkwl";
                 }
             }
             public class Grass : Thing
@@ -366,7 +366,7 @@ namespace BabaIsYou.Model
                 public Grass()
                 {
                     imgsrc = "/Resources/icons/GRASS_THING.png";
-                    text = "grass";
+                    text = "gras";
                 }
             }
             public class Goop : Thing
@@ -390,7 +390,7 @@ namespace BabaIsYou.Model
                 public Ice()
                 {
                     imgsrc = "/Resources/icons/ICE_THING.png";
-                    text = "ice.";
+                    text = "ice ";
                 }
             }
             public class Love : Thing
@@ -423,7 +423,7 @@ namespace BabaIsYou.Model
                 public Empty()
                 {
                     imgsrc = "";
-                    text = "";
+                    text = "    ";
                 }
             }
         }

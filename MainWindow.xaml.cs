@@ -54,36 +54,65 @@ namespace BabaIsYou
         {
             GameArea.Children.Clear();
 
-            Dictionary<(int, int), List<Model.Block>> dict = map.PointBlockPairs;
-
-            foreach (KeyValuePair<(int, int), List<Model.Block>> pair in dict)
+            if (IsNormalMode == true)
             {
-                // for each block in the list
-                for (int i = pair.Value.Count() - 1; i >= 0; i--)
-                //foreach (Model.Block block in pair.Value)
+                Dictionary<(int, int), List<Model.Block>> dict = map.PointBlockPairs;
+                foreach (KeyValuePair<(int, int), List<Model.Block>> pair in dict)
                 {
-                    // TODO: change this part depending if the chosen mode is normal or text mode
-                    if (IsNormalMode == true)
+                    // for each block in the list
+                    for (int i = pair.Value.Count() - 1; i >= 0; i--)
+                    //foreach (Model.Block block in pair.Value)
                     {
+
                         Image image = GetNewImage(pair.Value[i].imgsrc);
                         GameArea.Children.Add(image);
                         Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
                         Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
-                    }
-                    else
-                    {
-                        TextBox textBox = GetTextBox(pair.Value[i].text);
-                        GameArea.Children.Add(textBox);
-                        Canvas.SetTop(textBox, pair.Key.Item2 * SquareSize);
-                        Canvas.SetLeft(textBox, pair.Key.Item1 * SquareSize);
+
                     }
                 }
-
             }
-
             if (IsNormalMode == false)
             {
+                string TextBoxString = "";
+                for (int Row = 0; Row < CurrentLevelController.CurrentLevel.MapHeight; Row++)
+                {
+                    for (int Column = 0; Column < CurrentLevelController.CurrentLevel.MapWidth; Column++)
+                    {
+                        if (CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 0)
+                        {
+                            TextBoxString += CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][0].text;
+                        }
+                        else
+                        {
+                            TextBoxString += "    ";
+                        }
+                        TextBoxString += "|";
+                    }
+                    TextBoxString += "\n";
+                    for (int Column = 0; Column < CurrentLevelController.CurrentLevel.MapWidth; Column++)
+                    {
+                        if (CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)
+                        {
+                            TextBoxString += CurrentLevelController.CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)][1].text;
+                        }
+                        else
+                        {
+                            TextBoxString += "    ";
+                        }
+                        TextBoxString += "|";
+                    }
+                    TextBoxString += "\n";
+                    TextBoxString += "----------------------------------------------------------------------------------------------------\n";
+                }
+                TextBox textBox = GetLargeTextBox(TextBoxString);
+                GameArea.Children.Add(textBox);
+                Canvas.SetTop(textBox, 0);
+                Canvas.SetLeft(textBox, 0);
+
+
                 AddControlsToScreen();
+
             }
         }
 
@@ -127,12 +156,12 @@ namespace BabaIsYou
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Escape || e.Key == Key.Q)
+            {
+                this.Close();
+            }
             if (IsNormalMode)
             {
-                if (e.Key == Key.Escape || e.Key == Key.Q)
-                {
-                    this.Close();
-                }
                 CurrentLevelController.KeyDown(e.Key);
                 DrawGameArea(CurrentLevelController.CurrentLevel.CurrentMap);
             }
@@ -149,6 +178,20 @@ namespace BabaIsYou
             textBox.Text = text;
             textBox.Foreground = Brushes.Black;
             textBox.BorderThickness = new Thickness(0, 0, 0, 0);
+
+            return textBox;
+        }
+
+        private TextBox GetLargeTextBox(string text)
+        {
+            TextBox textBox = new TextBox
+            {
+                FontSize = 6,
+                FontFamily = new FontFamily("Consolas"),
+                Text = text,
+                Foreground = Brushes.Black,
+                BorderThickness = new Thickness(0, 0, 0, 0)
+            };
 
             return textBox;
         }
