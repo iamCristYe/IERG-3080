@@ -153,6 +153,23 @@ namespace BabaIsYou.Controller
                     }
                 }
             }
+            //string CanMoveDebugMsg = "";
+            //for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
+            //{
+            //    for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
+            //    {
+            //        if (CanMove[(Column, Row)])
+            //        {
+            //            CanMoveDebugMsg += "T";
+            //        }
+            //        else
+            //        {
+            //            CanMoveDebugMsg += "F";
+            //        }
+            //    }
+            //    CanMoveDebugMsg += "\n";
+            //}
+            //MessageBox.Show(CanMoveDebugMsg);
 
             //modify ContainSlip
             for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)

@@ -40,11 +40,17 @@ partial class GetLevelDictionary
         Block keke = new Block.Thing.Keke();
         keke.Facing = "left";
         SafeDictionary.Add(dict, (6, 2), new List<Block> { keke });
+        keke = new Block.Thing.Keke();
+        keke.Facing = "left";
         SafeDictionary.Add(dict, (15, 6), new List<Block> { keke });
+        keke = new Block.Thing.Keke();
+        keke.Facing = "left";
         SafeDictionary.Add(dict, (13, 12), new List<Block> { keke });
         keke = new Block.Thing.Keke();
         keke.Facing = "right";
         SafeDictionary.Add(dict, (3, 4), new List<Block> { keke });
+        keke = new Block.Thing.Keke();
+        keke.Facing = "right";
         SafeDictionary.Add(dict, (17, 17), new List<Block> { keke });
         keke = new Block.Thing.Keke();
         keke.Facing = "up";
