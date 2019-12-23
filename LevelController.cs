@@ -981,7 +981,7 @@ namespace BabaIsYou.Controller
                             if (SinkBlock.IsSink == true) ContainsSinkBlock = true;
                         }
                         //remove all blocks when there's block other than sink block
-                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 1)
+                        if (ContainsSinkBlock && CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)].Count > 2)//sink block and empty block
                         {
                             CurrentLevel.CurrentMap.PointBlockPairs[(Column, Row)] = new List<Block>();
                         }
@@ -1087,6 +1087,7 @@ namespace BabaIsYou.Controller
                 }
             }
 
+            Block newemptyblk = new Block.Thing.Empty();
             for (int Column = 0; Column < CurrentLevel.MapWidth; Column++)
             {
                 for (int Row = 0; Row < CurrentLevel.MapHeight; Row++)
@@ -1116,8 +1117,8 @@ namespace BabaIsYou.Controller
                     //add empty elements
                     if (CanAddEmpty)
                     {
-                        Block newblk = (BabaIsYou.Model.Block)System.Reflection.Assembly.GetExecutingAssembly().CreateInstance("BabaIsYou.Model.Block+Thing+Empty");
-                        EmptyAddedMap.PointBlockPairs[(Column, Row)].Add(newblk);
+                        //  (BabaIsYou.Model.Block)System.Reflection.Assembly.GetExecutingAssembly().CreateInstance("BabaIsYou.Model.Block+Thing+Empty");
+                        EmptyAddedMap.PointBlockPairs[(Column, Row)].Add(newemptyblk);
                     }
                 }
             }

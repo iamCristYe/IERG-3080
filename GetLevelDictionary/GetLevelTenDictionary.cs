@@ -101,6 +101,8 @@ partial class GetLevelDictionary
         }
 
         // love thing
-        SafeDictionary.Add(dict, (9, 5), new List<Block> { new Block.Thing.Love() });
+        Block love = new Block.Thing.Love();
+        love.Facing = "down";
+        SafeDictionary.Add(dict, (9, 5), new List<Block> { love });
     }
 }
