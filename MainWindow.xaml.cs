@@ -59,19 +59,20 @@ namespace BabaIsYou
             foreach (KeyValuePair<(int, int), List<Model.Block>> pair in dict)
             {
                 // for each block in the list
-                foreach (Model.Block block in pair.Value)
+                for (int i = pair.Value.Count() - 1; i >= 0; i--)
+                //foreach (Model.Block block in pair.Value)
                 {
                     // TODO: change this part depending if the chosen mode is normal or text mode
                     if (IsNormalMode == true)
                     {
-                        Image image = GetNewImage(block.imgsrc);
+                        Image image = GetNewImage(pair.Value[i].imgsrc);
                         GameArea.Children.Add(image);
                         Canvas.SetTop(image, pair.Key.Item2 * SquareSize);
                         Canvas.SetLeft(image, pair.Key.Item1 * SquareSize);
                     }
                     else
                     {
-                        TextBox textBox = GetTextBox(block.text);
+                        TextBox textBox = GetTextBox(pair.Value[i].text);
                         GameArea.Children.Add(textBox);
                         Canvas.SetTop(textBox, pair.Key.Item2 * SquareSize);
                         Canvas.SetLeft(textBox, pair.Key.Item1 * SquareSize);
